@@ -10,12 +10,17 @@ const ButtonMenu: React.FC<Prop> = ({ name }) => {
   return(
     <>
       <div>
-        <div>連射
+        連射
+        <div>
           <label><input type="radio" name={flip_radio_name} value="always"/>常に連打する</label>
-          <label><input type="radio" name={flip_radio_name} value="if_puressed"/>常に連打する</label>
+          <label><input type="radio" name={flip_radio_name} value="if_puressed"/>このボタンを押している時だけ連打する</label>
           <label><input type="radio" name={flip_radio_name} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label>
         </div>
-        詳細です
+        <br />
+        その他
+        <div>
+          <label><input type="checkbox" />連射中は特定の入力を無視する</label>
+        </div>
       </div>
     </>
   )

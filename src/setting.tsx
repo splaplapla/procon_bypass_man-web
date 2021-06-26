@@ -24,7 +24,7 @@ export const Setting: React.FC<Prop> = ({ buttons, prefixKey }) => {
       <div>layer right</div>
       <div>layer down</div>
       <div>layer left</div>
-      表示中のlayer{currentLayer}
+      表示中: {currentLayer}
       <br />
 
       <hr />
