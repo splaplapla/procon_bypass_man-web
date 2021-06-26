@@ -6,15 +6,23 @@ type Prop = {
 };
 
 const ButtonMenu: React.FC<Prop> = ({ name }) => {
-  const flip_radio_name = `button_menu_${name}`
+  const [flipValue, setFlipValue] = useState("none");
+  const flipRadioName = `button_menu_${name}`;
+  const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    setFlipValue(e.target.value);
+  };
+
   return(
     <>
       <div>
-        連射
+        連射({flipValue})
         <div>
-          <label><input type="radio" name={flip_radio_name} value="always"/>常に連打する</label>
-          <label><input type="radio" name={flip_radio_name} value="if_puressed"/>このボタンを押している時だけ連打する</label>
-          <label><input type="radio" name={flip_radio_name} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label>
+          <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="always"/>常に連打する</label><br />
+          <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する</label><br />
+          <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
         その他
