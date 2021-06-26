@@ -7,12 +7,23 @@ type Prop = {
 
 const ButtonMenu: React.FC<Prop> = ({ name }) => {
   const [flipValue, setFlipValue] = useState("none");
+  const [ignoreButton, setIgnoreButton] = useState("none");
   const flipRadioName = `button_menu_${name}`;
   const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
     setFlipValue(e.target.value);
+  };
+  const handleIgnoreButton = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    if(e.target.checked) {
+      setIgnoreButton("has");
+    } else {
+      setIgnoreButton("none");
+    }
   };
 
   return(
@@ -25,9 +36,9 @@ const ButtonMenu: React.FC<Prop> = ({ name }) => {
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
-        その他
+        その他({ignoreButton})
         <div>
-          <label><input type="checkbox" />連射中は特定の入力を無視する</label>
+          <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
       </div>
     </>
