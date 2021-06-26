@@ -35,6 +35,11 @@ export const Top: React.FC<Prop> = () => {
 
   return (
     <>
+      <h2>設定</h2>
+      <label>PBMのディレクトリパス: <input type="text" value="" /></label>
+      <input type="submit" value="更新する" />
+      <hr />
+
       <h2>PBMのステータス: {pbmStat}</h2>
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
       {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
