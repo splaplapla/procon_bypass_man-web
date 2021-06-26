@@ -33,7 +33,7 @@ export const Setting: React.FC<Prop> = ({ buttons, prefixKey }) => {
       <div>key setting</div>
       <div>
         <ul>
-          {buttons.map(b => (<SettingButton name={b} />))}
+          {buttons.map(b => (<SettingButton name={b} key={b} />))}
         </ul>
       </div>
     </>
