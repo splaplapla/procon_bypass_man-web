@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry:  "./src/app.tsx",
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
   watch: true,
   output: {
     filename: "bundle.js",
@@ -11,7 +14,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "original app",
+      title: "PBM Web",
       filename: "index.html",
       template: "src/index.html",
     }),
@@ -26,6 +29,11 @@ module.exports = {
       },
       { test: /\.(css)$/,
         use: [ "css-loader", "style-loader"],
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        loader: 'ts-loader',
+        exclude: [/node_modules/],
       },
     ]
   },

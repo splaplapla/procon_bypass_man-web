@@ -1,4 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Top } from "./top";
 
-ReactDOM.render(<div>hello react</div>, document.getElementById("app"));
+ReactDOM.render(<Top />, document.getElementById("app"));
