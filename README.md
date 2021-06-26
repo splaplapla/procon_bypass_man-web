@@ -34,4 +34,10 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * webpackdでビルドした成果物をリポジトリに含めてうんたらする
 
 ## TODO
-* procon_bypass_manとsocket通信する
+* server
+    * procon_bypass_manとsocket通信する
+* frontend
+    * layerを切り替えれるようにする
+    * reduxを入れる
+    * cssあてる
+    * buttonsモーダル

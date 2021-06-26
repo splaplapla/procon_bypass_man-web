@@ -36,6 +36,7 @@ const ButtonMenu: React.FC<Prop> = ({ name }) => {
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
+
         その他({ignoreButton})
         <div>
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
