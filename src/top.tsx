@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { ButtonSetting } from "./buttons_setting";
 
 type Prop = {
 };
@@ -7,8 +8,8 @@ type Prop = {
 export const Top: React.FC<Prop> = () => {
   return (
     <>
-      <div></div>
-      <div>aaaaaa</div>
+      <h2>設定ファイルの変更</h2>
+      <ButtonSetting />
     </>
   );
 };
