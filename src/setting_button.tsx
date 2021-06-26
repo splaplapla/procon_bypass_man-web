@@ -1,5 +1,5 @@
 /** @jsxFrag React.Fragment */
-import React = require("react");
+import React from "react";
 import { jsx } from '@emotion/react'
 import { useState } from "react";
 

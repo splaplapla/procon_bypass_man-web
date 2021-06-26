@@ -1,6 +1,5 @@
-/** @jsxFrag React.Fragment */
-import React = require("react");
 import { jsx } from '@emotion/react'
+import React from "react";
 import { useState } from "react";
 import { SettingButton } from "./setting_button";
 import { css } from '@emotion/react'
