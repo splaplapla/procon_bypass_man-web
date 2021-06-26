@@ -39,7 +39,6 @@ module.exports = {
   },
 
   devServer: {
-    bonjour: true,
     hot: true,
     overlay: {
       warnings: true,

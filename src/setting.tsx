@@ -38,6 +38,7 @@ export const Setting: React.FC<Prop> = ({ buttons, prefixKey }) => {
       <div>available plugins</div>
       <div>available mode</div>
       <div>key setting</div>
+      <div css={css({color: 'red'})}>Hoge red!</div>
       <div css={style}>
         <ul>
           {buttons.map(b => (<SettingButton name={b} key={b} />))}
