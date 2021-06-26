@@ -1,11 +1,13 @@
-import * as React from "react";
+/** @jsxFrag React.Fragment */
+import React = require("react");
+import { jsx } from '@emotion/react'
 import { useState } from "react";
 
 type Prop = {
   name: string;
 };
 
-const ButtonMenu: React.FC<Prop> = ({ name }) => {
+const ButtonMenu = ({ name }: Prop) => {
   const [flipButton, setFlipButton] = useState("none");
   const [ignoreButton, setIgnoreButton] = useState("none");
   const flipRadioName = `button_menu_${name}`;

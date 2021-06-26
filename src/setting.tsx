@@ -1,9 +1,10 @@
-/** @jsx jsx */
-import * as ReactDOM from "react-dom";
-import { css, jsx } from '@emotion/react'
-import * as React from "react";
+/** @jsxFrag React.Fragment */
+import React = require("react");
+import { jsx } from '@emotion/react'
 import { useState } from "react";
 import { SettingButton } from "./setting_button";
+import { css } from '@emotion/react'
+
 
 interface Button {
   name: string;
@@ -18,7 +19,7 @@ const style = css`
   background-color: red;
 `;
 
-export const Setting: React.FC<Prop> = ({ buttons, prefixKey }) => {
+export const Setting = ({ buttons, prefixKey }:Prop) => {
   const [currentLayer, setCurrentLayer] = useState("up")
   const [currentPrefixKey, setCurrentPrefixKey] = useState(prefixKey)
 
