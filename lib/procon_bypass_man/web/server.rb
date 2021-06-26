@@ -4,8 +4,23 @@ require 'webrick'
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
-      get '/' do
-        'Fly me to the Moon!'
+      get '/pbm_path' do
+        # TODO
+      end
+      post '/pbm_path' do
+        # TODO
+      end
+
+      get '/pbm_stats' do
+        # TODO
+      end
+
+      post '/pbm_stop' do
+        # TODO
+      end
+
+      post '/pbm_start' do
+        # TODO
       end
     end
 
