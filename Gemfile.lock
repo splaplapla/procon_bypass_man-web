@@ -19,6 +19,7 @@ GEM
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
     tilt (2.0.10)
+    webrick (1.7.0)
 
 PLATFORMS
   arm64-darwin-20
@@ -27,6 +28,7 @@ DEPENDENCIES
   procon_bypass_man-web!
   rake (~> 13.0)
   sinatra
+  webrick
 
 BUNDLED WITH
    2.2.16
