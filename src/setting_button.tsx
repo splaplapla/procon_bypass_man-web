@@ -2,11 +2,14 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 type Prop = {
+  name: string;
 };
 
-export const ButtonSetting: React.FC<Prop> = () => {
+export const SettingButton: React.FC<Prop> = ({ name }) => {
   return (
     <>
+      {name}です
     </>
   );
 };
+
