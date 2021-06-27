@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { SettingButton } from "setting_button";
 import { HttpClient } from "../lib/http_client";
 import { css } from '@emotion/react'
+import axios from 'axios';
 
 type Prop = {
 };
@@ -16,9 +17,14 @@ export const GlobalSetting = ({}:Prop) => {
   const [settingPath, setSettingPath] = useState("未設定");
 
   useEffect(() => {
-    setDirPath(httpClient.getDirPath());
-    setSettingPath(httpClient.getSettingPath());
-  })
+    httpClient.getDirPath()
+      .then(function (response) {
+        setDirPath(response.data as any);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, [])
 
   const handleSubmit = () => {
     console.log("send");
@@ -27,7 +33,7 @@ export const GlobalSetting = ({}:Prop) => {
   return (
     <>
       <h2>設定</h2>
-      <label>PBMのディレクトリパス: <input type="text" value={dirPath} /></label>
+      <label>PBMのディレクトリパス: <input type="text" defaultValue={dirPath} /></label>
       <input type="submit" value="更新する" onClick={handleSubmit} />
       <hr />
 

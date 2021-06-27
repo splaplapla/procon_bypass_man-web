@@ -1,9 +1,15 @@
 require 'sinatra'
+require 'sinatra/cors'
 require 'webrick'
 
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
+      register Sinatra::Cors
+
+      set :allow_origin, "*"
+      set :allow_methods, "GET,POST"
+
       get '/' do
         "do not serve html"
       end

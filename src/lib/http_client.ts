@@ -1,11 +1,13 @@
+import axios from 'axios';
+
 export class HttpClient {
   constructor() {
-    const origin = "http://localhost:9090";
   };
 
   getDirPath() {
-    const path = "/pbm_dir_path"
-    return "j";
+    const origin = "http://localhost:9090";
+    const path = "/pbm_dir_path";
+    return axios.get(`${origin}${path}`);
   }
 
   getSettingPath() {
