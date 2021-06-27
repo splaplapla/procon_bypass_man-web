@@ -5,9 +5,13 @@ export class HttpClient {
   };
 
   getDirPath() {
-    const origin = "http://localhost:9090";
-    const path = "/pbm_dir_path";
-    return axios.get(`${origin}${path}`);
+    const path = "/api/pbm_dir_path";
+    return axios.get(`${path}`);
+  }
+
+  postDirPath(dirPath: string) {
+    const path = "/api/pbm_dir_path";
+    return axios.post(`${path}`, { dir_path: dirPath });
   }
 
   getSettingPath() {

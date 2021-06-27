@@ -27,7 +27,7 @@ export const GlobalSetting = ({}:Prop) => {
   }, [])
 
   const handleSubmit = () => {
-    console.log("send");
+    httpClient.postDirPath(dirPath);
   }
 
   return (

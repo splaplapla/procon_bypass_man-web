@@ -41,5 +41,10 @@ module.exports = {
       warnings: true,
       errors: true,
     },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9090',
+      }
+    },
   },
 };

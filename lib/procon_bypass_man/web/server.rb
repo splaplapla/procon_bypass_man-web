@@ -1,38 +1,32 @@
 require 'sinatra'
-require 'sinatra/cors'
 require 'webrick'
 
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
-      register Sinatra::Cors
-
-      set :allow_origin, "*"
-      set :allow_methods, "GET,POST"
-
       get '/' do
         "do not serve html"
       end
 
-      get '/pbm_dir_path' do
+      get '/api/pbm_dir_path' do
         "/dir_path/to"
       end
-      get '/pbm_setting_path' do
+      get '/api/pbm_setting_path' do
         "/setting_path/to"
       end
-      post '/pbm_dir_path' do
+      post '/api/pbm_dir_path' do
+        "j"
+      end
+
+      get '/api/pbm_stats' do
         # TODO
       end
 
-      get '/pbm_stats' do
+      post '/api/pbm_stop' do
         # TODO
       end
 
-      post '/pbm_stop' do
-        # TODO
-      end
-
-      post '/pbm_start' do
+      post '/api/pbm_start' do
         # TODO
       end
     end
