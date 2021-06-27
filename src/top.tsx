@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import { Setting } from "./setting";
 import { PBM } from "./pbm";
+import { GlobalSetting } from "./pages/global_setting";
 
 type Prop = {
 };
@@ -35,10 +42,32 @@ export const Top: React.FC<Prop> = () => {
 
   return (
     <>
-      <h2>設定</h2>
-      <label>PBMのディレクトリパス: <input type="text" value="" /></label>
-      <input type="submit" value="更新する" />
-      <hr />
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/setting">設定</Link>
+              </li>
+              <li>
+                <Link to="/pbm">PBMへの操作</Link>
+              </li>
+              <li>
+                <Link to="/buttons_setting">ボタン設定</Link>
+              </li>
+            </ul>
+          </nav>
+          <Switch>
+            <Route path="/setting">
+              <GlobalSetting />
+            </Route>
+            <Route path="/pbm">
+            </Route>
+            <Route path="/buttons_setting">
+            </Route>
+          </Switch>
+        </div>
+      </Router>
 
       <h2>PBMのステータス: {pbmStat}</h2>
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
