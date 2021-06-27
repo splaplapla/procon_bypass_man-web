@@ -5,7 +5,7 @@ module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry:  "./src/app.tsx",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"],
   },
   watch: true,
   output: {
@@ -36,6 +36,7 @@ module.exports = {
 
   devServer: {
     hot: true,
+    historyApiFallback: true,
     overlay: {
       warnings: true,
       errors: true,

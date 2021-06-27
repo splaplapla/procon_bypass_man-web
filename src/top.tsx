@@ -6,46 +6,24 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { Setting } from "./setting";
 import { PBM } from "./pbm";
 import { GlobalSetting } from "./pages/global_setting";
+import { BpmPage } from "./pages/bpm_page";
+import { SettingPage } from "./pages/setting_page";
 
 type Prop = {
 };
-const buttons = [
-  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
-]
-// TODO serverから取得する
-const prefixKey = [
-  "r", "l", "zr", "zl",
-]
-const pbm = new PBM();
 
 export const Top: React.FC<Prop> = () => {
-  const [pbmStat, updatePbmStat] = useState(pbm.initStats());
-
-  const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
-    updatePbmStat(pbm.fetchStats());
-  }
-
-  const isShowRestartButton = () => {
-    return true;
-  }
-
-  const isShowStartButton = () => {
-    return true;
-  }
-
-  const isShowStopButton = () => {
-    return true;
-  }
-
   return (
     <>
       <Router>
         <div>
           <nav>
             <ul>
+              <li>
+                <Link to="/">home</Link>
+              </li>
               <li>
                 <Link to="/setting">設定</Link>
               </li>
@@ -58,26 +36,19 @@ export const Top: React.FC<Prop> = () => {
             </ul>
           </nav>
           <Switch>
+            <Route exact path="/" ></Route>
             <Route path="/setting">
               <GlobalSetting />
             </Route>
             <Route path="/pbm">
+              <BpmPage />
             </Route>
             <Route path="/buttons_setting">
+              <SettingPage />
             </Route>
           </Switch>
         </div>
       </Router>
-
-      <h2>PBMのステータス: {pbmStat}</h2>
-      <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
-      {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
-      {isShowRestartButton() && <input type="button" onClick={handlePbmStats} value="リスタートする" />}
-      {isShowStartButton() && <input type="button" onClick={handlePbmStats} value="開始する" />}
-
-      <hr />
-      <h2>設定ファイルの変更</h2>
-      <Setting buttons={buttons} prefixKey={prefixKey} />
     </>
   );
 };
