@@ -15,6 +15,7 @@ const httpClient = new HttpClient();
 export const GlobalSetting = ({}:Prop) => {
   const [dirPath, setDirPath] = useState("");
   const [settingPath, setSettingPath] = useState("未設定");
+  const [serverResponseMessage, setServerResponseMessage] = useState("");
 
   useEffect(() => {
     httpClient.getDirPath()
@@ -26,14 +27,27 @@ export const GlobalSetting = ({}:Prop) => {
       })
   }, [])
 
-  const handleSubmit = () => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDirPath(e.target.value);
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>)  => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
     httpClient.postDirPath(dirPath);
-  }
+    setServerResponseMessage("更新に成功しました")
+  };
 
   return (
     <>
       <h2>設定</h2>
-      <label>PBMのディレクトリパス: <input type="text" defaultValue={dirPath} /></label>
+      <div>
+        {serverResponseMessage}
+      </div>
+      <label>PBMのディレクトリパス:
+        <input type="text" value={dirPath} onChange={handleChange} />
+      </label>
       <input type="submit" value="更新する" onClick={handleSubmit} />
       <hr />
 

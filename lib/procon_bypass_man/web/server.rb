@@ -1,21 +1,30 @@
 require 'sinatra'
+require 'sinatra/reloader'
 require 'webrick'
+require "procon_bypass_man/web/storage"
 
+require "pry"
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
+      register Sinatra::Reloader
+
       get '/' do
         "do not serve html"
       end
 
       get '/api/pbm_dir_path' do
-        "/dir_path/to"
+        ProconBypassMan::Web::Storage.instance.pbm_dir_path
       end
+
       get '/api/pbm_setting_path' do
         "/setting_path/to"
       end
+
       post '/api/pbm_dir_path' do
-        "j"
+        params = JSON.parse(request.body.read)
+        ProconBypassMan::Web::Storage.instance.pbm_dir_path = params["dir_path"]
+        :ok
       end
 
       get '/api/pbm_stats' do

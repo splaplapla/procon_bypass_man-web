@@ -10,6 +10,7 @@ GEM
     diff-lcs (1.4.4)
     foreman (0.87.2)
     method_source (1.0.0)
+    multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     pry (0.14.1)
@@ -38,6 +39,14 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
+    sinatra-contrib (2.1.0)
+      multi_json
+      mustermann (~> 1.0)
+      rack-protection (= 2.1.0)
+      sinatra (= 2.1.0)
+      tilt (~> 2.0)
+    sinatra-reloader (1.0)
+      sinatra-contrib
     tilt (2.0.10)
     webrick (1.7.0)
 
@@ -51,6 +60,7 @@ DEPENDENCIES
   rake (~> 13.0)
   rspec
   sinatra
+  sinatra-reloader
   webrick
 
 BUNDLED WITH
