@@ -17,7 +17,6 @@ type Prop = {
 };
 
 const ulstyle = css`
-
     border: 1px solid #666;
     display: flex;
     flex-wrap: wrap;

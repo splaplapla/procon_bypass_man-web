@@ -53,9 +53,6 @@ export const SettingButton: React.FC<Prop> = ({ name }) => {
   const handleToggle = () => {
     toggleMenu(!openMenu);
   }
-  const menu = () => {
-    ButtonMenu
-  }
 
   return (
     <>
