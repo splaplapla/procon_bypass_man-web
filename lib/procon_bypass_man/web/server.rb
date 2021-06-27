@@ -4,10 +4,17 @@ require 'webrick'
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
-      get '/pbm_path' do
-        # TODO
+      get '/' do
+        "do not serve html"
       end
-      post '/pbm_path' do
+
+      get '/pbm_dir_path' do
+        "/dir_path/to"
+      end
+      get '/pbm_setting_path' do
+        "/setting_path/to"
+      end
+      post '/pbm_dir_path' do
         # TODO
       end
 
