@@ -59,10 +59,8 @@ export const SettingButton: React.FC<Prop> = ({ name }) => {
 
   return (
     <>
-      <li>
-        <label><input type="checkbox" onClick={handleToggle}/>{name}</label>
-        {openMenu && <ButtonMenu name={name} />}
-      </li>
+      <label><input type="checkbox" onClick={handleToggle}/>{name}</label>
+      {openMenu && <ButtonMenu name={name} />}
     </>
   );
 };

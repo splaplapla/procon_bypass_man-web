@@ -16,8 +16,26 @@ type Prop = {
   prefixKey: Array<string>;
 };
 
-const style = css`
-  background-color: red;
+const ulstyle = css`
+
+    border: 1px solid #666;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    margin: 0 0 0 1em;
+    padding: 0;
+    width: 900px;
+`;
+const listyle = css`
+    border: 1px solid #aaa;
+    display: table;
+    line-height: 110%;
+    margin: 0.2em;
+    padding: 0.5em;
+    text-align: center;
+    width: 200px;
+    height: 100px;
 `;
 
 export const Setting = ({ buttons, prefixKey }:Prop) => {
@@ -43,8 +61,8 @@ export const Setting = ({ buttons, prefixKey }:Prop) => {
       <div>available plugins</div>
       <div>available mode</div>
       <div>key setting</div>
-      <div css={style}>
-        <ul>{settingButtons}</ul>
+      <div>
+        <ul  css={ulstyle}>{settingButtons.map(b => (<li css={listyle}>{b}</li>))}</ul>
       </div>
     </>
   );
