@@ -23,6 +23,9 @@ const style = css`
 export const Setting = ({ buttons, prefixKey }:Prop) => {
   const [currentLayer, setCurrentLayer] = useState("up")
   const [currentPrefixKey, setCurrentPrefixKey] = useState(prefixKey)
+  const [settingButtons, setSettingButtons] = useState(
+    buttons.map(b => (<SettingButton name={b} key={b} />))
+  );
 
   return (
     <>
@@ -40,11 +43,8 @@ export const Setting = ({ buttons, prefixKey }:Prop) => {
       <div>available plugins</div>
       <div>available mode</div>
       <div>key setting</div>
-      <div css={css({color: 'red'})}>Hoge red!</div>
       <div css={style}>
-        <ul>
-          {buttons.map(b => (<SettingButton name={b} key={b} />))}
-        </ul>
+        <ul>{settingButtons}</ul>
       </div>
     </>
   );
