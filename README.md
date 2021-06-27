@@ -39,5 +39,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * frontend
     * layerを切り替えれるようにする
     * reduxを入れる
-    * cssあてる
+    * 現行設定からのリストア
+    * エクスポート
+    * エクスポートしてから適用
     * buttonsモーダル
