@@ -11,7 +11,7 @@ require "procon_bypass_man/web/storage"
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
-      register Sinatra::Reloader
+      register Sinatra::Reloader if defined?(Sinatra::Reloader)
 
       get '/' do
         send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
