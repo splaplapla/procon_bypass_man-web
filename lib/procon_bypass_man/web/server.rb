@@ -65,7 +65,7 @@ module ProconBypassMan
 
     class Server
       def self.start
-        App.run! host: 'localhost', port: 9090
+        App.run! port: 9090
       end
     end
   end
