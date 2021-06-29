@@ -13,35 +13,34 @@ const pbm = new PBM();
 const httpClient = new HttpClient();
 
 export const BpmPage= ({}:Prop) => {
-  const [pbmStat, setPbmStat] = useState(pbm.initStats());
-  const [pbmPath, setPbmPath] = useState(0);
+  const [pbmStats, setPbmStats] = useState(pbm.initStats());
 
   const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
-    setPbmStat(pbm.fetchStats());
+    setPbmStats(pbm.fetchStats());
   }
 
   const isShowRestartButton = () => {
-    return pbmStat == "running";
+    return pbmStats == "running";
   }
 
   const isShowStartButton = () => {
-    return pbmStat == "running";
+    return pbmStats == "running";
   }
 
   const isShowStopButton = () => {
-    return pbmStat == "stopped";
+    return pbmStats == "stopped";
   }
 
   useEffect(() => {
     httpClient.getPbmStats()
       .then(function (response) {
-        setPbmStat(response.data.stats as any);
+        setPbmStats(response.data.stats as any);
       })
   })
 
   return (
     <>
-      <h2>PBMのステータス: {pbmStat}</h2>
+      <h2>PBMのステータス: {pbmStats}</h2>
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
       {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
       {isShowRestartButton() && <input type="button" onClick={handlePbmStats} value="リスタートする" />}
