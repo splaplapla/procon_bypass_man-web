@@ -12,6 +12,7 @@ module ProconBypassMan
   module Web
     class App < Sinatra::Base
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
+      set :bind, '0.0.0.0'
 
       get '/' do
         send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
