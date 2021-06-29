@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     procon_bypass_man-web (0.1.0)
+      sinatra
+      webrick
 
 GEM
   remote: https://rubygems.org/

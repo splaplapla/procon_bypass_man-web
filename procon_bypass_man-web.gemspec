@@ -27,8 +27,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency "rspec"
+  spec.add_dependency "sinatra"
+  spec.add_dependency "webrick"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

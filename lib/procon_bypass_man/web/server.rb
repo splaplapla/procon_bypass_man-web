@@ -1,5 +1,8 @@
 require 'sinatra'
-require 'sinatra/reloader'
+begin
+  require 'sinatra/reloader'
+rescue LoadError
+end
 require 'webrick'
 require "procon_bypass_man/web/storage"
 
