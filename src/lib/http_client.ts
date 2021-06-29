@@ -18,4 +18,9 @@ export class HttpClient {
     const path = "/pbm_setting_path"
     return "k";
   }
+
+  getPbmStats() {
+    const path = "/api/pbm_stats";
+    return axios.get(`${path}`);
+  }
 }

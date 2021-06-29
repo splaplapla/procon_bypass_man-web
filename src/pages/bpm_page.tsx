@@ -1,34 +1,44 @@
 /** @jsx jsx */
 
 import { jsx } from '@emotion/react'
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { css } from '@emotion/react'
+import { HttpClient } from "../lib/http_client";
 
 type Prop = {
 };
 
 import { PBM } from "../pbm";
 const pbm = new PBM();
+const httpClient = new HttpClient();
 
 export const BpmPage= ({}:Prop) => {
-  const [pbmStat, updatePbmStat] = useState(pbm.initStats());
+  const [pbmStat, setPbmStat] = useState(pbm.initStats());
+  const [pbmPath, setPbmPath] = useState(0);
 
   const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
-    updatePbmStat(pbm.fetchStats());
+    setPbmStat(pbm.fetchStats());
   }
 
   const isShowRestartButton = () => {
-    return true;
+    return pbmStat == "running";
   }
 
   const isShowStartButton = () => {
-    return true;
+    return pbmStat == "running";
   }
 
   const isShowStopButton = () => {
-    return true;
+    return pbmStat == "stopped";
   }
+
+  useEffect(() => {
+    httpClient.getPbmStats()
+      .then(function (response) {
+        setPbmStat(response.data.stats as any);
+      })
+  })
+
   return (
     <>
       <h2>PBMのステータス: {pbmStat}</h2>

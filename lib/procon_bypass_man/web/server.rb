@@ -28,7 +28,16 @@ module ProconBypassMan
       end
 
       get '/api/pbm_stats' do
-        # TODO
+        begin
+          pid = File.read("#{ProconBypassMan::Web::Storage.instance.pbm_dir_path}/pbm_pid").chomp
+          if /\A\d+\z/ =~ pid
+            return { stats: "running" }.to_json
+          else
+            return { stats: "stopped" }.to_json
+          end
+        rescue Errno::ENOENT
+          return { stats: "stopped" }.to_json
+        end
       end
 
       post '/api/pbm_stop' do
