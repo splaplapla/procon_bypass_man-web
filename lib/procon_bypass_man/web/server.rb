@@ -1,12 +1,13 @@
 require 'sinatra'
+require 'webrick'
 begin
   require 'sinatra/reloader'
+  require "pry"
 rescue LoadError
 end
-require 'webrick'
+
 require "procon_bypass_man/web/storage"
 
-require "pry"
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
