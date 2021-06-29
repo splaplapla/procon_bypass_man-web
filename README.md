@@ -31,7 +31,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Development
 ### Hot to release
-* `yarn run release` を実行してgit commit
+* `yarn run release-build` を実行してgit commit
 
 ## TODO
 * server
