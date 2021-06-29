@@ -31,7 +31,7 @@ export const Top: React.FC<Prop> = () => {
                 <Link to="/pbm">PBMへの操作</Link>
               </li>
               <li>
-                <Link to="/buttons_setting">ボタン設定</Link>
+                <Link to="/buttons_setting">ボタン設定(wip)</Link>
               </li>
             </ul>
           </nav>
