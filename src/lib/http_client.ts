@@ -15,8 +15,12 @@ export class HttpClient {
   }
 
   getSettingPath() {
-    const path = "/pbm_setting_path"
-    return "k";
+    return axios.get( "/api/pbm_setting_path");
+  }
+
+  postSettingPath(settingPath: string) {
+    const path = "/api/pbm_setting_path"
+    return axios.post(`${path}`, { setting_path: settingPath });
   }
 
   getPbmStats() {

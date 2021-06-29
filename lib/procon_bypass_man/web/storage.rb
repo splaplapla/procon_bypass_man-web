@@ -13,6 +13,14 @@ module ProconBypassMan
         write(:pbm_dir_path, value)
       end
 
+      def pbm_setting_path
+        read(:pbm_setting_path)
+      end
+
+      def pbm_setting_path=(value)
+        write(:pbm_setting_path, value)
+      end
+
       private
 
       def read(key)

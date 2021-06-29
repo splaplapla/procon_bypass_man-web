@@ -25,18 +25,37 @@ export const GlobalSetting = ({}:Prop) => {
       .catch(function (error) {
         console.log(error);
       })
+    httpClient.getSettingPath()
+      .then(function (response) {
+        setSettingPath(response.data as any);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
   }, [])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDirChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDirPath(e.target.value);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>)  => {
+  const handleDirSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>)  => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
     httpClient.postDirPath(dirPath);
-    setServerResponseMessage("更新に成功しました")
+    setServerResponseMessage("PBMのディレクトリパスの更新に成功しました");
+  };
+
+  const handleSettingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSettingPath(e.target.value);
+  };
+
+  const handleSettingSubmit = (e: React.MouseEvent<HTMLElement, MouseEvent>)  => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    httpClient.postSettingPath(settingPath);
+    setServerResponseMessage("PBMの設定ファイルパスの更新に成功しました");
   };
 
   return (
@@ -46,12 +65,15 @@ export const GlobalSetting = ({}:Prop) => {
         {serverResponseMessage}
       </div>
       <label>PBMのディレクトリパス:
-        <input type="text" value={dirPath} onChange={handleChange} />
+        <input type="text" value={dirPath} onChange={handleDirChange} />
       </label>
-      <input type="submit" value="更新する" onClick={handleSubmit} />
+      <input type="submit" value="更新する" onClick={handleDirSubmit} />
       <hr />
 
-      <label>PBMの設定ファイルパス: {settingPath}</label>
+      <label>PBMの設定ファイルパス:
+        <input type="text" value={settingPath} onChange={handleSettingChange} />
+      </label>
+      <input type="submit" value="更新する" onClick={handleSettingSubmit} />
       <hr />
     </>
   )

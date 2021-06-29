@@ -18,7 +18,13 @@ module ProconBypassMan
       end
 
       get '/api/pbm_setting_path' do
-        "/setting_path/to"
+        ProconBypassMan::Web::Storage.instance.pbm_setting_path
+      end
+
+      post '/api/pbm_setting_path' do
+        params = JSON.parse(request.body.read)
+        ProconBypassMan::Web::Storage.instance.pbm_setting_path = params["setting_path"]
+        :ok
       end
 
       post '/api/pbm_dir_path' do
