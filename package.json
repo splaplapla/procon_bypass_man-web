@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "webpack",
-    "server": "webpack serve"
+    "server": "webpack serve",
+    "release": "NODE_ENV=production webpack"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.7",

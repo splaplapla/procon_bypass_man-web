@@ -1,6 +1,24 @@
 const path  = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
+const plugins = []
+const output = {}
+if (process.env.NODE_ENV === 'production') {
+  output.filename = "bundle.js";
+  output.path = path.resolve(__dirname, "lib/procon_bypass_man/web/public/");
+} else {
+  output.filename = "bundle.js";
+  output.path = path.resolve(__dirname, "dist");
+}
+
+plugins.push(
+  new HtmlWebpackPlugin({
+    title: "PBM Web",
+    filename: "index.html",
+    template: "src/index.html",
+  })
+)
+
 module.exports = {
   mode: process.env.NODE_ENV || "development",
   entry:  "./src/app.tsx",
@@ -8,17 +26,8 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".json"],
   },
   watch: true,
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: "PBM Web",
-      filename: "index.html",
-      template: "src/index.html",
-    }),
-  ],
+  output: output,
+  plugins: plugins,
   module: {
     rules: [
       { test: /\.(js|ts|tsx)$/,

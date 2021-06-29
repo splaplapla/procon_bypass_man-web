@@ -10,7 +10,7 @@ module ProconBypassMan
       register Sinatra::Reloader
 
       get '/' do
-        "do not serve html"
+        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
 
       get '/api/pbm_dir_path' do
