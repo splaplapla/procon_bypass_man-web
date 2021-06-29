@@ -20,14 +20,15 @@ export const GlobalSetting = ({}:Prop) => {
   useEffect(() => {
     httpClient.getDirPath()
       .then(function (response) {
-        setDirPath(response.data as any);
+        // TODO checking type
+        setDirPath(response.data.dir_path as any);
       })
       .catch(function (error) {
         console.log(error);
       })
     httpClient.getSettingPath()
       .then(function (response) {
-        setSettingPath(response.data as any);
+        setSettingPath(response.data.setting_path as any);
       })
       .catch(function (error) {
         console.log(error);

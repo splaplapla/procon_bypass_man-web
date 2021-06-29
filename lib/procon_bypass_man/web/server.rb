@@ -14,23 +14,27 @@ module ProconBypassMan
       end
 
       get '/api/pbm_dir_path' do
-        ProconBypassMan::Web::Storage.instance.pbm_dir_path
+        { dir_path: ProconBypassMan::Web::Storage.instance.pbm_dir_path,
+          result: :ok,
+        }.to_json
       end
 
       get '/api/pbm_setting_path' do
-        ProconBypassMan::Web::Storage.instance.pbm_setting_path
+        { setting_path: ProconBypassMan::Web::Storage.instance.pbm_setting_path,
+          result: :ok,
+        }.to_json
       end
 
       post '/api/pbm_setting_path' do
         params = JSON.parse(request.body.read)
         ProconBypassMan::Web::Storage.instance.pbm_setting_path = params["setting_path"]
-        :ok
+        { result: :ok }.to_json
       end
 
       post '/api/pbm_dir_path' do
         params = JSON.parse(request.body.read)
         ProconBypassMan::Web::Storage.instance.pbm_dir_path = params["dir_path"]
-        :ok
+        { result: :ok }.to_json
       end
 
       get '/api/pbm_stats' do
