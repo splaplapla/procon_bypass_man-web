@@ -3,7 +3,7 @@
 import { jsx } from '@emotion/react'
 import React, { useState } from "react";
 import { css } from '@emotion/react'
-import { Setting } from "./../setting";
+import { Setting } from "../components/setting";
 
 type Prop = {};
 type Button = "a" | "b"| "x"| "y"| "up"| "right"| "down"| "left"| "r"| "l"| "zr"| "zl";

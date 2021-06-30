@@ -2,10 +2,11 @@
 
 import { jsx } from '@emotion/react'
 import React, { useState, useEffect } from "react";
-import { SettingButton } from "setting_button";
-import { HttpClient } from "../lib/http_client";
 import { css } from '@emotion/react'
 import axios from 'axios';
+
+import { SettingButton } from "../components/setting_button";
+import { HttpClient } from "../lib/http_client";
 
 type Prop = {
 };

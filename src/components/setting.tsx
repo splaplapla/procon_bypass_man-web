@@ -2,13 +2,8 @@
 
 import { jsx } from '@emotion/react'
 import React, { useState } from "react";
-import { SettingButton } from "./setting_button";
 import { css } from '@emotion/react'
-
-
-interface Button {
-  name: string;
-}
+import { SettingButton } from "./setting_button";
 
 type Prop = {
   buttons: Array<string>;

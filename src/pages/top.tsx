@@ -6,15 +6,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { PBM } from "./pbm";
-import { GlobalSetting } from "./pages/global_setting";
-import { BpmPage } from "./pages/bpm_page";
-import { SettingPage } from "./pages/setting_page";
+import { GlobalSetting } from "./global_setting";
+import { BpmPage } from "./bpm_page";
+import { SettingPage } from "./setting_page";
 
-type Prop = {
-};
-
-export const Top: React.FC<Prop> = () => {
+export const Top: React.FC = () => {
   return (
     <>
       <Router>
