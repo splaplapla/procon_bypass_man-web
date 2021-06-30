@@ -25,7 +25,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
   },
-  watch: true,
+  watch: false,
   output: output,
   plugins: plugins,
   module: {
