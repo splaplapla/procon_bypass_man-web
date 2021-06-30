@@ -14,10 +14,6 @@ module ProconBypassMan
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
       set :bind, '0.0.0.0'
 
-      get '/' do
-        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
-      end
-
       get '/api/pbm_dir_path' do
         { dir_path: ProconBypassMan::Web::Storage.instance.pbm_dir_path,
           result: :ok,
@@ -61,6 +57,15 @@ module ProconBypassMan
 
       post '/api/pbm_start' do
         # TODO
+      end
+
+      get '/' do
+        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
+      end
+
+      # サーバでパスとして解釈されないように、全部 `/`として受け付けるため
+      get '/:none' do
+        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
     end
 
