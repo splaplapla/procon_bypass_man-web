@@ -17,6 +17,10 @@ export const GlobalSetting = ({}:Prop) => {
   const [settingPath, setSettingPath] = useState("未設定");
   const [serverResponseMessage, setServerResponseMessage] = useState("");
 
+  const inputStyle = css`
+    width: 400px;
+  `
+
   useEffect(() => {
     httpClient.getDirPath()
       .then(function (response) {
@@ -66,13 +70,13 @@ export const GlobalSetting = ({}:Prop) => {
         {serverResponseMessage}
       </div>
       <label>PBMのディレクトリパス:
-        <input type="text" value={dirPath} onChange={handleDirChange} />
+        <input type="text" css={inputStyle} value={dirPath} onChange={handleDirChange} />
       </label>
       <input type="submit" value="更新する" onClick={handleDirSubmit} />
       <hr />
 
       <label>PBMの設定ファイルパス:
-        <input type="text" value={settingPath} onChange={handleSettingChange} />
+        <input type="text" css={inputStyle} value={settingPath} onChange={handleSettingChange} />
       </label>
       <input type="submit" value="更新する" onClick={handleSettingSubmit} />
       <hr />
