@@ -24,14 +24,15 @@ export const GlobalSetting = ({}:Prop) => {
     httpClient.getDirPath()
       .then(function (response) {
         // TODO checking type
-        setDirPath(response.data.dir_path as any);
+        setDirPath(response.data.dir_path);
       })
       .catch(function (error) {
+        setServerResponseMessage("サーバとの通信に失敗しました");
         console.log(error);
       })
     httpClient.getSettingPath()
       .then(function (response) {
-        setSettingPath(response.data.setting_path as any);
+        setSettingPath(response.data.setting_path);
       })
       .catch(function (error) {
         console.log(error);

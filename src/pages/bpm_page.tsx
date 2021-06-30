@@ -34,7 +34,7 @@ export const BpmPage= ({}:Prop) => {
   useEffect(() => {
     httpClient.getPbmStats()
       .then(function (response) {
-        setPbmStats(response.data.stats as any);
+        setPbmStats(response.data.stats);
       })
   })
 

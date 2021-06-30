@@ -42,12 +42,12 @@ module ProconBypassMan
         begin
           pid = File.read("#{ProconBypassMan::Web::Storage.instance.pbm_dir_path}/pbm_pid").chomp
           if /\A\d+\z/ =~ pid
-            return { stats: "running" }.to_json
+            return { result: :ok, stats: "running" }.to_json
           else
-            return { stats: "stopped" }.to_json
+            return { result: :ok, stats: "stopped" }.to_json
           end
         rescue Errno::ENOENT
-          return { stats: "stopped" }.to_json
+          return { result: :error, stats: "unknown" }.to_json
         end
       end
 
