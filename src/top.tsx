@@ -28,7 +28,7 @@ export const Top: React.FC<Prop> = () => {
                 <Link to="/setting">設定</Link>
               </li>
               <li>
-                <Link to="/pbm">PBMへの操作</Link>
+                <Link to="/pbm">PBMのステータス</Link>
               </li>
               <li>
                 <Link to="/buttons_setting">ボタン設定(wip)</Link>
