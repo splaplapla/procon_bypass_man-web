@@ -1,8 +1,7 @@
 /** @jsx jsx */
 
 import { jsx } from '@emotion/react'
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SettingButton } from "setting_button";
 import { HttpClient } from "../lib/http_client";
 import { css } from '@emotion/react'

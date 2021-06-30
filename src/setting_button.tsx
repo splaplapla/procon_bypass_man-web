@@ -1,7 +1,6 @@
 /** @jsxFrag React.Fragment */
-import React from "react";
+import React, { useState } from "react";
 import { jsx } from '@emotion/react'
-import { useState } from "react";
 
 type Prop = {
   name: string;
