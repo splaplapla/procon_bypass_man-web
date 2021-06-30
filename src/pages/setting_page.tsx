@@ -5,16 +5,17 @@ import React, { useState } from "react";
 import { css } from '@emotion/react'
 import { Setting } from "./../setting";
 
-type Prop = {
-};
+type Prop = {};
+type Button = "a" | "b"| "x"| "y"| "up"| "right"| "down"| "left"| "r"| "l"| "zr"| "zl";
 
-const buttons = [
+const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 // TODO serverから取得する
-const prefixKey = [
+const prefixKey: Array<Button> = [
   "r", "l", "zr", "zl",
 ]
+
 export const SettingPage = ({}:Prop) => {
   return (
     <>
