@@ -1,23 +1,14 @@
 const path  = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
-const plugins = []
-const output = {}
+const output = {
+  filename: "bundle.js",
+}
 if (process.env.NODE_ENV === 'production') {
-  output.filename = "bundle.js";
   output.path = path.resolve(__dirname, "lib/procon_bypass_man/web/public/");
 } else {
-  output.filename = "bundle.js";
   output.path = path.resolve(__dirname, "dist");
 }
-
-plugins.push(
-  new HtmlWebpackPlugin({
-    title: "PBM Web",
-    filename: "index.html",
-    template: "src/index.html",
-  })
-)
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
@@ -27,7 +18,13 @@ module.exports = {
   },
   watch: false,
   output: output,
-  plugins: plugins,
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "PBM Web",
+      filename: "index.html",
+      template: "src/index.html",
+    }),
+  ],
   module: {
     rules: [
       { test: /\.(js|ts|tsx)$/,
