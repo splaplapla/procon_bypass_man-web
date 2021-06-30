@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+type PbmStats = "stopped" | "running" | "unknown";
+
 interface DirPathApiResponse {
   result: string,
   dir_path: string,
@@ -15,7 +17,7 @@ interface PostApiResponse {
 }
 
 interface StatsApiResponse {
-  stats: string,
+  stats: PbmStats,
   result: string,
 }
 
