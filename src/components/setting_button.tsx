@@ -1,9 +1,10 @@
 /** @jsxFrag React.Fragment */
 import React, { useState } from "react";
 import { jsx } from '@emotion/react'
+import { Button } from "../types/button";
 
 type Prop = {
-  name: string;
+  name: Button;
 };
 
 const ButtonMenu = ({ name }: Prop) => {

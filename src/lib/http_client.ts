@@ -21,7 +21,6 @@ interface StatsApiResponse {
   result: string,
 }
 
-
 export class HttpClient {
   constructor() {
   };

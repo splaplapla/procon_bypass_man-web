@@ -45,7 +45,6 @@ export const BpmPage= ({}:Prop) => {
       {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
       {isShowRestartButton() && <input type="button" onClick={handlePbmStats} value="リスタートする" />}
       {isShowStartButton() && <input type="button" onClick={handlePbmStats} value="開始する" />}
-
     </>
   )
 }

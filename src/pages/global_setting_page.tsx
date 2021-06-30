@@ -24,7 +24,6 @@ export const GlobalSetting = ({}:Prop) => {
   useEffect(() => {
     httpClient.getDirPath()
       .then(function (response) {
-        // TODO checking type
         setDirPath(response.data.dir_path);
       })
       .catch(function (error) {

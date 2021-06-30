@@ -4,15 +4,15 @@ import { jsx } from '@emotion/react'
 import React, { useState } from "react";
 import { css } from '@emotion/react'
 import { SettingButton } from "./setting_button";
+import { Button } from "../types/button";
 
 type Prop = {
-  buttons: Array<string>;
-  prefixKey: Array<string>;
+  buttons: Array<Button>;
+  prefixKey: Array<Button>;
 };
 
 const ulstyle = css`
-    border: 1px solid #666;
-    display: flex;
+    border: 1px solid #666; display: flex;
     flex-wrap: wrap;
     justify-content: center;
     list-style-type: none;
