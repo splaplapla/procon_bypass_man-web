@@ -6,7 +6,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { GlobalSetting } from "./global_setting";
+import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
 import { SettingPage } from "./setting_page";
 
