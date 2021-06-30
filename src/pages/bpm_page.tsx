@@ -8,15 +8,15 @@ import { HttpClient } from "../lib/http_client";
 type Prop = {
 };
 
-import { PBM } from "../pbm";
-const pbm = new PBM();
+type PbmStats = "stopped" | "running" | "unknown";
+
 const httpClient = new HttpClient();
 
 export const BpmPage= ({}:Prop) => {
-  const [pbmStats, setPbmStats] = useState(pbm.initStats());
+  const [pbmStats, setPbmStats] = useState("unknown" as PbmStats);
 
   const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
-    setPbmStats(pbm.fetchStats());
+    setPbmStats("unknown" as PbmStats);
   }
 
   const isShowRestartButton = () => {
