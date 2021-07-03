@@ -32,13 +32,13 @@ module ProconBypassMan
       def write(key, value)
         data = Marshal.load(File.binread(file_path))
         data[key] = value
-        File.binwrite "#{ProconBypassMan::Web.root}/metadata", Marshal.dump(data)
+        File.binwrite "#{ProconBypassMan.root}/metadata", Marshal.dump(data)
         puts "#{key}に#{value}を書き込みました"
       end
 
       # @return [String]
       def file_path
-        path = "#{ProconBypassMan::Web.root}/metadata"
+        path = "#{ProconBypassMan.root}/metadata"
         File.open(path)
         path
       rescue Errno::ENOENT
