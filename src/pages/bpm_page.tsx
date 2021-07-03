@@ -43,7 +43,6 @@ export const BpmPage= ({}:Prop) => {
       <h2>PBMのステータス: {pbmStats}</h2>
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
       {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
-      {isShowRestartButton() && <input type="button" onClick={handlePbmStats} value="リスタートする" />}
       {isShowStartButton() && <input type="button" onClick={handlePbmStats} value="開始する" />}
     </>
   )
