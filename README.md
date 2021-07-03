@@ -1,10 +1,11 @@
 # ProconBypassMan::Web
-*  https://github.com/splaspla-hacker/procon_bypass_man をwebから操作できるwebアプリケーションです
+*  https://github.com/splaspla-hacker/procon_bypass_man のWEBインターフェイスです
     * 設定ファイルの変更・反映
+    * procon_bypass_manの起動・停止
 * Raspberry Pi4内で起動します
 
 ## Installation
-cloneしてserviceに登録します
+使用例: https://github.com/jiikko/procon_bypass_man_sample/tree/with-web 
 
 ```ruby
 gem 'procon_bypass_man-web', github: 'splaspla-hacker/procon_bypass_man-web'
@@ -15,22 +16,23 @@ And then execute:
     $ bundle install
 
 ## Usage
-open http://pi.local:3000
+WEBインターフェイスの起動方法
 
-* できること
-  * GUIで設定ファイルの変更・反映
-  * procon_bypass_manの再起動
+```shell
+sudo bundle exec pbm_server
+```
 
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/procon_bypass_man-web. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/procon_bypass_man-web/blob/master/CODE_OF_CONDUCT.md).
+Open http://pi.local:9090
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Development
-### Hot to release
+### 開発用のサーバを起動する
+`bundle exec foreman s`
+
+### SPA側のリリース方法
 * `yarn run release-build` を実行してgit commit
 
 ## TODO
