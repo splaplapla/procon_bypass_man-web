@@ -25,7 +25,7 @@ export const BpmPage= ({}:Prop) => {
     httpClient.startPbm()
       .then(function (response) {
         if(response.data.result === "ok") {
-          setPbmStats("running" as PbmStats);
+          setPbmStats("waiting" as PbmStats);
         } else {
           setPbmStats("error" as PbmStats);
         }
@@ -39,7 +39,7 @@ export const BpmPage= ({}:Prop) => {
     httpClient.stopPbm()
       .then(function (response) {
         if(response.data.result === "ok") {
-          setPbmStats("running" as PbmStats);
+          setPbmStats("stopped" as PbmStats);
         } else {
           setPbmStats("error" as PbmStats);
         }
