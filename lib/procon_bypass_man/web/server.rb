@@ -51,12 +51,20 @@ module ProconBypassMan
         end
       end
 
-      post '/api/pbm_stop' do
-        # TODO
+      post '/api/start_pbm' do
+        if system "yes | systemctl start pbm.service"
+          { result: :ok }.to_json
+        else
+          { result: :bad }.to_json
+        end
       end
 
-      post '/api/pbm_start' do
-        # TODO
+      post '/api/stop_pbm' do
+        if system "yes | systemctl stop pbm.service"
+          { result: :ok }.to_json
+        else
+          { result: :bad }.to_json
+        end
       end
 
       get '/' do

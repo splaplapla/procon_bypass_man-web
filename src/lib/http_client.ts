@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-type PbmStats = "stopped" | "running" | "unknown";
+type PbmStats = "stopped" | "running" | "unknown" | "waiting";
 
 interface DirPathApiResponse {
   result: string,
@@ -46,5 +46,15 @@ export class HttpClient {
   getPbmStats() {
     const path = "/api/pbm_stats";
     return axios.get<StatsApiResponse>(`${path}`);
+  }
+
+  startPbm() {
+    const path = "/api/start_pbm";
+    return axios.post<PostApiResponse>(`${path}`);
+  }
+
+  stopPbm() {
+    const path = "/api/stop_pbm";
+    return axios.post<PostApiResponse>(`${path}`);
   }
 }

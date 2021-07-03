@@ -8,7 +8,7 @@ import { HttpClient } from "../lib/http_client";
 type Prop = {
 };
 
-type PbmStats = "stopped" | "running" | "unknown";
+type PbmStats = "stopped" | "running" | "unknown" | "waiting" | "error";
 
 const httpClient = new HttpClient();
 
@@ -16,7 +16,37 @@ export const BpmPage= ({}:Prop) => {
   const [pbmStats, setPbmStats] = useState("unknown" as PbmStats);
 
   const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
-    setPbmStats("unknown" as PbmStats);
+    httpClient.getPbmStats()
+      .then(function (response) {
+        setPbmStats(response.data.stats);
+      })
+  }
+  const handleStartPbm = (e: React.MouseEvent<HTMLElement>) => {
+    httpClient.startPbm()
+      .then(function (response) {
+        if(response.data.result === "ok") {
+          setPbmStats("running" as PbmStats);
+        } else {
+          setPbmStats("error" as PbmStats);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  const handleStopPbm = (e: React.MouseEvent<HTMLElement>) => {
+    httpClient.stopPbm()
+      .then(function (response) {
+        if(response.data.result === "ok") {
+          setPbmStats("running" as PbmStats);
+        } else {
+          setPbmStats("error" as PbmStats);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
   }
 
   const isShowRestartButton = () => {
@@ -24,11 +54,11 @@ export const BpmPage= ({}:Prop) => {
   }
 
   const isShowStartButton = () => {
-    return pbmStats == "running";
+    return pbmStats == "stopped";
   }
 
   const isShowStopButton = () => {
-    return pbmStats == "stopped";
+    return pbmStats == "running";
   }
 
   useEffect(() => {
@@ -36,14 +66,14 @@ export const BpmPage= ({}:Prop) => {
       .then(function (response) {
         setPbmStats(response.data.stats);
       })
-  })
+  }, [])
 
   return (
     <>
       <h2>PBMのステータス: {pbmStats}</h2>
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
-      {isShowStopButton() && <input type="button" onClick={handlePbmStats} value="停止する" />}
-      {isShowStartButton() && <input type="button" onClick={handlePbmStats} value="開始する" />}
+      {isShowStopButton() && <input type="button" onClick={handleStopPbm} value="停止する" />}
+      {isShowStartButton() && <input type="button" onClick={handleStartPbm} value="開始する" />}
     </>
   )
 }
