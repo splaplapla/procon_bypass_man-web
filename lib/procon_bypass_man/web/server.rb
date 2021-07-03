@@ -47,7 +47,7 @@ module ProconBypassMan
             return { result: :ok, stats: "stopped" }.to_json
           end
         rescue Errno::ENOENT
-          return { result: :error, stats: "unknown" }.to_json
+          return { result: :error, stats: "stopped" }.to_json
         end
       end
 
