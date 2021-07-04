@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { PbmStats } from "../types/pbm_stats";
 
-type PbmStats = "stopped" | "running" | "unknown" | "waiting";
 
 interface DirPathApiResponse {
   result: string,

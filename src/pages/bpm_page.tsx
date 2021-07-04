@@ -4,11 +4,10 @@ import { jsx } from '@emotion/react'
 import React, { useState, useEffect } from "react";
 import { css } from '@emotion/react'
 import { HttpClient } from "../lib/http_client";
+import { PbmStats } from "../types/pbm_stats";
 
 type Prop = {
 };
-
-type PbmStats = "stopped" | "running" | "unknown" | "waiting" | "error";
 
 const httpClient = new HttpClient();
 
