@@ -35,7 +35,7 @@ export const Setting = ({ buttons, prefixKey }:Prop) => {
   const [currentLayer, setCurrentLayer] = useState("up")
   const [currentPrefixKey, setCurrentPrefixKey] = useState(prefixKey)
   const [settingButtons, setSettingButtons] = useState(
-    buttons.map(b => (<SettingButton name={b} key={b} />))
+    buttons.map(b => (<SettingButton name={b} />))
   );
 
   return (
@@ -55,7 +55,7 @@ export const Setting = ({ buttons, prefixKey }:Prop) => {
       <div>available mode</div>
       <div>key setting</div>
       <div>
-        <ul  css={ulstyle}>{settingButtons.map(b => (<li css={listyle}>{b}</li>))}</ul>
+        <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
       </div>
     </>
   );
