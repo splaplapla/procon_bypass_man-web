@@ -67,6 +67,19 @@ module ProconBypassMan
         end
       end
 
+      get '/api/pbm_setting' do
+        require "yaml"
+        begin
+          setting_path = ProconBypassMan::Web::Storage.instance.pbm_setting_path
+          setting = YAML.load_file(setting_path)["setting"]
+          { result: :ok, setting: setting }.to_json
+        rescue Psych::SyntaxError
+          { result: :bad, message: "bad format yaml" }.to_json
+        rescue Errno::ENOENT
+          { result: :bad, message: "not found setting" }.to_json
+        end
+      end
+
       get '/' do
         send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end

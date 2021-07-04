@@ -57,4 +57,8 @@ export class HttpClient {
     const path = "/api/stop_pbm";
     return axios.post<PostApiResponse>(`${path}`);
   }
+
+  getSetting() {
+    return axios.get<any>( "/api/pbm_setting");
+  }
 }
