@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'webrick'
+require 'sqlite3'
 begin
   require 'sinatra/reloader'
   require "pry"
