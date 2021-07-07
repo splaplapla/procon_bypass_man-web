@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
-import { SettingPage } from "./setting_page";
+import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 
 export const Top: React.FC = () => {
@@ -44,7 +44,7 @@ export const Top: React.FC = () => {
               <BpmPage />
             </Route>
             <Route path="/buttons_setting">
-              <SettingPage />
+              <ButtonsSettingPage />
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />

@@ -18,7 +18,7 @@ const prefixKey: Array<Button> = [
 ]
 
 const httpClient = new HttpClient();
-export const SettingPage = ({}:Prop) => {
+export const ButtonsSettingPage = ({}:Prop) => {
   const [debugConsole, setDebugConsole] = useState("")
 
   useEffect(() => {
