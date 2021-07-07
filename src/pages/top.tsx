@@ -9,6 +9,7 @@ import {
 import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
 import { SettingPage } from "./setting_page";
+import { RecodingModePage } from "./recoding_mode_page";
 
 export const Top: React.FC = () => {
   return (
@@ -27,6 +28,9 @@ export const Top: React.FC = () => {
                 <Link to="/pbm">PBMのステータス</Link>
               </li>
               <li>
+                <Link to="/recoding_mode">入力の録画</Link>
+              </li>
+              <li>
                 <Link to="/buttons_setting">ボタン設定(wip)</Link>
               </li>
             </ul>
@@ -41,6 +45,9 @@ export const Top: React.FC = () => {
             </Route>
             <Route path="/buttons_setting">
               <SettingPage />
+            </Route>
+            <Route path="/recoding_mode">
+              <RecodingModePage />
             </Route>
           </Switch>
         </div>
