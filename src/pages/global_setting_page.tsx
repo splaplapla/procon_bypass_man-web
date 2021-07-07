@@ -14,7 +14,7 @@ const httpClient = new HttpClient();
 
 export const GlobalSetting = ({}:Prop) => {
   const [dirPath, setDirPath] = useState("");
-  const [settingPath, setSettingPath] = useState("未設定");
+  const [settingPath, setSettingPath] = useState("");
   const [serverResponseMessage, setServerResponseMessage] = useState("");
 
   const inputStyle = css`
@@ -76,7 +76,7 @@ export const GlobalSetting = ({}:Prop) => {
       <hr />
 
       <label>PBMの設定ファイルパス:
-        <input type="text" css={inputStyle} value={settingPath} onChange={handleSettingChange} />
+        <input type="text" css={inputStyle} value={settingPath || "未設定"} onChange={handleSettingChange} />
       </label>
       <input type="submit" value="更新する" onClick={handleSettingSubmit} />
       <hr />
