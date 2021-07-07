@@ -12,12 +12,12 @@ type Prop = {
 const httpClient = new HttpClient();
 
 export const BpmPage= ({}:Prop) => {
-  const [pbmStats, setPbmStats] = useState("unknown" as PbmStats);
+  const [pbmStats, setPbmStats] = useState("");
 
   const handlePbmStats = (e: React.MouseEvent<HTMLElement>) => {
     httpClient.getPbmStats()
       .then(function (response) {
-        setPbmStats(response.data.stats);
+        setPbmStats(`${response.data.stats}(${response.data.pid})`);
       })
   }
   const handleStartPbm = (e: React.MouseEvent<HTMLElement>) => {
@@ -63,7 +63,7 @@ export const BpmPage= ({}:Prop) => {
   useEffect(() => {
     httpClient.getPbmStats()
       .then(function (response) {
-        setPbmStats(response.data.stats);
+        setPbmStats(`${response.data.stats}(${response.data.pid})`);
       })
   }, [])
 

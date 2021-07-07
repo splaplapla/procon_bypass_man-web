@@ -6,6 +6,7 @@ begin
 rescue LoadError
 end
 
+require "procon_bypass_man"
 require "procon_bypass_man/web/storage"
 
 module ProconBypassMan
@@ -42,12 +43,12 @@ module ProconBypassMan
         begin
           pid = File.read("#{ProconBypassMan::Web::Storage.instance.pbm_dir_path}/pbm_pid").chomp
           if /\A\d+\z/ =~ pid
-            return { result: :ok, stats: "running" }.to_json
+            return { result: :ok, stats: "running", pid: pid }.to_json
           else
-            return { result: :ok, stats: "stopped" }.to_json
+            return { result: :ok, stats: "stopped", pid: nil }.to_json
           end
         rescue Errno::ENOENT
-          return { result: :error, stats: "stopped" }.to_json
+          return { result: :error, stats: "stopped", pid: nil }.to_json
         end
       end
 

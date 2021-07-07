@@ -19,6 +19,7 @@ interface PostApiResponse {
 interface StatsApiResponse {
   stats: PbmStats,
   result: string,
+  pid: number | null,
 }
 
 export class HttpClient {
