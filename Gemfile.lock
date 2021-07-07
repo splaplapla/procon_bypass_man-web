@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/splaspla-hacker/procon_bypass_man.git
+  revision: d322f1e7413540e889612e246e9f04f05e471465
+  branch: edge
+  specs:
+    procon_bypass_man (0.1.4)
+
 PATH
   remote: .
   specs:
@@ -57,6 +64,7 @@ PLATFORMS
 
 DEPENDENCIES
   foreman
+  procon_bypass_man!
   procon_bypass_man-web!
   pry
   rake (~> 13.0)
