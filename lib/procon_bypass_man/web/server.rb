@@ -94,6 +94,7 @@ module ProconBypassMan
 
     class Server
       def self.start
+        ProconBypassMan::Web::Storage.migrate_if_pending_migration
         App.run! port: 9090
       end
     end
