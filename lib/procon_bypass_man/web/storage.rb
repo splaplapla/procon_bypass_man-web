@@ -2,7 +2,8 @@ module ProconBypassMan
   module Web
     class Storage
       def self.db
-        @@db ||= SQLite3::Database.new(ProconBypassMan::Web.config[:db_path])
+        # TODO connection cache
+        SQLite3::Database.new(ProconBypassMan::Web.config[:db_path])
       end
 
       def self.migrate_if_pending_migration(migrations_path: File.join(ProconBypassMan::Web.root, 'lib', 'procon_bypass_man/web', 'migration', "/*.sql"))
