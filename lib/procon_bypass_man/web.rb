@@ -8,5 +8,10 @@ module ProconBypassMan
     def self.root
       File.expand_path('../..', File.dirname(__FILE__))
     end
+
+    def self.config
+      { db_path: ENV["DB_PATH"] ||= File.join(ProconBypassMan.root, "pbm_web.db"),
+      }
+    end
   end
 end
