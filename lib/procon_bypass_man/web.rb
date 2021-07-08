@@ -1,6 +1,7 @@
 require_relative "web/version"
 require "procon_bypass_man/web/server"
 require "procon_bypass_man/web/db"
+require "procon_bypass_man/web/models/setting"
 
 module ProconBypassMan
   module Web

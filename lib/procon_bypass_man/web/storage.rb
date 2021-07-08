@@ -2,7 +2,7 @@ module ProconBypassMan
   module Web
     class Storage
       def pbm_dir_path
-        read(:pbm_dir_path)
+        Setting.find_or_create_by&.pbm_dir_path
       end
 
       def pbm_dir_path=(value)
