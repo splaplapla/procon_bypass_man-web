@@ -15,14 +15,18 @@ const prefixKeys: Array<Button> = [
 ]
 
 const httpClient = new HttpClient();
-export const ButtonsSettingPage = ({}:Prop) => {
-  const layers = ["up", "right", "down", "left"];
 
+interface LayerRef {
+  setVisibility(status: string): string;
+};
+
+export const ButtonsSettingPage = ({}:Prop) => {
+  const layer_keys = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState(prefixKeys);
-  const [layerRefs, _layerRefs] = useState(
-    layers.map(l => (<ButtonsSetting layer_key={l} />))
-  )
+  const layerRefs = layer_keys.map((l) => ({} as LayerRef));
+  const handleClick = () => {
+  };
 
   useEffect(() => {
     httpClient.getSetting()
@@ -30,10 +34,8 @@ export const ButtonsSettingPage = ({}:Prop) => {
         setDebugConsole(response.data.setting);
       })
 
-  }, [])
-
-  const handleLayer = () => {
-  }
+    layerRefs[0].setVisibility("show");
+  }, []);
 
   return (
     <>
@@ -43,10 +45,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
 
       <div>設定中のプレフィックスキー</div>
       {prefixKey.join(", ")}
+      <a onClick={handleClick}>hi</a>
 
-      {layerRefs.map((l, i) => (
-        <div key={i}>{l}</div>
-      ))}
+      {layer_keys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layer_ref={layerRefs[index]} />))}
     </>
   )
 }

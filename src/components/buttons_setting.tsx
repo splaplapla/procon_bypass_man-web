@@ -1,13 +1,14 @@
 /** @jsx jsx */
 
 import { jsx } from '@emotion/react'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { css } from '@emotion/react'
 import { ButtonSetting } from "./button_setting";
 import { Button } from "../types/button";
 
 type Props = {
   layer_key: string;
+  layer_ref: any;
 };
 
 const ulstyle = css`
@@ -34,11 +35,13 @@ const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 
-export const ButtonsSetting = ({ layer_key }:Props) => {
+export const ButtonsSetting = ({ layer_key, layer_ref }:Props) => {
+    // debugger;
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting name={b} />))
   );
-  const [visibility, setvisibility] = useState("hidden");
+  const [visibility, setVisibility] = useState("hidden");
+
   const style = () => {
     if(visibility === "hidden") {
       return(css`
@@ -50,6 +53,10 @@ export const ButtonsSetting = ({ layer_key }:Props) => {
       `)
     }
   }
+
+  useEffect(() => {
+    layer_ref.setVisibility = setVisibility;
+  }, [])
 
   return (
     <>
