@@ -9,17 +9,15 @@ import { HttpClient } from "../lib/http_client";
 
 type Prop = {};
 
-const buttons: Array<Button> = [
-  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
-]
 // TODO serverから取得する
-const prefixKey: Array<Button> = [
+const prefixKeys: Array<Button> = [
   "r", "l", "zr", "zl",
 ]
 
 const httpClient = new HttpClient();
 export const ButtonsSettingPage = ({}:Prop) => {
-  const [debugConsole, setDebugConsole] = useState("")
+  const [debugConsole, setDebugConsole] = useState("");
+  const [prefixKey, setPrefixKey] = useState(prefixKeys);
 
   useEffect(() => {
     httpClient.getSetting()
@@ -33,7 +31,11 @@ export const ButtonsSettingPage = ({}:Prop) => {
       <hr />
       <h2>設定ファイルの変更</h2>
       {debugConsole}
-      <ButtonsSetting buttons={buttons} prefixKey={prefixKey} />
+
+      <div>設定中のプレフィックスキー</div>
+      {prefixKey.join(", ")}
+      <ButtonsSetting layer_key="up"/>
+      <ButtonsSetting layer_key="right"/>
     </>
   )
 }

@@ -7,8 +7,7 @@ import { ButtonSetting } from "./button_setting";
 import { Button } from "../types/button";
 
 type Prop = {
-  buttons: Array<Button>;
-  prefixKey: Array<Button>;
+  layer_key: string;
 };
 
 const ulstyle = css`
@@ -31,26 +30,16 @@ const listyle = css`
     height: 100px;
 `;
 
-export const ButtonsSetting = ({ buttons, prefixKey }:Prop) => {
-  const [currentLayer, setCurrentLayer] = useState("up")
-  const [currentPrefixKey, setCurrentPrefixKey] = useState(prefixKey)
+export const ButtonsSetting = ({ layer_key }:Prop) => {
+  const buttons: Array<Button> = [
+    "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
+  ]
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting name={b} />))
   );
 
   return (
     <>
-      <div>設定中のプレフィックスキー</div>
-      {currentPrefixKey.join(", ")}
-      <hr />
-      <div>layer up</div>
-      <div>layer right</div>
-      <div>layer down</div>
-      <div>layer left</div>
-      表示中: {currentLayer}
-      <br />
-
-      <hr />
       <div>available plugins</div>
       <div>available mode</div>
       <div>key setting</div>
