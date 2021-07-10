@@ -35,6 +35,11 @@ module ProconBypassMan
       def self.db
         ProconBypassMan::Web::Db.db
       end
+
+      def update!(attributes)
+        c = attributes.map {|key, value| "'#{key}' = ?"  }.join(", ")
+        self.class.db.execute("update #{TABLE_NAME} set #{c}", attributes.map {|key, value| value })
+      end
     end
   end
 end

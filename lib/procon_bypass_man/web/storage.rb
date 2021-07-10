@@ -1,12 +1,16 @@
 module ProconBypassMan
   module Web
     class Storage
-      def pbm_dir_path
-        Setting.find_or_create_by&.pbm_dir_path
+      def self.instance
+        new
       end
 
-      def pbm_dir_path=(value)
-        write(:pbm_dir_path, value)
+      def root_path
+        ProconBypassMan::Web::Setting.find_or_create_by&.root_path
+      end
+
+      def root_path=(value)
+        Setting.find_or_create_by&.update!(root_path: value)
       end
 
       def pbm_setting_path

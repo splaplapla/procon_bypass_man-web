@@ -15,14 +15,14 @@ describe ProconBypassMan::Web::Storage do
     end
   end
 
-  describe '#pbm_dir_path' do
+  describe '#root_path=, #root_path' do
     before do
       ProconBypassMan::Web::Db.recreate!
       ProconBypassMan::Web::Db.migrate_if_pending_migration
     end
     it do
-      ProconBypassMan::Web::Db.db.execute("select * from settings")
-      # ProconBypassMan::Web::Storage.instance.pbm_dir_path
+      ProconBypassMan::Web::Storage.instance.root_path = "/tmp"
+      expect(ProconBypassMan::Web::Storage.instance.root_path).to eq("/tmp")
     end
   end
 end
