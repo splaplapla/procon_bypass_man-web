@@ -3,42 +3,19 @@ require "procon_bypass_man/web/models/base_model"
 module ProconBypassMan
   module Web
     class Setting < BaseModel
-      TABLE_NAME = :settings
-      COLUMN_NAMES = %w(
-        root_path
-        setting_path
-      )
+      self.column_names = %w(root_path setting_path)
+      self.table_name = :settings
 
-      attr_accessor *COLUMN_NAMES
-
-      def initialize(row)
-        COLUMN_NAMES.each.with_index(0) do |name, index|
-          self.public_send("#{name}=", row[index])
-        end
-      end
+      attr_accessor *column_names
 
       def self.find_or_create_by(*)
-        rows = db.execute("select * from #{TABLE_NAME}")
+        rows = db.execute("select * from #{table_name}")
         if rows.size.zero?
-          db.execute("insert into #{TABLE_NAME} (#{COLUMN_NAMES.join(", ")}) values (?, ?)", ['', ''])
+          db.execute("insert into #{table_name} (#{column_names.join(", ")}) values (?, ?)", ['', ''])
           return new(['', ''])
         else
           return new(rows.first)
         end
-      end
-
-      # @return [Numric]
-      def self.count
-        db.execute("select count(*) from #{TABLE_NAME}").first.first
-      end
-
-      def self.db
-        ProconBypassMan::Web::Db.db
-      end
-
-      def update!(attributes)
-        c = attributes.map {|key, value| "'#{key}' = ?"  }.join(", ")
-        self.class.db.execute("update #{TABLE_NAME} set #{c}", attributes.map {|key, value| value })
       end
     end
   end
