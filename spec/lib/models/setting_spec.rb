@@ -10,4 +10,16 @@ describe ProconBypassMan::Web::Setting do
       }.to change { described_class.count }.from(0).to(1)
     end
   end
+
+  describe "#update" do
+    it do
+      ProconBypassMan::Web::Setting.find_or_create_by.update!(root_path: "hoge")
+      expect(ProconBypassMan::Web::Setting.find_or_create_by.root_path).to eq("hoge")
+    end
+    it do
+      ProconBypassMan::Web::Setting.find_or_create_by.update!(root_path: "hoge", setting_path: "foo")
+      expect(ProconBypassMan::Web::Setting.find_or_create_by.root_path).to eq("hoge")
+      expect(ProconBypassMan::Web::Setting.find_or_create_by.setting_path).to eq("foo")
+    end
+  end
 end
