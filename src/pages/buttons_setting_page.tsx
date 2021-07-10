@@ -25,8 +25,14 @@ export const ButtonsSettingPage = ({}:Prop) => {
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState(prefixKeys);
   const layerRefs = layer_keys.map((l) => ({} as LayerRef));
-  const handleClick = () => {
-  };
+  const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (event !== null && event.target instanceof HTMLElement) {
+      layerRefs.forEach(r => r.setVisibility("hidden"));
+      layerRefs[
+        Number(event.target.dataset.layerKeyIndex)
+      ].setVisibility("show");
+    }
+  }
 
   useEffect(() => {
     httpClient.getSetting()
@@ -45,8 +51,13 @@ export const ButtonsSettingPage = ({}:Prop) => {
 
       <div>設定中のプレフィックスキー</div>
       {prefixKey.join(", ")}
-      <a onClick={handleClick}>hi</a>
-
+      <ul>
+        {layer_keys.map((l, index) => (
+          <li key={l}>
+            <a data-layer-key-index={index} onClick={switchLayer}>{l}</a>
+          </li>
+        ))}
+      </ul>
       {layer_keys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layer_ref={layerRefs[index]} />))}
     </>
   )

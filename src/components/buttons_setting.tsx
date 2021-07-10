@@ -53,10 +53,7 @@ export const ButtonsSetting = ({ layer_key, layer_ref }:Props) => {
       `)
     }
   }
-
-  useEffect(() => {
-    layer_ref.setVisibility = setVisibility;
-  }, [])
+  layer_ref.setVisibility = setVisibility;
 
   return (
     <>
