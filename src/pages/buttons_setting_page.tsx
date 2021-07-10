@@ -16,8 +16,13 @@ const prefixKeys: Array<Button> = [
 
 const httpClient = new HttpClient();
 export const ButtonsSettingPage = ({}:Prop) => {
+  const layers = ["up", "right", "down", "down"];
+
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState(prefixKeys);
+  const [layerRefs, _layerRefs] = useState(
+    layers.map(l => (<ButtonsSetting layer_key={l} />))
+  )
 
   useEffect(() => {
     httpClient.getSetting()
@@ -34,8 +39,10 @@ export const ButtonsSettingPage = ({}:Prop) => {
 
       <div>設定中のプレフィックスキー</div>
       {prefixKey.join(", ")}
-      <ButtonsSetting layer_key="up"/>
-      <ButtonsSetting layer_key="right"/>
+
+      <ul>
+        {layerRefs.map((l, i) => (<li key={i}>{l}</li>))}
+      </ul>
     </>
   )
 }

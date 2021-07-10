@@ -40,6 +40,7 @@ export const ButtonsSetting = ({ layer_key }:Prop) => {
 
   return (
     <>
+      <h1>{layer_key}</h1>
       <div>available plugins</div>
       <div>available mode</div>
       <div>key setting</div>
