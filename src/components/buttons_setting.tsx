@@ -6,7 +6,7 @@ import { css } from '@emotion/react'
 import { ButtonSetting } from "./button_setting";
 import { Button } from "../types/button";
 
-type Prop = {
+type Props = {
   layer_key: string;
 };
 
@@ -30,23 +30,38 @@ const listyle = css`
     height: 100px;
 `;
 
-export const ButtonsSetting = ({ layer_key }:Prop) => {
-  const buttons: Array<Button> = [
-    "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
-  ]
+const buttons: Array<Button> = [
+  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
+]
+
+export const ButtonsSetting = ({ layer_key }:Props) => {
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting name={b} />))
   );
+  const [visibility, setvisibility] = useState("hidden");
+  const style = () => {
+    if(visibility === "hidden") {
+      return(css`
+        display: none;
+      `)
+    } else {
+      return(css`
+        display: block;
+      `)
+    }
+  }
 
   return (
     <>
-      <h1>{layer_key}</h1>
-      <div>available plugins</div>
-      <div>available mode</div>
-      <div>key setting</div>
-      <div>
-        <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
+      <div id={`layer_${layer_key}`} css={style()}>
+        <h1>{layer_key}</h1>
+        <div>available plugins</div>
+        <div>available mode</div>
+        <div>key setting</div>
+        <div>
+          <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
+        </div>
       </div>
     </>
-  );
-};
+  )
+}
