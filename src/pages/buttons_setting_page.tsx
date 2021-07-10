@@ -3,7 +3,7 @@
 import { jsx } from '@emotion/react'
 import React, { useState, useEffect } from "react";
 import { css } from '@emotion/react'
-import { Setting } from "../components/setting";
+import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
 import { HttpClient } from "../lib/http_client";
 
@@ -33,7 +33,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
       <hr />
       <h2>設定ファイルの変更</h2>
       {debugConsole}
-      <Setting buttons={buttons} prefixKey={prefixKey} />
+      <ButtonsSetting buttons={buttons} prefixKey={prefixKey} />
     </>
   )
 }

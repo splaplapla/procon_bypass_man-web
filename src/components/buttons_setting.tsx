@@ -3,7 +3,7 @@
 import { jsx } from '@emotion/react'
 import React, { useState } from "react";
 import { css } from '@emotion/react'
-import { SettingButton } from "./setting_button";
+import { ButtonSetting } from "./button_setting";
 import { Button } from "../types/button";
 
 type Prop = {
@@ -31,11 +31,11 @@ const listyle = css`
     height: 100px;
 `;
 
-export const Setting = ({ buttons, prefixKey }:Prop) => {
+export const ButtonsSetting = ({ buttons, prefixKey }:Prop) => {
   const [currentLayer, setCurrentLayer] = useState("up")
   const [currentPrefixKey, setCurrentPrefixKey] = useState(prefixKey)
   const [settingButtons, setSettingButtons] = useState(
-    buttons.map(b => (<SettingButton name={b} />))
+    buttons.map(b => (<ButtonSetting name={b} />))
   );
 
   return (

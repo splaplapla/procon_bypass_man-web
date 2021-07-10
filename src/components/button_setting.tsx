@@ -48,7 +48,7 @@ const ButtonMenu = ({ name }: Prop) => {
   )
 }
 
-export const SettingButton: React.FC<Prop> = ({ name }) => {
+export const ButtonSetting: React.FC<Prop> = ({ name }) => {
   const [openMenu, toggleMenu] = useState(false);
   const handleToggle = () => {
     toggleMenu(!openMenu);
