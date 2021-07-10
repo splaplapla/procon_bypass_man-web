@@ -16,8 +16,8 @@ module ProconBypassMan
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
       set :bind, '0.0.0.0'
 
-      get '/api/pbm_dir_path' do
-        { dir_path: ProconBypassMan::Web::Storage.instance.root_path,
+      get '/api/pbm_root_path' do
+        { root_path: ProconBypassMan::Web::Storage.instance.root_path,
           result: :ok,
         }.to_json
       end
@@ -34,15 +34,15 @@ module ProconBypassMan
         { result: :ok }.to_json
       end
 
-      post '/api/pbm_dir_path' do
+      post '/api/pbm_root_path' do
         params = JSON.parse(request.body.read)
-        ProconBypassMan::Web::Storage.instance.root_path = params["dir_path"]
+        ProconBypassMan::Web::Storage.instance.root_path = params["root_path"]
         { result: :ok }.to_json
       end
 
       get '/api/pbm_stats' do
         begin
-          pid = File.read("#{ProconBypassMan::Web::Storage.instance.pbm_dir_path}/pbm_pid").chomp
+          pid = File.read("#{ProconBypassMan::Web::Storage.instance.root_path}/pbm_pid").chomp
           if /\A\d+\z/ =~ pid
             return { result: :ok, stats: "running", pid: pid }.to_json
           else
@@ -72,7 +72,7 @@ module ProconBypassMan
       get '/api/pbm_setting' do
         require "yaml"
         begin
-          setting_path = ProconBypassMan::Web::Storage.instance.pbm_setting_path
+          setting_path = ProconBypassMan::Web::Storage.instance.setting_path
           setting = YAML.load_file(setting_path)&.dig("setting")
           { result: :ok, setting: setting }.to_json
         rescue Psych::SyntaxError

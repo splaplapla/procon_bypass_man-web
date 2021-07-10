@@ -24,7 +24,7 @@ export const GlobalSetting = ({}:Prop) => {
   useEffect(() => {
     httpClient.getDirPath()
       .then(function (response) {
-        setDirPath(response.data.dir_path);
+        setDirPath(response.data.root_path);
       })
       .catch(function (error) {
         setServerResponseMessage("サーバとの通信に失敗しました");

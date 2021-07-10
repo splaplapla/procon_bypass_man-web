@@ -4,7 +4,7 @@ import { PbmStats } from "../types/pbm_stats";
 
 interface DirPathApiResponse {
   result: string,
-  dir_path: string,
+  root_path: string,
 }
 
 interface SettingPathApiResponse {
@@ -27,12 +27,12 @@ export class HttpClient {
   };
 
   getDirPath() {
-    const path = "/api/pbm_dir_path";
-    return axios.get<DirPathApiResponse>(`/api/pbm_dir_path`);
+    const path = "/api/pbm_root__path";
+    return axios.get<DirPathApiResponse>(`/api/pbm_root_path`);
   }
 
   postDirPath(dirPath: string) {
-    return axios.post<PostApiResponse>(`/api/pbm_dir_path`, { dir_path: dirPath });
+    return axios.post<PostApiResponse>(`/api/pbm_root_path`, { root_path: dirPath });
   }
 
   getSettingPath() {
