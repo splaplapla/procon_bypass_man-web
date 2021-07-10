@@ -17,26 +17,26 @@ module ProconBypassMan
       set :bind, '0.0.0.0'
 
       get '/api/pbm_dir_path' do
-        { dir_path: ProconBypassMan::Web::Storage.instance.pbm_dir_path,
+        { dir_path: ProconBypassMan::Web::Storage.instance.root_path,
           result: :ok,
         }.to_json
       end
 
       get '/api/pbm_setting_path' do
-        { setting_path: ProconBypassMan::Web::Storage.instance.pbm_setting_path,
+        { setting_path: ProconBypassMan::Web::Storage.instance.setting_path,
           result: :ok,
         }.to_json
       end
 
       post '/api/pbm_setting_path' do
         params = JSON.parse(request.body.read)
-        ProconBypassMan::Web::Storage.instance.pbm_setting_path = params["setting_path"]
+        ProconBypassMan::Web::Storage.instance.setting_path = params["setting_path"]
         { result: :ok }.to_json
       end
 
       post '/api/pbm_dir_path' do
         params = JSON.parse(request.body.read)
-        ProconBypassMan::Web::Storage.instance.pbm_dir_path = params["dir_path"]
+        ProconBypassMan::Web::Storage.instance.root_path = params["dir_path"]
         { result: :ok }.to_json
       end
 
