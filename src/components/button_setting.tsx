@@ -1,12 +1,16 @@
 /** @jsxFrag React.Fragment */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 
 type Prop = {
   name: Button;
+};
+
+type ModalType = {
+  callback?(buttons: Array<string>): void;
 };
 
 const ButtonMenu = ({ name }: Prop) => {
@@ -31,12 +35,14 @@ const ButtonMenu = ({ name }: Prop) => {
       setIgnoreButton("none");
     }
   };
-  const [ifPressedButtons, setIfPressedButtons] = useState([])
+  const [flipIfPressedButtons, setflipIfPressedButtons] = useState([])
+  // const flipIfPressedButtons = useRef([])
   const handleIfPressedRadiobox = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
-    setModalCallback(setIfPressedButtons)
+    setModalCallback(() => setflipIfPressedButtons);
+    setOpenModal(true);
   };
 
   return(
@@ -45,7 +51,7 @@ const ButtonMenu = ({ name }: Prop) => {
         連射({flipButton})
         <div>
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="always"/>常に連打する</label><br />
-          <label><input type="radio" onClick={handleIfPressedRadiobox} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する</label><br />
+          <label><input type="radio" onClick={handleIfPressedRadiobox} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedButtons.join(", ")})</label><br />
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
@@ -54,8 +60,8 @@ const ButtonMenu = ({ name }: Prop) => {
         <div>
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
-        {openModal &&  <ButtonsModal callback={modalCallback} />}
       </div>
+      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} />}
     </>
   )
 }

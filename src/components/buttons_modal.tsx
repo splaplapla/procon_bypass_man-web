@@ -5,18 +5,21 @@ import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 
 type Prop = {
-  callback?(buttons: Array<string>): void;
+  // callback?(buttons: Array<string>): void;
+  callbackOnSubmit: any;
 };
-export const ButtonsModal = ({ callback }: Prop) => {
+export const ButtonsModal = ({ callbackOnSubmit }: Prop) => {
+  const callback = callbackOnSubmit;
   const handleSubmit = () => {
     // TODO event.targetの入力をセットする
-    callback && callback(["l", "y"])
+    callbackOnSubmit && callbackOnSubmit(["l"])
   }
 
   return (
     <>
       <div>
-        a
+        [これはモーダルです]
+        <a onClick={handleSubmit}>決定する</a>
       </div>
     </>
   )
