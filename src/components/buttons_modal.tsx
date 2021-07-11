@@ -11,11 +11,21 @@ type Props = {
   callbackOnClose: any;
   title: string;
 };
+
+const buttons: Array<Button> = [
+  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
+]
+
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title }: Props) => {
+  const [buttonStats, setbuttonStats] = useState({} as any);
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
-    // TODO event.targetの入力をセットする
-    callbackOnSubmit(["l"]);
+    const bs = Object.entries(buttonStats).reduce((acc: Array<string>, item) => {
+      item[1] && acc.push(item[0]);
+      return acc
+    }, []).sort()
+
+    callbackOnSubmit(bs);
     callbackOnClose(false);
     return false;
   };
@@ -37,11 +47,29 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title }: Props
     border: solid;
     background-color: white;
   `);
+  const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    buttonStats[e.target.value] = e.target.checked
+    setbuttonStats(buttonStats)
+  }
 
   return (
     <>
       <div css={style}>
         <div css={titlestyle}>{title}</div>
+
+        <ul>
+          {buttons.map((b, index) => (
+            <li key={index}>
+              <label><input type="checkbox" value={b} checked={buttonStats[b]} onClick={handleClick} />{b}</label>
+            </li>
+          ))}
+        </ul>
+
+        <hr />
+
         <ul>
           <li>
             <a onClick={handleCancel}>変更せず閉じる</a>
