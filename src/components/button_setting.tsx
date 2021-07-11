@@ -42,8 +42,8 @@ const ButtonMenu = ({ name }: Prop) => {
       return;
     }
     setOpenModal(true)
-    setModalCloseCallback(() => setOpenModal);
     setModalCallback(() => setflipIfPressedButtons);
+    setModalCloseCallback(() => setOpenModal);
   };
 
   return(
@@ -62,7 +62,7 @@ const ButtonMenu = ({ name }: Prop) => {
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
       </div>
-      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={setModalCloseCallback} />}
+      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} />}
     </>
   )
 }

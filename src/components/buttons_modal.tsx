@@ -17,16 +17,15 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose }: Props) => {
     callbackOnSubmit(["l"]);
     callbackOnClose(false);
     return false;
-  }
-  const style = () => {
-    return(css`
-      position: absolute;
-      top: 0px;
-      width: 400px;
-      height: 400px;
-      background-color: red;
-    `)
-  }
+  };
+
+  const style = css(`
+    position: absolute;
+    top: 500px;
+    width: 400px;
+    height: 400px;
+    background-color: red;
+  `);
 
   return (
     <>
