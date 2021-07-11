@@ -9,6 +9,7 @@ type Props = {
   // callback?(buttons: Array<string>): void;
   callbackOnSubmit: any;
   callbackOnClose: any;
+  prefill: (string)[];
   title: string;
 };
 
@@ -16,7 +17,7 @@ const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 
-export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title }: Props) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
   const [buttonStats, setbuttonStats] = useState({} as any);
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
@@ -54,6 +55,12 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title }: Props
     buttonStats[e.target.value] = e.target.checked
     setbuttonStats(buttonStats)
   }
+
+  useEffect(() => {
+    const map = {} as any;
+    prefill.forEach((b) => { map[b] = true });
+    setbuttonStats(map);
+  }, [])
 
   return (
     <>

@@ -22,6 +22,7 @@ const ButtonMenu = ({ name }: Prop) => {
   const [modalCallback, setModalCallback] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
+  const [modalPrefillButtons, setModalPrefillButtons] = useState([])
 
   const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
@@ -46,6 +47,7 @@ const ButtonMenu = ({ name }: Prop) => {
     }
     setOpenModal(true)
     setModalTitle("このボタンを押している時だけ連打する")
+    setModalPrefillButtons(flipIfPressedButtons);
     setModalCallback(() => setflipIfPressedButtons);
     setModalCloseCallback(() => setOpenModal);
   };
@@ -57,6 +59,7 @@ const ButtonMenu = ({ name }: Prop) => {
     }
     setOpenModal(true)
     setModalTitle("特定のキーを押したときだけ")
+    setModalPrefillButtons(flipIfPressedSomeButtons);
     setModalCallback(() => setFlipIfPressedSomeButtons);
     setModalCloseCallback(() => setOpenModal);
   }
@@ -77,7 +80,7 @@ const ButtonMenu = ({ name }: Prop) => {
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
       </div>
-      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} />}
+      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
     </>
   )
 }
