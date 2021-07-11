@@ -18,8 +18,11 @@ const ButtonMenu = ({ name }: Prop) => {
   const [ignoreButton, setIgnoreButton] = useState("none");
   const flipRadioName = `button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
+  // like pipe for modal
   const [modalCallback, setModalCallback] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
+  const [modalTitle, setModalTitle] = useState("")
+
   const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
@@ -42,9 +45,21 @@ const ButtonMenu = ({ name }: Prop) => {
       return;
     }
     setOpenModal(true)
+    setModalTitle("このボタンを押している時だけ連打する")
     setModalCallback(() => setflipIfPressedButtons);
     setModalCloseCallback(() => setOpenModal);
   };
+
+  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState([])
+  const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    setOpenModal(true)
+    setModalTitle("特定のキーを押したときだけ")
+    setModalCallback(() => setFlipIfPressedSomeButtons);
+    setModalCloseCallback(() => setOpenModal);
+  }
 
   return(
     <>
@@ -53,7 +68,7 @@ const ButtonMenu = ({ name }: Prop) => {
         <div>
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="always"/>常に連打する</label><br />
           <label><input type="radio" onClick={openIfPressedRadioboxModal} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedButtons.join(", ")})</label><br />
-          <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
+          <label><input type="radio" onClick={openIfPressedSomeButtonsModal} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
 
@@ -62,7 +77,7 @@ const ButtonMenu = ({ name }: Prop) => {
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
       </div>
-      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} />}
+      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} />}
     </>
   )
 }
