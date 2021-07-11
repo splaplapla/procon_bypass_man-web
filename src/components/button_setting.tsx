@@ -19,6 +19,7 @@ const ButtonMenu = ({ name }: Prop) => {
   const flipRadioName = `button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
   const [modalCallback, setModalCallback] = useState(undefined as any)
+  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
@@ -36,13 +37,13 @@ const ButtonMenu = ({ name }: Prop) => {
     }
   };
   const [flipIfPressedButtons, setflipIfPressedButtons] = useState([])
-  // const flipIfPressedButtons = useRef([])
-  const handleIfPressedRadiobox = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const openIfPressedRadioboxModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
+    setOpenModal(true)
+    setModalCloseCallback(() => setOpenModal);
     setModalCallback(() => setflipIfPressedButtons);
-    setOpenModal(true);
   };
 
   return(
@@ -51,7 +52,7 @@ const ButtonMenu = ({ name }: Prop) => {
         連射({flipButton})
         <div>
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="always"/>常に連打する</label><br />
-          <label><input type="radio" onClick={handleIfPressedRadiobox} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedButtons.join(", ")})</label><br />
+          <label><input type="radio" onClick={openIfPressedRadioboxModal} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedButtons.join(", ")})</label><br />
           <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ</label><br />
         </div>
         <br />
@@ -61,7 +62,7 @@ const ButtonMenu = ({ name }: Prop) => {
           <label><input type="checkbox" onClick={handleIgnoreButton} />連射中は特定の入力を無視する</label>
         </div>
       </div>
-      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} />}
+      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={setModalCloseCallback} />}
     </>
   )
 }

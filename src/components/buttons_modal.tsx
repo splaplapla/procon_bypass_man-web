@@ -1,23 +1,36 @@
-/** @jsxFrag React.Fragment */
+/** @jsx jsx */
 
-import React, { useState } from "react";
 import { jsx } from '@emotion/react'
+import React, { useState, useEffect } from "react";
+import { css } from '@emotion/react'
 import { Button } from "../types/button";
 
-type Prop = {
+type Props = {
   // callback?(buttons: Array<string>): void;
   callbackOnSubmit: any;
+  callbackOnClose: any;
 };
-export const ButtonsModal = ({ callbackOnSubmit }: Prop) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose }: Props) => {
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
     // TODO event.targetの入力をセットする
-    callbackOnSubmit && callbackOnSubmit(["l"])
+    callbackOnSubmit(["l"]);
+    callbackOnClose(false);
+    return false;
+  }
+  const style = () => {
+    return(css`
+      position: absolute;
+      top: 0px;
+      width: 400px;
+      height: 400px;
+      background-color: red;
+    `)
   }
 
   return (
     <>
-      <div>
+      <div css={style}>
         [これはモーダルです]
         <a onClick={handleSubmit}>決定する</a>
       </div>
