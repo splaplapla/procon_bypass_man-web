@@ -17,8 +17,12 @@ const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 
+interface CheckedButtons {
+  [index: string]: boolean;
+}
+
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
-  const [buttonStats, setbuttonStats] = useState({} as any);
+  const [buttonStats, setbuttonStats] = useState<CheckedButtons>({});
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
     const bs = Object.entries(buttonStats).reduce((acc: Array<string>, item) => {
@@ -57,7 +61,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
   }
 
   useEffect(() => {
-    const map = {} as any;
+    const map: CheckedButtons = {};
     prefill.forEach((b) => { map[b] = true });
     setbuttonStats(map);
   }, [])
