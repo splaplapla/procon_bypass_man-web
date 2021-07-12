@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { css } from '@emotion/react'
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
+import { layerKey } from "../types/layerKey";
 import { HttpClient } from "../lib/http_client";
 
 type Prop = {};
@@ -16,7 +17,7 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = ({}:Prop) => {
-  const layerKeys = ["up", "right", "down", "left"];
+  const layerKeys: Array<layerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState<Array<Button>>([]);
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));

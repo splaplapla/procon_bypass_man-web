@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { PbmStats } from "../types/pbm_stats";
 import { Button } from "../types/button";
+import { layerKey } from "../types/layerKey";
 
 interface DirPathApiResponse {
   result: string,
@@ -22,12 +23,31 @@ interface StatsApiResponse {
   pid: number | null,
 }
 
+interface Flip {
+}
+
+interface Macro {
+}
+
+interface Remap {
+}
+
 interface Layer {
+  flip: Flip,
+  macro: Macro,
+  remap: Remap,
+}
+
+interface Layers {
+  up: Layer,
+  right: Layer,
+  down: Layer,
+  left: Layer,
 }
 
 interface SettingType {
   prefix_keys_for_changing_layer: Array<Button>,
-  layers: any, // TODO
+  layers: Layers,
 }
 
 interface SettingApiResponse {
