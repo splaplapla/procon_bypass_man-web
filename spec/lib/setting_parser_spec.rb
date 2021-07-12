@@ -24,6 +24,15 @@ describe ProconBypassMan::Web::SettingParser do
       it do
         h = ProconBypassMan::Web::SettingParser.parse(text).to_hash
         expect(h).to including(prefix_keys_for_changing_layer: [:zr, :r, :zl, :l])
+        expect(h[:layers][:up]).to eq(
+          :flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl},
+                  :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil},
+                  :down=>{:if_pressed=>:down, :force_neutral=>nil}},
+          :remap=>{:l=>{:to=>:zr}}
+        )
+        expect(h[:layers][:left]).to eq(nil)
+        expect(h[:layers][:right]).to eq(nil)
+        expect(h[:layers][:down]).to eq(:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}})
       end
     end
   end

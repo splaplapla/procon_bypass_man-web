@@ -14,13 +14,30 @@ module ProconBypassMan
     class SettingParser
       class Core
         class Layer
-          def flip(button, if_pressed: nil, force_neutral: nil)
+          def initialize
+            @table = {}
           end
 
-          def remap(button, to: button)
+          def flip(button, if_pressed: nil, force_neutral: nil)
+            @table[:flip] ||= {}
+            @table[:flip][button] = { if_pressed: if_pressed, force_neutral: force_neutral }
+            self
+          end
+
+          def remap(button, to: nil)
+            @table[:remap] ||= {}
+            @table[:remap][button] = { to: to }
+            self
           end
 
           def macro(name, if_pressed: nil)
+            @table[:macro] ||= {}
+            @table[:macro][name] = { if_pressed: if_pressed }
+            self
+          end
+
+          def to_hash
+            @table
           end
         end
 
@@ -40,13 +57,18 @@ module ProconBypassMan
           if block_given?
             @layers[dir] = Layer.new.instance_eval(&block)
           else
-            @layers[dir] = Layer.new
+            @layers[dir] = nil
           end
         end
 
         def to_hash
-          { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer,
+          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer,
           }
+          h[:layers] ||= {}
+          @layers.each do |key, layer|
+            h[:layers][key] = layer&.to_hash
+          end
+          h
         end
 
         def install_macro_plugin(name)
