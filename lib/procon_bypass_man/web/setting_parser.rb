@@ -1,5 +1,14 @@
 require "json"
 
+# pluginの定数を握りつぶす
+class Module
+  def const_missing(id)
+    raise(NameError, "uninitialized constant #{id}") unless self.name =~ /^ProconBypassMan/
+    eval "module #{self.name}::#{id}; end", Object::TOPLEVEL_BINDING
+    eval "#{self.name}::#{id}"
+  end
+end
+
 module ProconBypassMan
   module Web
     class SettingParser
@@ -9,6 +18,9 @@ module ProconBypassMan
           end
 
           def remap(button, to: button)
+          end
+
+          def macro(name, if_pressed: nil)
           end
         end
 
@@ -35,6 +47,12 @@ module ProconBypassMan
         def to_hash
           { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer,
           }
+        end
+
+        def install_macro_plugin(name)
+        end
+
+        def install_mode_plugin(name)
         end
       end
 

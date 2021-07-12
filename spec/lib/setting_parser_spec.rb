@@ -27,7 +27,7 @@ describe ProconBypassMan::Web::SettingParser do
       end
     end
   end
-  xcontext '定数・プラグインがある' do
+  context '定数・プラグインがある' do
     let(:text) do
       <<~YAML
         fast_return = ProconBypassMan::Splatoon2::Macro::FastReturn
@@ -55,8 +55,8 @@ describe ProconBypassMan::Web::SettingParser do
     end
     describe '#prefix_keys_for_changing_layer' do
       it do
-        parser = ProconBypassMan::Web::SettingParser.parse(text)
-        expect(parser.prefix_keys_for_changing_layer).to eq([:zr, :r, :zl, :l])
+        h = ProconBypassMan::Web::SettingParser.parse(text).to_hash
+        expect(h).to including(prefix_keys_for_changing_layer: [:zr, :r, :zl, :l])
       end
     end
   end
