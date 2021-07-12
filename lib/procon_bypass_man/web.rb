@@ -2,6 +2,7 @@ require_relative "web/version"
 require "procon_bypass_man/web/server"
 require "procon_bypass_man/web/db"
 require "procon_bypass_man/web/models/setting"
+require "procon_bypass_man/web/setting_parser.rb"
 
 module ProconBypassMan
   module Web

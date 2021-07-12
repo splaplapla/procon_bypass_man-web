@@ -9,3 +9,4 @@
 node_modules
 dist
 pbm_web.db
+setting.yml
