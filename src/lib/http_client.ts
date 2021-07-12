@@ -43,22 +43,15 @@ type Remap = {
   }
 }
 
-interface Layer {
-  flip: Flip,
-  macro: Macro,
-  remap: Remap,
-}
-
-interface Layers {
-  up: Layer,
-  right: Layer,
-  down: Layer,
-  left: Layer,
-}
-
-interface SettingType {
-  prefix_keys_for_changing_layer: Array<Button>,
-  layers: Layers,
+type SettingType = {
+  prefix_keys_for_changing_layer: Array<Button>;
+  layers: {
+    [key in layerKey]? : {
+      flip: Flip,
+      macro: Macro,
+      remap: Remap,
+    }
+  }
 }
 
 interface SettingApiResponse {
