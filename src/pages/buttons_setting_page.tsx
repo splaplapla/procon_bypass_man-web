@@ -16,10 +16,10 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = ({}:Prop) => {
-  const layer_keys = ["up", "right", "down", "left"];
+  const layerKeys = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState<Array<Button>>([]);
-  const layerRefs = layer_keys.map((l) => ({} as LayerRef));
+  const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event !== null && event.target instanceof HTMLElement) {
       layerRefs.forEach(r => r.setVisibility("hidden"));
@@ -33,10 +33,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
     httpClient.getSetting()
       .then(function (response) {
         setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
+        console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
       })
-
-
     layerRefs[0].setVisibility("show");
   }, []);
 
@@ -48,13 +47,13 @@ export const ButtonsSettingPage = ({}:Prop) => {
 
       <div>設定中のプレフィックスキー: {prefixKey.join(", ")}</div>
       <ul>
-        {layer_keys.map((l, index) => (
+        {layerKeys.map((l, index) => (
           <li key={l}>
             <a data-layer-key-index={index} onClick={switchLayer}>{l}</a>
           </li>
         ))}
       </ul>
-      {layer_keys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layer_ref={layerRefs[index]} />))}
+      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layer_ref={layerRefs[index]} />))}
     </>
   )
 }

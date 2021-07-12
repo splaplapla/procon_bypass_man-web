@@ -22,8 +22,12 @@ interface StatsApiResponse {
   pid: number | null,
 }
 
+interface Layer {
+}
+
 interface SettingType {
   prefix_keys_for_changing_layer: Array<Button>,
+  layers: any, // TODO
 }
 
 interface SettingApiResponse {
