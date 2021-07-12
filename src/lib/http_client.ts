@@ -23,13 +23,24 @@ interface StatsApiResponse {
   pid: number | null,
 }
 
-interface Flip {
+// TODO intefaceで定義したい
+type Flip = {
+  [key in Button]? : {
+   if_pressed: Array<Button>,
+   force_neutral: Button,
+  }
 }
 
-interface Macro {
+type Macro = {
+  [key in Button]? : {
+    if_pressed: Array<Button>,
+  }
 }
 
-interface Remap {
+type Remap = {
+  [key in Button]? : {
+    to: Button,
+  }
 }
 
 interface Layer {
