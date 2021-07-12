@@ -57,7 +57,7 @@ module ProconBypassMan
           if block_given?
             @layers[dir] = Layer.new.instance_eval(&block)
           else
-            @layers[dir] = nil
+            @layers[dir] = { mode: mode }.compact
           end
         end
 
