@@ -9,11 +9,6 @@ import { HttpClient } from "../lib/http_client";
 
 type Prop = {};
 
-// TODO serverから取得する
-const prefixKeys: Array<Button> = [
-  "r", "l", "zr", "zl",
-]
-
 const httpClient = new HttpClient();
 
 interface LayerRef {
@@ -23,7 +18,7 @@ interface LayerRef {
 export const ButtonsSettingPage = ({}:Prop) => {
   const layer_keys = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
-  const [prefixKey, setPrefixKey] = useState(prefixKeys);
+  const [prefixKey, setPrefixKey] = useState<Array<Button>>([]);
   const layerRefs = layer_keys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event !== null && event.target instanceof HTMLElement) {
@@ -37,8 +32,10 @@ export const ButtonsSettingPage = ({}:Prop) => {
   useEffect(() => {
     httpClient.getSetting()
       .then(function (response) {
-        setDebugConsole(response.data.setting);
+        setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
+        setDebugConsole("<設定ファイルの取得に成功しました>");
       })
+
 
     layerRefs[0].setVisibility("show");
   }, []);
@@ -49,8 +46,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
       <h2>設定ファイルの変更</h2>
       {debugConsole}
 
-      <div>設定中のプレフィックスキー</div>
-      {prefixKey.join(", ")}
+      <div>設定中のプレフィックスキー: {prefixKey.join(", ")}</div>
       <ul>
         {layer_keys.map((l, index) => (
           <li key={l}>

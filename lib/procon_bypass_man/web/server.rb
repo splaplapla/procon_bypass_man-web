@@ -75,7 +75,7 @@ module ProconBypassMan
           setting_path = ProconBypassMan::Web::Storage.instance.setting_path
           setting = YAML.load_file(setting_path)&.dig("setting")
           { result: :ok,
-            setting: ProconBypassMan::Web::SettingParser.parse(setting).to_json,
+            setting: ProconBypassMan::Web::SettingParser.parse(setting).to_hash,
           }.to_json
         rescue Psych::SyntaxError
           { result: :bad, message: "bad format yaml" }.to_json

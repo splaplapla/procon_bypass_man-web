@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PbmStats } from "../types/pbm_stats";
-
+import { Button } from "../types/button";
 
 interface DirPathApiResponse {
   result: string,
@@ -20,6 +20,15 @@ interface StatsApiResponse {
   stats: PbmStats,
   result: string,
   pid: number | null,
+}
+
+interface SettingType {
+  prefix_keys_for_changing_layer: Array<Button>,
+}
+
+interface SettingApiResponse {
+  result: string,
+  setting: SettingType,
 }
 
 export class HttpClient {
@@ -60,6 +69,6 @@ export class HttpClient {
   }
 
   getSetting() {
-    return axios.get<any>( "/api/pbm_setting");
+    return axios.get<SettingApiResponse>( "/api/pbm_setting");
   }
 }
