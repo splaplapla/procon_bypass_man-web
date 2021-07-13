@@ -2,7 +2,7 @@ import axios from 'axios';
 import { PbmStats } from "../types/pbm_stats";
 import { Button } from "../types/button";
 import { layerKey } from "../types/layerKey";
-import { SettingType } from "../types/setting_type";
+import { ButtonsSettingType } from "../types/buttons_setting_type";
 
 interface DirPathApiResponse {
   result: string,
@@ -26,7 +26,7 @@ interface StatsApiResponse {
 
 interface SettingApiResponse {
   result: string,
-  setting: SettingType,
+  setting: ButtonsSettingType,
 }
 
 export class HttpClient {

@@ -11,15 +11,20 @@ import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { SettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingType } from "../types/buttons_setting_type";
 
-const SettingProfile: React.FC = ({children}) => {
-  const user = {
-    id: 'user42',
-    name: 'Alex',
-  };
-
+const ButtonsSettingProfile: React.FC = ({children}) => {
+  const buttonsSetting: ButtonsSettingType = {
+    prefix_keys_for_changing_layer: [],
+    layers: {
+      up: {},
+      right: {},
+      down: {},
+      left: {},
+    }
+  }
   return (
-    <SettingContext.Provider value={user}>
+    <SettingContext.Provider value={buttonsSetting}>
       {children}
     </SettingContext.Provider>
   )
@@ -58,7 +63,7 @@ export const Top: React.FC = () => {
               <BpmPage />
             </Route>
             <Route path="/buttons_setting">
-              <SettingProfile><ButtonsSettingPage /></SettingProfile>
+              <ButtonsSettingProfile><ButtonsSettingPage /></ButtonsSettingProfile>
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />
