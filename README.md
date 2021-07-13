@@ -16,11 +16,8 @@ And then execute:
     $ bundle install
 
 ## Usage
-WEBインターフェイスの起動方法
-
-```shell
-sudo bundle exec pbm_server
-```
+実行ファイルの中で `ProconBypassMan::Web::Server.start` を呼んでください  
+例: https://github.com/jiikko/procon_bypass_man_sample/blob/with-web/web.rb  
 
 Open http://pi.local:9090
 
@@ -32,7 +29,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ### 開発用のサーバを起動する
 `bundle exec foreman s`
 
-### SPA側のリリース方法
+### frontend側のビルド方法
 * `yarn run release-build` を実行してgit commit
 
 ## TODO
