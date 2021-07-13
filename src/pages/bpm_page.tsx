@@ -1,8 +1,7 @@
 /** @jsx jsx */
 
-import { jsx } from '@emotion/react'
+import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect } from "react";
-import { css } from '@emotion/react'
 import { HttpClient } from "../lib/http_client";
 import { PbmStats } from "../types/pbm_stats";
 

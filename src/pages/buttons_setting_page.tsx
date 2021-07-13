@@ -1,8 +1,7 @@
 /** @jsx jsx */
 
-import { jsx } from '@emotion/react'
+import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect } from "react";
-import { css } from '@emotion/react'
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
 import { layerKey } from "../types/layerKey";
