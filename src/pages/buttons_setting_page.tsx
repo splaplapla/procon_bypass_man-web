@@ -6,7 +6,7 @@ import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
 import { layerKey } from "../types/layerKey";
 import { HttpClient } from "../lib/http_client";
-import { SettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
 type Prop = {};
 
@@ -29,7 +29,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
       ].setVisibility("show");
     }
   }
-  const settingContext = useContext(SettingContext);
+  const settingContext = useContext(ButtonsSettingContext);
 
   useEffect(() => {
     httpClient.getSetting()

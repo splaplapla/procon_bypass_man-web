@@ -10,7 +10,7 @@ import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
-import { SettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType } from "../types/buttons_setting_type";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
@@ -24,9 +24,9 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     }
   }
   return (
-    <SettingContext.Provider value={buttonsSetting}>
+    <ButtonsSettingContext.Provider value={buttonsSetting}>
       {children}
-    </SettingContext.Provider>
+    </ButtonsSettingContext.Provider>
   )
 }
 
