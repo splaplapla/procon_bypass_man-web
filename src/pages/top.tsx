@@ -10,6 +10,20 @@ import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
+import { SettingContext } from "./../contexts/buttons_setting";
+
+const SettingProfile: React.FC = ({children}) => {
+  const user = {
+    id: 'user42',
+    name: 'Alex',
+  };
+
+  return (
+    <SettingContext.Provider value={user}>
+      {children}
+    </SettingContext.Provider>
+  )
+}
 
 export const Top: React.FC = () => {
   return (
@@ -44,7 +58,7 @@ export const Top: React.FC = () => {
               <BpmPage />
             </Route>
             <Route path="/buttons_setting">
-              <ButtonsSettingPage />
+              <SettingProfile><ButtonsSettingPage /></SettingProfile>
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />

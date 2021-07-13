@@ -2,6 +2,7 @@ import axios from 'axios';
 import { PbmStats } from "../types/pbm_stats";
 import { Button } from "../types/button";
 import { layerKey } from "../types/layerKey";
+import { SettingType } from "../types/setting_type";
 
 interface DirPathApiResponse {
   result: string,
@@ -21,37 +22,6 @@ interface StatsApiResponse {
   stats: PbmStats,
   result: string,
   pid: number | null,
-}
-
-// TODO intefaceで定義したい
-type Flip = {
-  [key in Button]? : {
-   if_pressed: Array<Button>,
-   force_neutral: Button,
-  }
-}
-
-type Macro = {
-  [key in Button]? : {
-    if_pressed: Array<Button>,
-  }
-}
-
-type Remap = {
-  [key in Button]? : {
-    to: Button,
-  }
-}
-
-type SettingType = {
-  prefix_keys_for_changing_layer: Array<Button>;
-  layers: {
-    [key in layerKey]? : {
-      flip: Flip,
-      macro: Macro,
-      remap: Remap,
-    }
-  }
 }
 
 interface SettingApiResponse {

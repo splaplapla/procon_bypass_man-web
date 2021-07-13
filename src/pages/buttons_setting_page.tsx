@@ -1,11 +1,12 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
 import { layerKey } from "../types/layerKey";
 import { HttpClient } from "../lib/http_client";
+import { SettingContext } from "./../contexts/buttons_setting";
 
 type Prop = {};
 
@@ -28,6 +29,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
       ].setVisibility("show");
     }
   }
+  const settingContext = useContext(SettingContext);
 
   useEffect(() => {
     httpClient.getSetting()
@@ -37,6 +39,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
         setDebugConsole("<設定ファイルの取得に成功しました>");
       })
     layerRefs[0].setVisibility("show");
+    console.log("context:", settingContext);
   }, []);
 
   return (
