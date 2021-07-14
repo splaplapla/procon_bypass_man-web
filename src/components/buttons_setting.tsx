@@ -37,9 +37,8 @@ const buttons: Array<Button> = [
 
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   const settingContext = useContext(ButtonsSettingContext);
-  // leyer = ttingContext.layers[layerKey]
   const [settingButtons, setSettingButtons] = useState(
-    buttons.map(b => (<ButtonSetting name={b} />))
+    buttons.map(b => (<ButtonSetting layerKey={layerKey} name={b} />))
   );
   const [visibility, setVisibility] = useState("hidden");
 

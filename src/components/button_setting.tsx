@@ -4,16 +4,21 @@ import React, { useState, useRef, useContext } from "react";
 import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
+import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
 type Prop = {
   name: Button;
+  layerKey: string;
 };
 
 type ModalType = {
   callback?(buttons: Array<string>): void;
 };
 
-const ButtonMenu = ({ name }: Prop) => {
+const ButtonMenu = ({ name, layerKey }: Prop) => {
+  const settingContext = useContext(ButtonsSettingContext);
+  // debugger;
+  settingContext.layers[layerKey][name]
   const [flipButton, setFlipButton] = useState("none");
   const [ignoreButton, setIgnoreButton] = useState("none");
   const flipRadioName = `button_menu_${name}`;
@@ -85,7 +90,7 @@ const ButtonMenu = ({ name }: Prop) => {
   )
 }
 
-export const ButtonSetting: React.FC<Prop> = ({ name }) => {
+export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const [openMenu, toggleMenu] = useState(false);
   const handleToggle = () => {
     toggleMenu(!openMenu);
@@ -94,7 +99,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name }) => {
   return (
     <>
       <label><input type="checkbox" onClick={handleToggle}/>{name}</label>
-      {openMenu && <ButtonMenu name={name} />}
+      {openMenu && <ButtonMenu name={name} layerKey={layerKey} />}
     </>
   );
 };

@@ -35,7 +35,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
     httpClient.getSetting()
       .then(function (response) {
         setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
-        layerKeys.forEach((key) => { settingContext.layers.up[key] = response.data.setting_group_by_button.layers[key] });
+        layerKeys.forEach((key) => {
+          settingContext.layers[key] = response.data.setting_group_by_button.layers[key]
+        });
         console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
         console.log("context:", settingContext);
