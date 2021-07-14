@@ -20,19 +20,31 @@ module ProconBypassMan
 
           def flip(button, if_pressed: nil, force_neutral: nil)
             @table[:flip] ||= {}
-            @table[:flip][button] = { if_pressed: if_pressed, force_neutral: force_neutral }
+            if if_pressed.nil? && force_neutral.nil?
+              @table[:flip][button] = nil
+            else
+              @table[:flip][button] = { if_pressed: if_pressed, force_neutral: force_neutral }
+            end
             self
           end
 
           def remap(button, to: nil)
             @table[:remap] ||= {}
-            @table[:remap][button] = { to: to }
+            if to.nil?
+              @table[:remap][button] = nil
+            else
+              @table[:remap][button] = { to: to }
+            end
             self
           end
 
           def macro(name, if_pressed: nil)
             @table[:macro] ||= {}
-            @table[:macro][name] = { if_pressed: if_pressed }
+            if if_pressed.nil?
+              @table[:macro][name] = nil
+            else
+              @table[:macro][name] = { if_pressed: if_pressed }
+            end
             self
           end
 
@@ -82,7 +94,7 @@ module ProconBypassMan
             layer&.to_hash&.dig(:flip)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:flip] ||= {}
-              h[:layers][key][button][:flip].merge!(value)
+              h[:layers][key][button][:flip].merge!(value) if value
             end
             if layer&.to_hash&.dig(:mode)
               h[:layers][key][:mode] = layer&.to_hash&.dig(:mode)
@@ -90,7 +102,7 @@ module ProconBypassMan
             layer&.to_hash&.dig(:remap)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:remap] ||= {}
-              h[:layers][key][button][:remap].merge!(value)
+              h[:layers][key][button][:remap].merge!(value) if value
             end
           end
           h

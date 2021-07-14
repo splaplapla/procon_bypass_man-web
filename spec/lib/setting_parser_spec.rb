@@ -9,6 +9,7 @@ describe ProconBypassMan::Web::SettingParser do
         layer :up, mode: :manual do
           flip :zr, if_pressed: :zr, force_neutral: :zl
           flip :zl, if_pressed: [:y, :b, :zl]
+          flip :y
           flip :down, if_pressed: :down
           remap :l, to: :zr
         end
@@ -27,12 +28,13 @@ describe ProconBypassMan::Web::SettingParser do
         expect(h[:layers][:up]).to eq(
           :flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl},
                   :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil},
+                  :y=>nil,
                   :down=>{:if_pressed=>:down, :force_neutral=>nil}},
           :remap=>{:l=>{:to=>:zr}}
         )
         expect(h[:layers][:left]).to eq(nil)
         expect(h[:layers][:right]).to eq({})
-        expect(h[:layers][:down]).to eq(:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}})
+        expect(h[:layers][:down]).to eq(:flip=>{:zl=>nil})
       end
     end
     describe '#to_hash_group_by_button' do
@@ -45,10 +47,11 @@ describe ProconBypassMan::Web::SettingParser do
             {:zr=>{:flip=>{:if_pressed=>:zr, :force_neutral=>:zl}},
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}},
              :down=>{:flip=>{:if_pressed=>:down, :force_neutral=>nil}},
+             :y=>{:flip=>{}},
              :l=>{:remap=>{:to=>:zr}}},
             :right=>{},
             :left=>{},
-            :down=>{:zl=>{:flip=>{:if_pressed=>nil, :force_neutral=>nil}}}}}
+            :down=>{:zl=>{:flip=>{}}}}}
         )
       end
     end
@@ -92,7 +95,7 @@ describe ProconBypassMan::Web::SettingParser do
         )
         expect(h[:layers][:left]).to eq(nil)
         expect(h[:layers][:right]).to eq(:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru)
-        expect(h[:layers][:down]).to eq(:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}})
+        expect(h[:layers][:down]).to eq(:flip=>{:zl=>nil})
       end
     end
     describe '#to_hash_group_by_button' do
@@ -108,7 +111,7 @@ describe ProconBypassMan::Web::SettingParser do
              :l=>{:remap=>{:to=>:zr}}},
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
             :left=>{},
-            :down=>{:zl=>{:flip=>{:if_pressed=>nil, :force_neutral=>nil}}}}}
+            :down=>{:zl=>{:flip=>{}}}}}
         )
       end
     end
