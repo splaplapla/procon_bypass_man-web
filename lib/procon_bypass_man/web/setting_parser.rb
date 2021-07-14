@@ -41,6 +41,9 @@ module ProconBypassMan
           end
         end
 
+        def install_macro_plugin(name); end
+        def install_mode_plugin(name); end
+
         def initialize
           @layers = {}
         end
@@ -71,10 +74,26 @@ module ProconBypassMan
           h
         end
 
-        def install_macro_plugin(name)
-        end
-
-        def install_mode_plugin(name)
+        def to_hash_group_by_button
+          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer }
+          h[:layers] ||= {}
+          @layers.each do |key, layer|
+            h[:layers][key] ||= {}
+            layer&.to_hash&.dig(:flip)&.each do |button, value|
+              h[:layers][key][:flip] ||= {}
+              h[:layers][key][:flip][button] ||= {}
+              h[:layers][key][:flip][button].merge!(value)
+            end
+            if layer&.to_hash&.dig(:mode)
+              h[:layers][key][:mode] = layer&.to_hash&.dig(:mode)
+            end
+            layer&.to_hash&.dig(:remap)&.each do |button, value|
+              h[:layers][key][:remap] ||= {}
+              h[:layers][key][:remap][button] ||= {}
+              h[:layers][key][:remap][button].merge!(value)
+            end
+          end
+          h
         end
       end
 
@@ -84,6 +103,10 @@ module ProconBypassMan
 
       def to_hash
         @parser.to_hash
+      end
+
+      def to_hash_group_by_button
+        @parser.to_hash_group_by_button
       end
 
       def initialize(text)

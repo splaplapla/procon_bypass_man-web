@@ -35,6 +35,19 @@ describe ProconBypassMan::Web::SettingParser do
         expect(h[:layers][:down]).to eq(:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}})
       end
     end
+    describe '#to_hash_group_by_button' do
+      it do
+        h = ProconBypassMan::Web::SettingParser.parse(text).to_hash_group_by_button
+        expect(h).to including(
+          :layers=> {
+            :up=>{:flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl}, :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}, :down=>{:if_pressed=>:down, :force_neutral=>nil}}, :remap=>{:l=>{:to=>:zr}}},
+            :right=>{},
+            :left=>{},
+            :down=>{:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}}}
+          }
+        )
+      end
+    end
   end
   context '定数・プラグインがある' do
     let(:text) do
@@ -62,7 +75,7 @@ describe ProconBypassMan::Web::SettingParser do
         end
       YAML
     end
-    describe '#prefix_keys_for_changing_layer' do
+    describe '#to_hash' do
       it do
         h = ProconBypassMan::Web::SettingParser.parse(text).to_hash
         expect(h).to including(prefix_keys_for_changing_layer: [:zr, :r, :zl, :l])
@@ -76,6 +89,20 @@ describe ProconBypassMan::Web::SettingParser do
         expect(h[:layers][:left]).to eq(nil)
         expect(h[:layers][:right]).to eq(:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru)
         expect(h[:layers][:down]).to eq(:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}})
+      end
+    end
+    describe '#to_hash_group_by_button' do
+      it do
+        h = ProconBypassMan::Web::SettingParser.parse(text).to_hash_group_by_button
+        expect(h).to including(
+          :prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
+          :layers=> {
+            :up=>{:flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl}, :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}, :down=>{:if_pressed=>:down, :force_neutral=>nil}}, :remap=>{:l=>{:to=>:zr}}},
+            :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
+            :left=>{},
+            :down=>{:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}}}
+          }
+        )
       end
     end
   end
