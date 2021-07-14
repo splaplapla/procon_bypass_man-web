@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
-import { layerKey } from "../types/layerKey";
+import { LayerKey } from "../types/layer_key";
 import { HttpClient } from "../lib/http_client";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
@@ -18,7 +18,7 @@ interface LayerRef {
 
 export const ButtonsSettingPage = ({}:Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
-  const layerKeys: Array<layerKey> = ["up", "right", "down", "left"];
+  const layerKeys: Array<LayerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const [prefixKey, setPrefixKey] = useState<Array<Button>>(settingContext.prefix_keys_for_changing_layer);
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
@@ -35,6 +35,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
     httpClient.getSetting()
       .then(function (response) {
         setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
+        layerKeys.forEach((key) => { settingContext.layers.up[key] = response.data.setting_group_by_button.layers[key] });
         console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
         console.log("context:", settingContext);
@@ -56,7 +57,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
           </li>
         ))}
       </ul>
-      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layerRef={layerRefs[index]} />))}
+      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
     </>
   )
 }

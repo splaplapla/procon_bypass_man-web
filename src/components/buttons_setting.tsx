@@ -7,7 +7,7 @@ import { Button } from "../types/button";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
 type Props = {
-  layer_key: string;
+  layerKey: string;
   layerRef: any;
 };
 
@@ -35,9 +35,9 @@ const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 
-export const ButtonsSetting = ({ layer_key, layerRef }:Props) => {
+export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   const settingContext = useContext(ButtonsSettingContext);
-    // debugger;
+  // leyer = ttingContext.layers[layerKey]
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting name={b} />))
   );
@@ -54,15 +54,22 @@ export const ButtonsSetting = ({ layer_key, layerRef }:Props) => {
       `)
     }
   }
+  const handleDebug = () =>{
+    debugger;
+  }
   layerRef.setVisibility = setVisibility;
 
   return (
     <>
       <div css={style()}>
-        <h1>{layer_key}</h1>
+        <h1>{layerKey}</h1>
         <div>available plugins</div>
         <div>available mode</div>
-        <div>key setting</div>
+        <div>
+          <a onClick={handleDebug}>
+            key setting
+          </a>
+        </div>
         <div>
           <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
         </div>

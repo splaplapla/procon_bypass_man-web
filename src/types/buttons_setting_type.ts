@@ -1,5 +1,5 @@
 import { Button } from "./button";
-import { layerKey } from "./layerKey";
+import { LayerKey } from "./layer_key";
 
 type Flip = {
   [key in Button]? : {
@@ -23,7 +23,7 @@ type Remap = {
 export type ButtonsSettingType = {
   prefix_keys_for_changing_layer: Array<Button>;
   layers: {
-    [key in layerKey]? : {
+    [key in LayerKey]? : {
       flip?: Flip,
       macro?: Macro,
       remap?: Remap,
