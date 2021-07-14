@@ -38,13 +38,17 @@ describe ProconBypassMan::Web::SettingParser do
     describe '#to_hash_group_by_button' do
       it do
         h = ProconBypassMan::Web::SettingParser.parse(text).to_hash_group_by_button
-        expect(h).to including(
-          :layers=> {
-            :up=>{:flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl}, :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}, :down=>{:if_pressed=>:down, :force_neutral=>nil}}, :remap=>{:l=>{:to=>:zr}}},
+        expect(h).to eq(
+          {:prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
+           :layers=>
+           {:up=>
+            {:zr=>{:flip=>{:if_pressed=>:zr, :force_neutral=>:zl}},
+             :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}},
+             :down=>{:flip=>{:if_pressed=>:down, :force_neutral=>nil}},
+             :l=>{:remap=>{:to=>:zr}}},
             :right=>{},
             :left=>{},
-            :down=>{:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}}}
-          }
+            :down=>{:zl=>{:flip=>{:if_pressed=>nil, :force_neutral=>nil}}}}}
         )
       end
     end
@@ -94,14 +98,17 @@ describe ProconBypassMan::Web::SettingParser do
     describe '#to_hash_group_by_button' do
       it do
         h = ProconBypassMan::Web::SettingParser.parse(text).to_hash_group_by_button
-        expect(h).to including(
-          :prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
-          :layers=> {
-            :up=>{:flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl}, :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}, :down=>{:if_pressed=>:down, :force_neutral=>nil}}, :remap=>{:l=>{:to=>:zr}}},
+        expect(h).to eq(
+          {:prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
+           :layers=>
+           {:up=>
+            {:zr=>{:flip=>{:if_pressed=>:zr, :force_neutral=>:zl}},
+             :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}},
+             :down=>{:flip=>{:if_pressed=>:down, :force_neutral=>nil}},
+             :l=>{:remap=>{:to=>:zr}}},
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
             :left=>{},
-            :down=>{:flip=>{:zl=>{:if_pressed=>nil, :force_neutral=>nil}}}
-          }
+            :down=>{:zl=>{:flip=>{:if_pressed=>nil, :force_neutral=>nil}}}}}
         )
       end
     end
