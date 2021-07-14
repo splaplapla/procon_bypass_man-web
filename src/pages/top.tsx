@@ -14,17 +14,16 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType } from "../types/buttons_setting_type";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
-  const buttonsSetting: ButtonsSettingType = {
-    prefix_keys_for_changing_layer: [],
-    layers: {
-      up: {},
-      right: {},
-      down: {},
-      left: {},
-    }
+  const [prefixKeys, setPrefixKeys] = useState([] );
+  const [layers, setLayers] = useState({} as ButtonsSettingType);
+  const value = {
+    layers,
+    setLayers,
+    prefixKeys,
+    setPrefixKeys,
   }
   return (
-    <ButtonsSettingContext.Provider value={buttonsSetting}>
+    <ButtonsSettingContext.Provider value={value}>
       {children}
     </ButtonsSettingContext.Provider>
   )

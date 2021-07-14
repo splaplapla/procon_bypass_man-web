@@ -20,7 +20,6 @@ export const ButtonsSettingPage = ({}:Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
   const layerKeys: Array<LayerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
-  const [prefixKey, setPrefixKey] = useState<Array<Button>>(settingContext.prefix_keys_for_changing_layer);
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event !== null && event.target instanceof HTMLElement) {
@@ -34,10 +33,10 @@ export const ButtonsSettingPage = ({}:Prop) => {
   useEffect(() => {
     httpClient.getSetting()
       .then(function (response) {
-        setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
-        layerKeys.forEach((key) => {
-          settingContext.layers[key] = response.data.setting_group_by_button.layers[key]
-        });
+        settingContext.setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
+        const layers = layerKeys.reduce((a, key) => { a[key] = response.data.setting_group_by_button.layers[key]; return a }, {} as any)
+
+        settingContext.setLayers(layers);
         console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
         console.log("context:", settingContext);
@@ -51,7 +50,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
       <h2>設定ファイルの変更</h2>
       {debugConsole}
 
-      <div>設定中のプレフィックスキー: {prefixKey.join(", ")}</div>
+      <div>設定中のプレフィックスキー: {settingContext.prefixKeys.join(", ")}</div>
       <ul>
         {layerKeys.map((l, index) => (
           <li key={l}>

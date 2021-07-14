@@ -36,7 +36,7 @@ const buttons: Array<Button> = [
 ]
 
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
-  const settingContext = useContext(ButtonsSettingContext);
+  // const settingContext = useContext(ButtonsSettingContext);
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting layerKey={layerKey} name={b} />))
   );

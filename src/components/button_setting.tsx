@@ -5,6 +5,7 @@ import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingType } from "../types/buttons_setting_type";
 
 type Prop = {
   name: Button;
@@ -17,8 +18,7 @@ type ModalType = {
 
 const ButtonMenu = ({ name, layerKey }: Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
-  // debugger;
-  settingContext.layers[layerKey][name]
+  // settingContext.layers[layerKey][name]
   const [flipButton, setFlipButton] = useState("none");
   const [ignoreButton, setIgnoreButton] = useState("none");
 
@@ -99,15 +99,25 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 }
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
-  const [openMenu, toggleMenu] = useState(false);
+  const settingContext = useContext(ButtonsSettingContext);
+
   const handleToggle = () => {
-    toggleMenu(!openMenu);
+    if(settingContext.layers[layerKey][name]) { // 閉じる
+      settingContext.setLayers((layers: ButtonsSettingType) => {
+        return { ...layers };
+      })
+    } else {
+      settingContext.layers[layerKey][name] = true
+    }
+  }
+  const isOpenMenu = () => {
+    return !!(settingContext.layers[layerKey] && settingContext.layers[layerKey][name]);
   }
 
   return (
     <>
-      <label><input type="checkbox" onClick={handleToggle}/>{name}</label>
-      {openMenu && <ButtonMenu name={name} layerKey={layerKey} />}
+      <label><input type="checkbox" checked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
+      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} />}
     </>
   );
 };
