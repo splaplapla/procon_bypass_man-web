@@ -17,9 +17,10 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = ({}:Prop) => {
+  const settingContext = useContext(ButtonsSettingContext);
   const layerKeys: Array<layerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
-  const [prefixKey, setPrefixKey] = useState<Array<Button>>([]);
+  const [prefixKey, setPrefixKey] = useState<Array<Button>>(settingContext.prefix_keys_for_changing_layer);
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event !== null && event.target instanceof HTMLElement) {
@@ -29,7 +30,6 @@ export const ButtonsSettingPage = ({}:Prop) => {
       ].setVisibility("show");
     }
   }
-  const settingContext = useContext(ButtonsSettingContext);
 
   useEffect(() => {
     httpClient.getSetting()
@@ -37,9 +37,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
         setPrefixKey(response.data.setting.prefix_keys_for_changing_layer)
         console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
+        console.log("context:", settingContext);
       })
     layerRefs[0].setVisibility("show");
-    console.log("context:", settingContext);
   }, []);
 
   return (
@@ -56,7 +56,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
           </li>
         ))}
       </ul>
-      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layer_ref={layerRefs[index]} />))}
+      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layer_key={l} layerRef={layerRefs[index]} />))}
     </>
   )
 }

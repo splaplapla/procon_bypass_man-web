@@ -1,13 +1,14 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ButtonSetting } from "./button_setting";
 import { Button } from "../types/button";
+import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
 type Props = {
   layer_key: string;
-  layer_ref: any;
+  layerRef: any;
 };
 
 const ulstyle = css`
@@ -34,7 +35,8 @@ const buttons: Array<Button> = [
   "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
 ]
 
-export const ButtonsSetting = ({ layer_key, layer_ref }:Props) => {
+export const ButtonsSetting = ({ layer_key, layerRef }:Props) => {
+  const settingContext = useContext(ButtonsSettingContext);
     // debugger;
   const [settingButtons, setSettingButtons] = useState(
     buttons.map(b => (<ButtonSetting name={b} />))
@@ -52,11 +54,11 @@ export const ButtonsSetting = ({ layer_key, layer_ref }:Props) => {
       `)
     }
   }
-  layer_ref.setVisibility = setVisibility;
+  layerRef.setVisibility = setVisibility;
 
   return (
     <>
-      <div id={`layer_${layer_key}`} css={style()}>
+      <div css={style()}>
         <h1>{layer_key}</h1>
         <div>available plugins</div>
         <div>available mode</div>

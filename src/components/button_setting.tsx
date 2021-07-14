@@ -1,6 +1,6 @@
 /** @jsxFrag React.Fragment */
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
