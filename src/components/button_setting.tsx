@@ -31,33 +31,34 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState([])
 
-  const handleFlipValue = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
+  // 常に連打
+  const [flipCheckedAlways, setFlipCheckedAlways] = useState(false)
+  const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlipButton(e.target.value);
+    setFlipCheckedAlways(e.target.checked);
+  };
+
+  // 自分自身への条件付き連打
+  const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
+  const [flipCheckedIfPressedSelf, setFlipCheckedIfPressedSelf] = useState(false);
+  const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlipButton(e.target.value);
+    setFlipCheckedIfPressedSelf(e.target.checked);
   };
 
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState([])
-  const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
+  const [flipCheckedIfPressedSomeButtons, setFlipCheckedIfPressedSomeButtons] = useState(false)
+  const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlipButton(e.target.value);
+    setFlipCheckedIfPressedSomeButtons(e.target.checked);
+
     setOpenModal(true)
     setModalTitle("特定のキーを押したときだけ")
     setModalPrefillButtons(flipIfPressedSomeButtons);
     setModalCallback(() => setFlipIfPressedSomeButtons);
     setModalCloseCallback(() => setOpenModal);
   }
-
-  // 自分自身への条件付き連打
-  const [flipIfPressedButtons, setflipIfPressedButtons] = useState<Array<Button>>([name])
-  const openIfPressedRadioboxModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
-  };
 
   // 無視
   const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState([])
@@ -81,6 +82,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue == true) {
       setFlipButton(() => { return "always" });
+      setFlipCheckedAlways((value) => { return true });
+    } else if(buttonValue.flip) {
+      setFlipIfPressedSomeButtons((x) => { return buttonValue.flip["if_pressed"] });
     }
   })
 
@@ -89,9 +93,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       <div>
         連打({flipButton})
         <div>
-          <label><input type="radio" onClick={handleFlipValue} name={flipRadioName} value="always"/>常に連打する</label><br />
-          <label><input type="radio" onClick={openIfPressedRadioboxModal} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedButtons.join(", ")})</label><br />
-          <label><input type="radio" onClick={openIfPressedSomeButtonsModal} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ({flipIfPressedSomeButtons.join(", ")})</label><br />
+          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedAlways} name={flipRadioName} value="always"/>常に連打する</label><br />
+          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedIfPressedSelf} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
+          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedIfPressedSomeButtons} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ({flipIfPressedSomeButtons})</label><br />
         </div>
         <br />
 
