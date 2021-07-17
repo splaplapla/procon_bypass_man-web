@@ -110,7 +110,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         </div>
         <br />
 
-        その他({ignoreButton})
+        連打オプション({ignoreButton})
         <div>
           <label><input type="checkbox" onChange={handleIgnoreButton} checked={false} />連打中は特定の入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
         </div>

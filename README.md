@@ -36,11 +36,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * server
     * procon_bypass_manとsocket通信する
 * frontend
-    * httpから起動・停止ができる
-    * layerを切り替えれるようにする
     * reduxを入れる
     * 現行設定からのリストア
     * エクスポート
     * エクスポートしてから適用
-    * buttonsモーダル
-        * モーダルの入力を親コンポーネントに還元する感じにする
