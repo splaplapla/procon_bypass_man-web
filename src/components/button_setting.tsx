@@ -19,7 +19,7 @@ type ModalType = {
 
 const ButtonMenu = ({ name, layerKey }: Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
-  const [flipButton, setFlipButton] = useState("none");
+  const [flipButtonTitle, setFlipButtonTitle] = useState("none");
   const [ignoreButton, setIgnoreButton] = useState("none");
 
   const flipRadioName = `button_menu_${name}`;
@@ -34,7 +34,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   // 常に連打
   const [flipCheckedAlways, setFlipCheckedAlways] = useState(false)
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButton(e.target.value);
+    setFlipButtonTitle(e.target.value);
     setFlipCheckedAlways(e.target.checked);
   };
 
@@ -42,7 +42,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
   const [flipCheckedIfPressedSelf, setFlipCheckedIfPressedSelf] = useState(false);
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButton(e.target.value);
+    setFlipButtonTitle(e.target.value);
     setFlipCheckedIfPressedSelf(e.target.checked);
   };
 
@@ -50,7 +50,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
   const [flipCheckedIfPressedSomeButtons, setFlipCheckedIfPressedSomeButtons] = useState(false)
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButton(e.target.value);
+    setFlipButtonTitle(e.target.value);
     setFlipCheckedIfPressedSomeButtons(e.target.checked);
 
     setOpenModal(true)
@@ -80,18 +80,22 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
-    if(buttonValue == true) {
-      // setFlipButton(() => { return "always" });
-      // setFlipCheckedAlways((value) => { return true });
+    if(buttonValue.flip && Object.keys(buttonValue.flip).length === 0) {
+      setFlipButtonTitle("always");
+      setFlipCheckedAlways(true);
     } else if(buttonValue.flip) {
-      setFlipIfPressedSomeButtons([buttonValue.flip["if_pressed"]] as Array<Button>);
+      if(buttonValue.flip["if_pressed"]) {
+        setFlipIfPressedSomeButtons([buttonValue.flip["if_pressed"]] as Array<Button>);
+        setFlipCheckedIfPressedSomeButtons(true);
+      } else if (false) {
+      }
     }
   }, [])
 
   return(
     <>
       <div>
-        連打({flipButton})
+        連打({flipButtonTitle})
         <div>
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedAlways} name={flipRadioName} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedIfPressedSelf} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
