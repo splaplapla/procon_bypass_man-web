@@ -12,10 +12,18 @@ import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType } from "../types/buttons_setting_type";
+import { Layers } from "../types/buttons_setting_type";
+import { buttons } from "../types/button";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
+  const initLayers: Layers = {
+    up: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
+    right: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
+    down: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
+    left: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
+  }
   const [prefixKeys, setPrefixKeys] = useState([] );
-  const [layers, setLayers] = useState({} as ButtonsSettingType);
+  const [layers, setLayers] = useState(initLayers);
   const value = {
     layers,
     setLayers,

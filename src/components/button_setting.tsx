@@ -5,7 +5,8 @@ import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType } from "../types/buttons_setting_type";
+import { ButtonsSettingType, ButtonInLayer, Layers } from "../types/buttons_setting_type";
+import { LayerKey } from "../types/layer_key";
 
 type Prop = {
   name: Button;
@@ -103,11 +104,17 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
 
   const handleToggle = () => {
     if(settingContext.layers[layerKey][name]) { // 閉じる
-      settingContext.setLayers((layers: ButtonsSettingType) => {
+      settingContext.setLayers((layers: Layers) => {
+        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonInLayer
+        currentLayer[name as Button] = false
         return { ...layers };
       })
-    } else {
-      settingContext.layers[layerKey][name] = true
+    } else { // 開く
+      settingContext.setLayers((layers: Layers) => {
+        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonInLayer
+        currentLayer[name as Button] = true
+        return { ...layers };
+      })
     }
   }
   const isOpenMenu = () => {

@@ -14,15 +14,19 @@ type Remap = {
   to: Button,
 }
 
+export type ButtonInLayer = {
+    [key in Button]? : {
+      flip?: Flip,
+      macro?: Macro,
+      remap?: Remap,
+    } | boolean
+}
+
+export type Layers = {
+  [key in LayerKey]? : ButtonInLayer
+}
+
 export type ButtonsSettingType = {
   prefix_keys_for_changing_layer: Array<Button>;
-  layers: {
-    [key in LayerKey]? : {
-      [key in Button]? : {
-        flip?: Flip,
-        macro?: Macro,
-        remap?: Remap,
-      } | false
-    }
-  }
+  layers: Layers;
 }
