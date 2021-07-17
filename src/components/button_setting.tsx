@@ -29,7 +29,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const [modalCallback, setModalCallback] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
-  const [modalPrefillButtons, setModalPrefillButtons] = useState([])
+  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
   // 常に連打
   const [flipCheckedAlways, setFlipCheckedAlways] = useState(false)
@@ -47,7 +47,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   };
 
   // 条件付き連打
-  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState([])
+  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
   const [flipCheckedIfPressedSomeButtons, setFlipCheckedIfPressedSomeButtons] = useState(false)
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlipButton(e.target.value);
@@ -84,9 +84,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       // setFlipButton(() => { return "always" });
       // setFlipCheckedAlways((value) => { return true });
     } else if(buttonValue.flip) {
-      setFlipIfPressedSomeButtons((x) => { return buttonValue.flip["if_pressed"] });
+      setFlipIfPressedSomeButtons([buttonValue.flip["if_pressed"]] as Array<Button>);
     }
-  })
+  }, [])
 
   return(
     <>
@@ -95,7 +95,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <div>
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedAlways} name={flipRadioName} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedIfPressedSelf} name={flipRadioName} value="if_puressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
-          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedIfPressedSomeButtons} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ({flipIfPressedSomeButtons})</label><br />
+          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedIfPressedSomeButtons} name={flipRadioName} value="if_puressed_some_buttons"/>特定のキーを押したときだけ({flipIfPressedSomeButtons.join(", ")})</label><br />
         </div>
         <br />
 

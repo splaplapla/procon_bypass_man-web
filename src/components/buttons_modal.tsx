@@ -8,7 +8,7 @@ type Props = {
   // callback?(buttons: Array<string>): void;
   callbackOnSubmit: any;
   callbackOnClose: any;
-  prefill: (string)[];
+  prefill: Array<Button>;
   title: string;
 };
 
