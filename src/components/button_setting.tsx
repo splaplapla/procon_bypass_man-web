@@ -1,6 +1,6 @@
 /** @jsxFrag React.Fragment */
 
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
@@ -19,7 +19,6 @@ type ModalType = {
 
 const ButtonMenu = ({ name, layerKey }: Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
-  // settingContext.layers[layerKey][name]
   const [flipButton, setFlipButton] = useState("none");
   const [ignoreButton, setIgnoreButton] = useState("none");
 
@@ -37,6 +36,27 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       return;
     }
     setFlipButton(e.target.value);
+  };
+
+  // 条件付き連打
+  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState([])
+  const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
+    setOpenModal(true)
+    setModalTitle("特定のキーを押したときだけ")
+    setModalPrefillButtons(flipIfPressedSomeButtons);
+    setModalCallback(() => setFlipIfPressedSomeButtons);
+    setModalCloseCallback(() => setOpenModal);
+  }
+
+  // 自分自身への条件付き連打
+  const [flipIfPressedButtons, setflipIfPressedButtons] = useState<Array<Button>>([name])
+  const openIfPressedRadioboxModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (!(e.target instanceof HTMLInputElement)) {
+      return;
+    }
   };
 
   // 無視
@@ -57,26 +77,12 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     }
   };
 
-  // 自分自身への条件付き連打
-  const [flipIfPressedButtons, setflipIfPressedButtons] = useState<Array<Button>>([name])
-  const openIfPressedRadioboxModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
+  useEffect(() => {
+    const buttonValue = settingContext.layers[layerKey][name];
+    if(buttonValue == true) {
+      setFlipButton(() => { return "always" });
     }
-  };
-
-  // 条件付き連打
-  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState([])
-  const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
-    setOpenModal(true)
-    setModalTitle("特定のキーを押したときだけ")
-    setModalPrefillButtons(flipIfPressedSomeButtons);
-    setModalCallback(() => setFlipIfPressedSomeButtons);
-    setModalCloseCallback(() => setOpenModal);
-  }
+  })
 
   return(
     <>
