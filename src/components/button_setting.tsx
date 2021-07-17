@@ -62,7 +62,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   // 無視
   const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState([])
-  const handleIgnoreButton = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!(e.target instanceof HTMLInputElement)) {
       return;
     }
@@ -81,8 +81,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue == true) {
-      setFlipButton(() => { return "always" });
-      setFlipCheckedAlways((value) => { return true });
+      // setFlipButton(() => { return "always" });
+      // setFlipCheckedAlways((value) => { return true });
     } else if(buttonValue.flip) {
       setFlipIfPressedSomeButtons((x) => { return buttonValue.flip["if_pressed"] });
     }
@@ -101,7 +101,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
         その他({ignoreButton})
         <div>
-          <label><input type="checkbox" onClick={handleIgnoreButton} />連打中は特定の入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
+          <label><input type="checkbox" onChange={handleIgnoreButton} checked={false} />連打中は特定の入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
         </div>
       </div>
       {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
@@ -133,7 +133,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
 
   return (
     <>
-      <label><input type="checkbox" checked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
+      <label><input type="checkbox" checked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
       {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} />}
     </>
   );
