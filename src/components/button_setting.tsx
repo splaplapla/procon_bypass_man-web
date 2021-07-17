@@ -86,6 +86,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     } else if(buttonValue.flip) {
       if(buttonValue.flip.if_pressed === name || buttonValue.flip.if_pressed === [name]) {
         setFlipButtonTitle("if_pressed");
+        setFlipCheckedName("if_pressed");
       } else {
         setFlipButtonTitle("if_pressed_some_buttons");
         setFlipCheckedName("if_pressed_some_buttons");
