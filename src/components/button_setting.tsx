@@ -66,7 +66,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     if(e.target.checked) {
       setIgnoreButton("has");
       setOpenModal(true)
-      setModalTitle("連打中は特定の入力を無視する")
+      setModalTitle("連打中は特定のボタンの入力を無視する")
       setModalPrefillButtons(ignoreButtonsOnFliping);
       setModalCallback(() => setIgnoreButtonsOnFliping);
       setModalCloseCallback(() => setOpenModal);
@@ -107,13 +107,13 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <div>
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} name={flipRadioName} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} name={flipRadioName} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
-          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} name={flipRadioName} value="if_pressed_some_buttons"/>特定のキーを押したときだけ({flipIfPressedSomeButtons.join(", ")})</label><br />
+          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} name={flipRadioName} value="if_pressed_some_buttons"/>特定のキーを押したときだけ連打する({flipIfPressedSomeButtons.join(", ")})</label><br />
         </div>
         <br />
 
         <h3>連打オプション({ignoreButton})</h3>
         <div>
-          <label><input type="checkbox" onChange={handleIgnoreButton} checked={false} />連打中は特定の入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
+          <label><input type="checkbox" onChange={handleIgnoreButton} checked={false} />連打中は特定のボタンの入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
         </div>
 
         <h2>リマップ設定</h2>

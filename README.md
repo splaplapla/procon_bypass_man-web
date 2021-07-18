@@ -48,7 +48,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
         * radioboxを変更するとliが別の行になる
     * prefixボタンを設定できるようにする
     * 入力と押したとき、の表現のゆらぎを直す
-    * 連打する、押した時だけ、というゆらぎを直す
     * layer liのデザインを整える
         * タブにする
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
