@@ -2,7 +2,7 @@
 
 import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect } from "react";
-import { Button } from "../types/button";
+import { Button, buttons } from "../types/button";
 
 type Props = {
   // callback?(buttons: Array<string>): void;
@@ -11,10 +11,6 @@ type Props = {
   prefill: Array<Button>;
   title: string;
 };
-
-const buttons: Array<Button> = [
-  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
-]
 
 interface CheckedButtons {
   [index: string]: boolean;
