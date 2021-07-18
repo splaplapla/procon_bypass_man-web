@@ -61,11 +61,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   }
 
   // 無視
-  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState([])
+  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>([])
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
     if(e.target.checked) {
       setIgnoreButton("has");
       setOpenModal(true)
@@ -121,7 +118,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
         <h2>リマップ設定</h2>
         <div>
-          <label><input type="checkbox" checked={false} />別のボタンに置き換える</label>
+          <label><input type="checkbox"  onChange={() => {}} checked={false} />別のボタンに置き換える</label>
         </div>
       </div>
       <div css={modalWrapperStyle}>
