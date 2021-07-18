@@ -41,7 +41,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * 現在のファイルをダウンロードする
     * エクスポートしてから適用
     * モーダルのデザインを整える
-    * モーダルの出現位置を整える
     * モーダル上での入力をするとcheckboxにcheckを入れる
     * a layerのデザインを整える
         * radioboxを変更するとliが別の行になる

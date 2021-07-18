@@ -41,7 +41,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
   const style = css(`
     position: absolute;
     align: left;
-    top: 500px;
+    top: -400px;
     width: 400px;
     height: 400px;
     border: solid;

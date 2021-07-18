@@ -1,7 +1,7 @@
-/** @jsxFrag React.Fragment */
+/** @jsx jsx */
 
+import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
-import { jsx } from '@emotion/react'
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
@@ -99,6 +99,10 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     }
   }, [])
 
+  const modalWrapperStyle = css(`
+      position: relative;
+  `)
+
   return(
     <>
       <div>
@@ -120,7 +124,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
           <label><input type="checkbox" checked={false} />別のボタンに置き換える</label>
         </div>
       </div>
-      {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
+      <div css={modalWrapperStyle}>
+        {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
+      </div>
     </>
   )
 }
