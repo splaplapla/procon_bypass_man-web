@@ -41,7 +41,9 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * 現在のファイルをダウンロードする
     * エクスポートしてから適用
     * モーダルのデザインを整える
-    * モーダル上での入力をするとcheckboxにcheckを入れる
+    * 無視checkbox、モーダル上での入力をするとcheckboxにcheckを入れる
+    * 画面ロード時に無視checkboxにcheckを入れる
+    * useContextに入れているuseStateの代わりにuseReducerを使う
     * a layerのデザインを整える
         * radioboxを変更するとliが別の行になる
     * prefixボタンを設定できるようにする
