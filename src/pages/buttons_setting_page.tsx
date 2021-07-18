@@ -44,6 +44,22 @@ export const ButtonsSettingPage = ({}:Prop) => {
     layerRefs[0].setVisibility("show");
   }, []);
 
+  const layerUlStyle = css`
+    list-style: none;
+    display:flex;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid #aaa;
+  `;
+  const layerLiStyle = () => {
+    return css`
+      padding: 20px;
+      border-top: 1px solid #aaa;
+      border-right: 1px solid #aaa;
+      border-bottom: 1px solid #aaa;
+    `;
+  };
+
   return (
     <>
       <hr />
@@ -51,9 +67,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
       {debugConsole}
 
       <div>設定中のプレフィックスキー: {settingContext.prefixKeys.join(", ")}</div>
-      <ul>
+      <ul css={layerUlStyle}>
         {layerKeys.map((l, index) => (
-          <li key={l}>
+          <li key={l} css={layerLiStyle()}>
             <a data-layer-key-index={index} onClick={switchLayer}>{l}</a>
           </li>
         ))}

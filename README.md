@@ -51,4 +51,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * layer liのデザインを整える
         * タブにする
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
+    * ボタンセッテイングの状態を、contextに直接セットする(いまだと別のuseStateを使っていて、exportするのがむずかしい)
 * github pageでホスティングする(generator)
