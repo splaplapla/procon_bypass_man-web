@@ -18,11 +18,13 @@ interface LayerRef {
 
 export const ButtonsSettingPage = ({}:Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
+  const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const layerKeys: Array<LayerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event !== null && event.target instanceof HTMLElement) {
+      setSelectedLayer(event.target.dataset.layerKey as LayerKey);
       layerRefs.forEach(r => r.setVisibility("hidden"));
       layerRefs[
         Number(event.target.dataset.layerKeyIndex)
@@ -51,13 +53,22 @@ export const ButtonsSettingPage = ({}:Prop) => {
     padding: 0;
     border-left: 1px solid #aaa;
   `;
-  const layerLiStyle = () => {
-    return css`
-      padding: 20px;
-      border-top: 1px solid #aaa;
-      border-right: 1px solid #aaa;
-      border-bottom: 1px solid #aaa;
-    `;
+  const layerLiStyle = (layer: LayerKey) => {
+    if(layer === selectedLayer) {
+      return css`
+        padding: 20px;
+        border-top: 1px solid #aaa;
+        border-right: 1px solid #aaa;
+        border-bottom: 1px solid #white;
+      `;
+    } else {
+      return css`
+        padding: 20px;
+        border-top: 1px solid #aaa;
+        border-right: 1px solid #aaa;
+        border-bottom: 1px solid #aaa;
+      `;
+    }
   };
 
   return (
@@ -69,8 +80,8 @@ export const ButtonsSettingPage = ({}:Prop) => {
       <div>設定中のプレフィックスキー: {settingContext.prefixKeys.join(", ")}</div>
       <ul css={layerUlStyle}>
         {layerKeys.map((l, index) => (
-          <li key={l} css={layerLiStyle()}>
-            <a data-layer-key-index={index} onClick={switchLayer}>{l}</a>
+          <li key={l} css={layerLiStyle(l)}>
+            <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
           </li>
         ))}
       </ul>
