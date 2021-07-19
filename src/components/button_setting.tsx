@@ -69,6 +69,16 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setModalCloseCallback(() => setOpenModal);
   };
 
+  // リマップ
+  const [remapButtons, setRemapButtons] = useState<Array<Button>>([])
+  const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOpenModal(true)
+    setModalTitle("リマップ")
+    setModalPrefillButtons(remapButtons);
+    setModalCallback(() => setRemapButtons);
+    setModalCloseCallback(() => setOpenModal);
+  };
+
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue.flip && Object.keys(buttonValue.flip).length === 0) {
@@ -88,7 +98,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         setIgnoreButtonsOnFliping([buttonValue.flip.force_neutral]);
       }
     } else if(buttonValue.remap) {
-      // TODO
+      setRemapButtons(buttonValue.remap.to);
     } else if(buttonValue.macro) {
       // TODO
     }
@@ -122,7 +132,10 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
         <h2>リマップ設定</h2>
         <div>
-          <label><input type="checkbox"  onChange={() => {}} checked={false} />別のボタンに置き換える</label>
+          <label>
+            <input type="checkbox"  onChange={handleRemapButton} checked={remapButtons.length > 0} />
+              別のボタンに置き換える{remapButtons.length > 0 && `(${remapButtons.join(", ")})`}
+          </label>
         </div>
       </div>
       <div css={modalWrapperStyle}>
