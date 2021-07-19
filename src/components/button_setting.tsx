@@ -20,7 +20,6 @@ type ModalType = {
 const ButtonMenu = ({ name, layerKey }: Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
   const [flipButtonTitle, setFlipButtonTitle] = useState("none");
-  const [ignoreButton, setIgnoreButton] = useState("none");
 
   const flipRadioName = `${layerKey}_button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
@@ -63,16 +62,11 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   // 無視
   const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>([])
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.checked) {
-      setIgnoreButton("has");
-      setOpenModal(true)
-      setModalTitle("連打中は特定のボタンの入力を無視する")
-      setModalPrefillButtons(ignoreButtonsOnFliping);
-      setModalCallback(() => setIgnoreButtonsOnFliping);
-      setModalCloseCallback(() => setOpenModal);
-    } else {
-      setIgnoreButton("none");
-    }
+    setOpenModal(true)
+    setModalTitle("連打中は特定のボタンの入力を無視する")
+    setModalPrefillButtons(ignoreButtonsOnFliping);
+    setModalCallback(() => setIgnoreButtonsOnFliping);
+    setModalCloseCallback(() => setOpenModal);
   };
 
   useEffect(() => {
@@ -88,6 +82,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         setFlipButtonTitle("if_pressed_some_buttons");
         setFlipCheckedName("if_pressed_some_buttons");
         setFlipIfPressedSomeButtons([buttonValue.flip.if_pressed] as Array<Button>);
+      }
+      if(buttonValue.flip.force_neutral) {
+        setIgnoreButtonsOnFliping([buttonValue.flip.force_neutral]);
       }
     } else if(buttonValue.remap) {
       // TODO
@@ -111,9 +108,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         </div>
         <br />
 
-        <h3>連打オプション({ignoreButton})</h3>
+        <h3>連打オプション</h3>
         <div>
-          <label><input type="checkbox" onChange={handleIgnoreButton} checked={false} />連打中は特定のボタンの入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
+          <label><input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping.length > 0} />連打中は特定のボタンの入力を無視する({ignoreButtonsOnFliping.join(", ")})</label>
         </div>
 
         <h2>リマップ設定</h2>

@@ -49,15 +49,17 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
   `);
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setbuttonStats((previousButtonStats) => {
-      previousButtonStats[e.target.value] = e.target.checked
-      return previousButtonStats
+      previousButtonStats[e.target.value] = e.target.checked;
+      return previousButtonStats;
     })
   }
 
   useEffect(() => {
-    const map: CheckedButtons = {};
-    prefill.forEach((b) => { map[b] = true });
-    setbuttonStats(map);
+    console.log(`loaded ${title} modal`)
+    setbuttonStats((previousButtonStats) => {
+      prefill.forEach((b) => { previousButtonStats[b] = true });
+      return previousButtonStats;
+    })
   }, [])
 
   return (
@@ -68,7 +70,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
         <ul>
           {buttons.map((b, index) => (
             <li key={index}>
-              <label><input type="checkbox" value={b} checked={buttonStats[b]} onChange={handleClick} />{b}</label>
+              <label><input type="checkbox" value={b} defaultChecked={buttonStats[b]} onChange={handleClick} />{b}</label>
             </li>
           ))}
         </ul>
