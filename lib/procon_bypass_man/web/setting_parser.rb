@@ -29,12 +29,15 @@ module ProconBypassMan
           end
 
           def remap(button, to: nil)
-            @table[:remap] ||= {}
-            if to.nil?
-              @table[:remap][button] = nil
-            else
+            case to
+            when Array
+              @table[:remap] ||= {}
               @table[:remap][button] = { to: to }
+            when String, Symbol
+              @table[:remap] ||= {}
+              @table[:remap][button] = { to: [to] }
             end
+
             self
           end
 

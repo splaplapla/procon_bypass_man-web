@@ -30,7 +30,7 @@ describe ProconBypassMan::Web::SettingParser do
                   :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil},
                   :y=>nil,
                   :down=>{:if_pressed=>:down, :force_neutral=>nil}},
-          :remap=>{:l=>{:to=>:zr}}
+          :remap=>{:l=>{:to=>[:zr]}}
         )
         expect(h[:layers][:left]).to eq(nil)
         expect(h[:layers][:right]).to eq({})
@@ -48,7 +48,7 @@ describe ProconBypassMan::Web::SettingParser do
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}},
              :down=>{:flip=>{:if_pressed=>:down, :force_neutral=>nil}},
              :y=>{:flip=>{}},
-             :l=>{:remap=>{:to=>:zr}}},
+             :l=>{:remap=>{:to=>[:zr]}}},
             :right=>{},
             :left=>{},
             :down=>{:zl=>{:flip=>{}}}}}
@@ -90,7 +90,7 @@ describe ProconBypassMan::Web::SettingParser do
           :flip=>{:zr=>{:if_pressed=>:zr, :force_neutral=>:zl},
                   :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil},
                   :down=>{:if_pressed=>:down, :force_neutral=>nil}},
-          :remap=>{:l=>{:to=>:zr}},
+          :remap=>{:l=>{:to=>[:zr]}},
           :macro=>{ProconBypassMan::Splatoon2::Macro::FastReturn=>{:if_pressed=>[:y, :b, :down]}},
         )
         expect(h[:layers][:left]).to eq(nil)
@@ -108,7 +108,7 @@ describe ProconBypassMan::Web::SettingParser do
             {:zr=>{:flip=>{:if_pressed=>:zr, :force_neutral=>:zl}},
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil}},
              :down=>{:flip=>{:if_pressed=>:down, :force_neutral=>nil}},
-             :l=>{:remap=>{:to=>:zr}}},
+             :l=>{:remap=>{:to=>[:zr]}}},
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
             :left=>{},
             :down=>{:zl=>{:flip=>{}}}}}
