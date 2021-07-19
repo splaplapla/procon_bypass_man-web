@@ -48,9 +48,9 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
-  const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButtonTitle(e.target.value);
-    setFlipCheckedName(e.target.value);
+  const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+    setFlipButtonTitle((e.target as HTMLInputElement).value);
+    setFlipCheckedName((e.target as HTMLInputElement).value);
 
     setOpenModal(true)
     setModalTitle("特定のキーを押したときだけ")
@@ -72,6 +72,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue.flip && Object.keys(buttonValue.flip).length === 0) {
+
       setFlipButtonTitle("always");
       setFlipCheckedName("always");
     } else if(buttonValue.flip) {
@@ -104,7 +105,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <div>
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} name={flipRadioName} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} name={flipRadioName} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
-          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} name={flipRadioName} value="if_pressed_some_buttons"/>特定のキーを押したときだけ連打する({flipIfPressedSomeButtons.join(", ")})</label><br />
+          <label><input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} name={flipRadioName} value="if_pressed_some_buttons"/>特定のキーを押したときだけ連打する({flipIfPressedSomeButtons.join(", ")})</label><br />
         </div>
         <br />
 

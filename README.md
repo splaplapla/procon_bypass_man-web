@@ -41,7 +41,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * 現在のファイルをダウンロードする
     * エクスポートしてから適用
     * モーダルのデザインを整える
-    * 連打設定のradioboxで、選択済みをクリックするとモーダルを出す
     * useContextに入れているuseStateの代わりにuseReducerを使う
     * a layerのデザインを整える
         * radioboxを変更するとliが別の行になる
