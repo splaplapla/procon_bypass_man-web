@@ -41,13 +41,11 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * 現在のファイルをダウンロードする
     * エクスポートしてから適用
     * モーダルのデザインを整える
-    * 無視checkbox、モーダル上での入力をするとcheckboxにcheckを入れる
-    * 画面ロード時に無視checkboxにcheckを入れる
+    * 連打設定のradioboxで、選択済みをクリックするとモーダルを出す
     * useContextに入れているuseStateの代わりにuseReducerを使う
     * a layerのデザインを整える
         * radioboxを変更するとliが別の行になる
     * prefixボタンを設定できるようにする
-    * 入力と押したとき、の表現のゆらぎを直す
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
     * ボタンセッテイングの状態を、contextに直接セットする(いまだと別のuseStateを使っていて、exportするのがむずかしい)
 * github pageでホスティングする(generator)

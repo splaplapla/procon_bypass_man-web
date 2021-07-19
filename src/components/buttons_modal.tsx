@@ -54,12 +54,15 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     })
   }
 
+  // defaultCheckedの値を最初から入れておくためにreadlyLazyLoadでレンダリングをuseEffect後にする
+  const [readlyLazyLoad, setLazyLoad] = useState(false);
   useEffect(() => {
     console.log(`loaded ${title} modal`)
     setbuttonStats((previousButtonStats) => {
       prefill.forEach((b) => { previousButtonStats[b] = true });
       return previousButtonStats;
     })
+    setLazyLoad(true)
   }, [])
 
   return (
@@ -68,7 +71,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
         <div css={titlestyle}>{title}</div>
 
         <ul>
-          {buttons.map((b, index) => (
+          {readlyLazyLoad && buttons.map((b, index) => (
             <li key={index}>
               <label><input type="checkbox" value={b} defaultChecked={buttonStats[b]} onChange={handleClick} />{b}</label>
             </li>
