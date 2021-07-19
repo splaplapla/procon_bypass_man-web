@@ -17,7 +17,7 @@ interface CheckedButtons {
 }
 
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
-  const [buttonStats, setbuttonStats] = useState<CheckedButtons>({});
+  const [buttonStats, setbuttonStats] = useState(buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons));
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
     const bs = Object.entries(buttonStats).reduce((acc: Array<string>, item) => {
@@ -47,12 +47,11 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     border: solid;
     background-color: white;
   `);
-  const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLInputElement)) {
-      return;
-    }
-    buttonStats[e.target.value] = e.target.checked
-    setbuttonStats(buttonStats)
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setbuttonStats((previousButtonStats) => {
+      previousButtonStats[e.target.value] = e.target.checked
+      return previousButtonStats
+    })
   }
 
   useEffect(() => {
@@ -69,7 +68,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
         <ul>
           {buttons.map((b, index) => (
             <li key={index}>
-              <label><input type="checkbox" value={b} checked={buttonStats[b]} onClick={handleClick} />{b}</label>
+              <label><input type="checkbox" value={b} checked={buttonStats[b]} onChange={handleClick} />{b}</label>
             </li>
           ))}
         </ul>
