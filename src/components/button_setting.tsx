@@ -25,7 +25,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const [openModal, setOpenModal] = useState(false)
 
   // like pipe for modal
-  const [modalCallback, setModalCallback] = useState(undefined as any)
+  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
@@ -55,7 +55,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setOpenModal(true)
     setModalTitle("特定のキーを押したときだけ")
     setModalPrefillButtons(flipIfPressedSomeButtons);
-    setModalCallback(() => setFlipIfPressedSomeButtons);
+    setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtons);
     setModalCloseCallback(() => setOpenModal);
   }
 
@@ -65,7 +65,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setOpenModal(true)
     setModalTitle("連打中は特定のボタンの入力を無視する")
     setModalPrefillButtons(ignoreButtonsOnFliping);
-    setModalCallback(() => setIgnoreButtonsOnFliping);
+    setModalCallbackOnSubmit(() => setIgnoreButtonsOnFliping);
     setModalCloseCallback(() => setOpenModal);
   };
 
@@ -75,7 +75,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setOpenModal(true)
     setModalTitle("リマップ")
     setModalPrefillButtons(remapButtons);
-    setModalCallback(() => setRemapButtons);
+    // contextに書き込むための
+    setModalCallbackOnSubmit(() => setRemapButtons);
     setModalCloseCallback(() => setOpenModal);
   };
 
@@ -139,7 +140,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         </div>
       </div>
       <div css={modalWrapperStyle}>
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallback} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
+        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
       </div>
     </>
   )
