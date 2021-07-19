@@ -71,12 +71,19 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   // リマップ
   const [remapButtons, setRemapButtons] = useState<Array<Button>>([])
+  const setRemapButtonsWithPersistence = (bs: Array<Button>) => {
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].remap = { to: bs };
+      return settingContext.layers;
+    })
+    setRemapButtons(bs); // component rerenderするためにuseStateに書き込む
+  }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("リマップ")
     setModalPrefillButtons(remapButtons);
     // contextに書き込むための
-    setModalCallbackOnSubmit(() => setRemapButtons);
+    setModalCallbackOnSubmit(() => setRemapButtonsWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
 
