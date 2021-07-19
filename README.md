@@ -47,4 +47,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * prefixボタンを設定できるようにする
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
     * ボタンセッテイングの状態を、contextに直接セットする(いまだと別のuseStateを使っていて、exportするのがむずかしい)
+    * remapを読み込み・設定できるようにする
 * github pageでホスティングする(generator)
