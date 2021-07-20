@@ -7,6 +7,7 @@ import { Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
 import { HttpClient } from "../lib/http_client";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 
 type Prop = {};
 
@@ -32,7 +33,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
     }
   }
   const exportSetting = () => {
-    const body = `a\nb`
+    const body = ButtonsSettingConverter({ prefixKey: settingContext.prefixKeys, layers: settingContext.layers })
     var data = new Blob([body], { type: 'text/yaml' });
     var csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement('a');
