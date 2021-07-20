@@ -31,6 +31,15 @@ export const ButtonsSettingPage = ({}:Prop) => {
       ].setVisibility("show");
     }
   }
+  const exportSetting = () => {
+    const body = `a\nb`
+    var data = new Blob([body], { type: 'text/yaml' });
+    var csvURL = window.URL.createObjectURL(data);
+    const tempLink = document.createElement('a');
+    tempLink.href = csvURL;
+    tempLink.setAttribute('download', 'setting.yml');
+    tempLink.click();
+  }
 
   useEffect(() => {
     httpClient.getSetting()
@@ -75,6 +84,10 @@ export const ButtonsSettingPage = ({}:Prop) => {
     <>
       <hr />
       <h2>設定ファイルの変更</h2>
+      <div>
+        <a href="#" onClick={exportSetting}>エクスポートする</a>
+      </div>
+
       {debugConsole}
 
       <div>設定中のプレフィックスキー: {settingContext.prefixKeys.join(", ")}</div>
