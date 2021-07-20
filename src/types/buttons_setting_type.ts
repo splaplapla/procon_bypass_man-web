@@ -1,16 +1,16 @@
 import { Button } from "./button";
 import { LayerKey } from "./layer_key";
 
-type Flip = {
+export type Flip = {
   if_pressed?: Array<Button>,
-  force_neutral?: Button,
+  force_neutral?: Array<Button>,
 }
 
-type Macro = {
+export type Macro = {
   if_pressed: Array<Button>,
 }
 
-type Remap = {
+export type Remap = {
   to: Button,
 }
 
