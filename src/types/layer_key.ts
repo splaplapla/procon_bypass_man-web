@@ -1,1 +1,2 @@
-export type LayerKey = "up" | "right" | "down" | "left"
+export const layerKeys = ["up", "right", "down", "left"] as const;
+export type LayerKey = typeof layerKeys[number];
