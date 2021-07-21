@@ -3,7 +3,7 @@ import { Macro, Remap, Flip, Layers } from "../types/buttons_setting_type";
 import { Button, buttons } from "../types/button";
 
 type Props = {
-  prefixKey: any;
+  prefixKey: Array<Button>;
   layers: Layers;
 };
 export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {

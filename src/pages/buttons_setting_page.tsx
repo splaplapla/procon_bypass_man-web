@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button } from "../types/button";
-import { LayerKey } from "../types/layer_key";
+import { LayerKey, layerKeys } from "../types/layer_key";
 import { HttpClient } from "../lib/http_client";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
@@ -20,7 +20,6 @@ interface LayerRef {
 export const ButtonsSettingPage = ({}:Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
-  const layerKeys: Array<LayerKey> = ["up", "right", "down", "left"];
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
