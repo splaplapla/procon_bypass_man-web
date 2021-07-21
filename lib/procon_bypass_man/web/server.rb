@@ -73,8 +73,7 @@ module ProconBypassMan
         require "yaml"
         begin
           setting_path = ProconBypassMan::Web::Storage.instance.setting_path
-          setting = YAML.load_file(setting_path)&.dig("setting")
-          parsed_setting = ProconBypassMan::Web::SettingParser.parse(setting)
+          parsed_setting = ProconBypassMan::Web::SettingParser.parse_file(setting)
           { result: :ok,
             setting: parsed_setting.to_hash,
             setting_group_by_button: parsed_setting.to_hash_group_by_button,

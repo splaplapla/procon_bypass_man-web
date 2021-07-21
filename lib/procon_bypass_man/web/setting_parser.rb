@@ -116,6 +116,12 @@ module ProconBypassMan
         new(text)
       end
 
+      def self.parse_file(path)
+        new(
+          YAML.load_file(path)&.dig("setting")
+        )
+      end
+
       def to_hash
         @parser.to_hash
       end
