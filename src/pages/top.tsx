@@ -17,10 +17,10 @@ import { buttons } from "../types/button";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
   const initLayers: Layers = {
-    up: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
-    right: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
-    down: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
-    left: buttons.reduce((a, i) => { a[i] = false; return a }, {} as any),
+    up: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
+    right: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
+    down: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
+    left: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
   }
   const [prefixKeys, setPrefixKeys] = useState([] );
   const [layers, setLayers] = useState(initLayers);

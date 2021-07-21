@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType, ButtonInLayer, Layers } from "../types/buttons_setting_type";
+import { ButtonsSettingType, ButtonsInLayer, Layers } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
 
 type Prop = {
@@ -157,27 +157,29 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const settingContext = useContext(ButtonsSettingContext);
 
   const handleToggle = () => {
-    if(settingContext.layers[layerKey][name]) { // 閉じる
+    if(isOpenMenu()) { // 閉じる
       settingContext.setLayers((layers: Layers) => {
-        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonInLayer
-        currentLayer[name as Button] = false
+        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
+        currentLayer[name as Button] = {}
         return { ...layers };
       })
     } else { // 開く
       settingContext.setLayers((layers: Layers) => {
-        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonInLayer
-        currentLayer[name as Button] = true
+        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
+        currentLayer[name as Button] = { flip: {} }
         return { ...layers };
       })
     }
   }
   const isOpenMenu = () => {
-    return !!(settingContext.layers[layerKey] && settingContext.layers[layerKey][name]);
+    return settingContext.layers[layerKey] &&
+      settingContext.layers[layerKey][name] &&
+      Object.keys(settingContext.layers[layerKey][name]).length > 0;
   }
 
   return (
     <>
-      <label><input type="checkbox" checked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
+      <label><input type="checkbox" defaultChecked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
       {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} />}
     </>
   );

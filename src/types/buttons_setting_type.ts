@@ -15,15 +15,20 @@ export type Remap = {
 }
 
 export type ButtonInLayer = {
-    [key in Button]? : {
-      flip?: Flip,
-      macro?: Macro,
-      remap?: Remap,
-    } | boolean
+  flip?: Flip,
+  macro?: Macro,
+  remap?: Remap,
+}
+
+export type ButtonsInLayer = {
+  [key in Button] : ButtonInLayer
 }
 
 export type Layers = {
-  [key in LayerKey]? : ButtonInLayer
+  up: ButtonsInLayer,
+  right: ButtonsInLayer,
+  down: ButtonsInLayer,
+  left: ButtonsInLayer,
 }
 
 export type ButtonsSettingType = {

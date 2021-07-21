@@ -4,7 +4,7 @@ import { Button, buttons } from "../types/button";
 
 type Props = {
   prefixKey: any;
-  layers: any;
+  layers: Layers;
 };
 export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
   const layerBlock = (name: LayerKey) => {
@@ -31,12 +31,14 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
     }
   }
 
+  if(!layers || !layers.up) { return };
+
   return(
 `version: 1.0
 setting: |-
   prefix_keys_for_changing_layer [${prefixKey.join(" ")}]
-  ${layers.up && buttons.reduce((a, b) => {
-    a = a + defineButtonMethod({ flip: layers.up[b] && layers.up[b].flip, remap: layers.up[b] && layers.up[b].remap, macro: layers.up[b] && layers.up[b].macro, button: b }); return a
+  ${buttons.reduce((a, b) => {
+    a = a + defineButtonMethod({ flip: (layers && layers.up[b] && layers.up[b].flip), remap: layers.up[b].remap, macro: layers.up[b].macro, button: b }); return a;
   }, layerBlock("up")) + "end"}
   ${layers.right && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("right"))}
   ${layers.down && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("down"))}
