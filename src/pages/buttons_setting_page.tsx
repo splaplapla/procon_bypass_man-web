@@ -3,10 +3,11 @@
 import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
-import { Button } from "../types/button";
+import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
+import { ButtonInLayer, ButtonsInLayer } from "../types/buttons_setting_type";
 import { HttpClient } from "../lib/http_client";
-import { ButtonsSettingContext } from "./../contexts/buttons_setting";
+import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 
 type Prop = {};
@@ -46,6 +47,11 @@ export const ButtonsSettingPage = ({}:Prop) => {
       .then(function (response) {
         settingContext.setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
         const layers = layerKeys.reduce((a, key) => { a[key] = response.data.setting_group_by_button.layers[key]; return a }, {} as any)
+        layerKeys.forEach((layerkey) => {
+          buttons.forEach((button) => {
+            if(layers[layerkey][button] === undefined) { layers[layerkey][button] = {} as ButtonInLayer }
+          })
+        })
 
         settingContext.setLayers(layers);
         console.log(response.data.setting["layers"][layerKeys[0]]);

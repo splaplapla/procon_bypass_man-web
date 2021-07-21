@@ -7,8 +7,8 @@ type Props = {
   layers: Layers;
 };
 export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
-  const layerBlock = (name: LayerKey) => {
-    return `layer :right do
+  const layerBlock = (layerKey: LayerKey) => {
+    return `layer :${layerKey} do
     `
   }
   type defineButtonMethodProps = {
@@ -19,7 +19,6 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
   };
   const defineButtonMethod = ({ macro, remap, flip, button }: defineButtonMethodProps) => {
     if(flip) {
-      debugger;
         // ex) flip :a
         return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed})`}
 `
@@ -38,8 +37,8 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
 setting: |-
   prefix_keys_for_changing_layer [${prefixKey.join(" ")}]
   ${buttons.reduce((a, b) => {
-    a = a + defineButtonMethod({ flip: (layers && layers.up[b] && layers.up[b].flip), remap: layers.up[b].remap, macro: layers.up[b].macro, button: b }); return a;
-  }, layerBlock("up")) + "end"}
+    a = a + defineButtonMethod({ flip: layers.up[b].flip, remap: layers.up[b].remap, macro: layers.up[b].macro, button: b }); return a;
+  }, layerBlock("up"))} + "\nend"
   ${layers.right && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("right"))}
   ${layers.down && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("down"))}
   ${layers.left && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("left"))}
