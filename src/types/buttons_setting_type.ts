@@ -11,7 +11,7 @@ export type Macro = {
 }
 
 export type Remap = {
-  to: Button,
+  to: Array<Button>,
 }
 
 export type ButtonInLayer = {

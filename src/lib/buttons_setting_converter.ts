@@ -18,11 +18,12 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
   };
   const createButtonMethod = ({ macro, remap, flip, button }: defineButtonMethodProps) => {
     if(flip) {
-        // ex) flip :a
-        //     flip :a, if_pressed: [:b]
-        return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed})`}`;
+      // ex) flip :a
+      //     flip :a, if_pressed: [:b]
+      return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed})`}`;
     }
     if(remap) {
+      return `remap:${button}${(remap.to || "") && `, to: %i(${remap.to})`}`;
     }
     if(macro) {
       // TODO
