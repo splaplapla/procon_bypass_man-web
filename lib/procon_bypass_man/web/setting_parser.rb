@@ -23,7 +23,21 @@ module ProconBypassMan
             if if_pressed.nil? && force_neutral.nil?
               @table[:flip][button] = nil
             else
-              @table[:flip][button] = { if_pressed: if_pressed, force_neutral: force_neutral }
+              if if_pressed
+                if if_pressed.is_a?(Array)
+                  ifp = if_pressed
+                else
+                  ifp = [if_pressed]
+                end
+              end
+              if force_neutral
+                if force_neutral.is_a?(Array)
+                  fn = force_neutral
+                else
+                  fn = [force_neutral]
+                end
+              end
+              @table[:flip][button] = { if_pressed: ifp, force_neutral: fn }
             end
             self
           end
