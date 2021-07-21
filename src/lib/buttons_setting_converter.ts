@@ -31,8 +31,7 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
 
     return null;
   }
-
-  if(!layers || !layers.up) { return };
+  const layerBlockIndent = "    ";
 
   return(
 `version: 1.0
@@ -40,25 +39,25 @@ setting: |-
   prefix_keys_for_changing_layer %i(${prefixKey.join(" ")})
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ flip: layers.up[b].flip, remap: layers.up[b].remap, macro: layers.up[b].macro, button: b })
-    if(m) { a = a + "\n    " + m }
+    if(m) { a = a + `\n${layerBlockIndent}` + m }
     return a;
   }, layerBlock("up"))}
   end
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ flip: layers.right[b].flip, remap: layers.right[b].remap, macro: layers.right[b].macro, button: b })
-    if(m) { a = a + "\n    " + m }
+    if(m) { a = a + `\n${layerBlockIndent}` + m }
     return a;
   }, layerBlock("right"))}
   end
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ flip: layers.down[b].flip, remap: layers.down[b].remap, macro: layers.down[b].macro, button: b })
-    if(m) { a = a + "\n    " + m }
+    if(m) { a = a + `\n${layerBlockIndent}` + m }
     return a;
   }, layerBlock("down"))}
   end
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ flip: layers.left[b].flip, remap: layers.left[b].remap, macro: layers.left[b].macro, button: b })
-    if(m) { a = a + "\n    " + m }
+    if(m) { a = a + `\n${layerBlockIndent}` + m }
     return a;
   }, layerBlock("left"))}
   end
