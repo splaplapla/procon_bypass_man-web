@@ -43,8 +43,23 @@ setting: |-
     return a;
   }, layerBlock("up"))}
   end
-  ${layers.right && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("right"))}
-  ${layers.down && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("down"))}
-  ${layers.left && buttons.reduce((a, b) => { a = a + b ; return a }, layerBlock("left"))}
+  ${buttons.reduce((a, b) => {
+    const m = createButtonMethod({ flip: layers.right[b].flip, remap: layers.right[b].remap, macro: layers.right[b].macro, button: b })
+    if(m) { a = a + "\n    " + m }
+    return a;
+  }, layerBlock("right"))}
+  end
+  ${buttons.reduce((a, b) => {
+    const m = createButtonMethod({ flip: layers.down[b].flip, remap: layers.down[b].remap, macro: layers.down[b].macro, button: b })
+    if(m) { a = a + "\n    " + m }
+    return a;
+  }, layerBlock("down"))}
+  end
+  ${buttons.reduce((a, b) => {
+    const m = createButtonMethod({ flip: layers.left[b].flip, remap: layers.left[b].remap, macro: layers.left[b].macro, button: b })
+    if(m) { a = a + "\n    " + m }
+    return a;
+  }, layerBlock("left"))}
+  end
   `)
 }
