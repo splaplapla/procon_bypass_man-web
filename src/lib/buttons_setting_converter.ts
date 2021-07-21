@@ -21,7 +21,7 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
     if(flip) {
       // ex) flip :a
       //     flip :a, if_pressed: [:b]
-      return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed})`}${(flip.force_neutral || "") && `, force_neutral: %i(${flip.force_neutral})`}`;
+      return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed?.join(" ")})`}${(flip.force_neutral || "") && `, force_neutral: %i(${flip.force_neutral})`}`;
     }
     if(remap) {
       return `remap:${button}${(remap.to || "") && `, to: %i(${remap.to})`}`;
