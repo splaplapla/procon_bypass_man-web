@@ -65,9 +65,7 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
         <div>available plugins</div>
         <div>available mode</div>
         <div>
-          <a onClick={handleDebug}>
-            key setting
-          </a>
+          <a onClick={handleDebug}>key setting</a>
         </div>
         <div>
           <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
