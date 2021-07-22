@@ -19,7 +19,6 @@ type ModalType = {
 
 const ButtonMenu = ({ name, layerKey }: Prop) => {
   const settingContext = useContext(ButtonsSettingContext);
-  const [flipButtonTitle, setFlipButtonTitle] = useState("none");
 
   const flipRadioName = `${layerKey}_button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
@@ -35,21 +34,18 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButtonTitle(e.target.value);
     setFlipCheckedName(e.target.value);
   };
 
   // 自分自身への条件付き連打
   const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlipButtonTitle(e.target.value);
     setFlipCheckedName(e.target.value);
   };
 
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
-    setFlipButtonTitle((e.target as HTMLInputElement).value);
     setFlipCheckedName((e.target as HTMLInputElement).value);
 
     setOpenModal(true)
@@ -90,15 +86,11 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue.flip && Object.keys(buttonValue.flip).length === 0) {
-
-      setFlipButtonTitle("always");
       setFlipCheckedName("always");
     } else if(buttonValue.flip) {
       if(buttonValue.flip.if_pressed === name || buttonValue.flip.if_pressed === [name]) {
-        setFlipButtonTitle("if_pressed");
         setFlipCheckedName("if_pressed");
       } else {
-        setFlipButtonTitle("if_pressed_some_buttons");
         setFlipCheckedName("if_pressed_some_buttons");
         setFlipIfPressedSomeButtons([buttonValue.flip.if_pressed] as Array<Button>);
       }
