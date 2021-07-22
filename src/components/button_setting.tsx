@@ -113,10 +113,10 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} name={flipRadioName} value="always"/>常に連打する</label><br />
-          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} name={flipRadioName} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
+          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} data-hoge={flipCheckedName} value="always"/>常に連打する</label><br />
+          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
           <label>
-            <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} name={flipRadioName} value="if_pressed_some_buttons"/>
+            <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} value="if_pressed_some_buttons"/>
             特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
           </label><br />
         </div>
@@ -166,12 +166,17 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const isOpenMenu = () => {
     return settingContext.layers[layerKey] &&
       settingContext.layers[layerKey][name] &&
-      Object.keys(settingContext.layers[layerKey][name]).length > 0;
+      settingContext.layers[layerKey][name].flip && (
+        Object.keys(settingContext.layers[layerKey][name].flip).length >= 0
+      ) ||
+      settingContext.layers[layerKey][name].remap && (
+        Object.keys(settingContext.layers[layerKey][name].remap).length >= 0
+      )
   }
 
   return (
     <>
-      <label><input type="checkbox" defaultChecked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
+      <label><input type="checkbox" defaultChecked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
       {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} />}
     </>
   );
