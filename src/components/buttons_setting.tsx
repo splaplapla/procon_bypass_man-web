@@ -37,9 +37,6 @@ const buttons: Array<Button> = [
 
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   // const settingContext = useContext(ButtonsSettingContext);
-  const [settingButtons, setSettingButtons] = useState(
-    buttons.map(b => (<ButtonSetting layerKey={layerKey} name={b} />))
-  );
   const [visibility, setVisibility] = useState("hidden");
 
   const style = () => {
@@ -68,7 +65,15 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
           <a onClick={handleDebug}>key setting</a>
         </div>
         <div>
-          <ul css={ulstyle}>{settingButtons.map((b, i) => (<li key={i} css={listyle}>{b}</li>))}</ul>
+
+          <ul css={ulstyle}>{
+            buttons.map((b, i) => (
+              <li key={i} css={listyle}>
+                <ButtonSetting layerKey={layerKey} name={b} />
+              </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </>
