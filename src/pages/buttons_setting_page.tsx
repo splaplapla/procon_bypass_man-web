@@ -10,21 +10,19 @@ import { HttpClient } from "../lib/http_client";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 
-type Prop = {};
-
 const httpClient = new HttpClient();
 
 interface LayerRef {
   setVisibility(status: string): string;
 };
 
-export const ButtonsSettingPage = ({}:Prop) => {
+export const ButtonsSettingPage = () => {
   const settingContext = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    if (event !== null && event.target instanceof HTMLElement) {
+    if (event.target instanceof HTMLElement) {
       setSelectedLayer(event.target.dataset.layerKey as LayerKey);
       layerRefs.forEach(r => r.setVisibility("hidden"));
       layerRefs[
