@@ -3,7 +3,7 @@
 import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonSetting } from "./button_setting";
-import { Button } from "../types/button";
+import { Button, buttons } from "../types/button";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 
 type Props = {
@@ -30,10 +30,6 @@ const listyle = css`
     width: 200px;
     height: 100px;
 `;
-
-const buttons: Array<Button> = [
-  "a", "b", "x", "y", "up", "right", "down", "left", "r", "l", "zr", "zl",
-]
 
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   // const settingContext = useContext(ButtonsSettingContext);
