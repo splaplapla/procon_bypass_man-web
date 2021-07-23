@@ -47,4 +47,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * remap, flipに値が入ったままflip.enable:fasleになることがあって、エクスポート結果が不正になることがある
     * ボタンメニューのopen判定関数, 初期値の設定がややこしい
     * 連打設定をしているときは、リマップを無効にする
+    * 連打無効のときは連打オプションを選択できなくする
 * github pageでホスティングする(generator)

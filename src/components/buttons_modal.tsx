@@ -12,18 +12,20 @@ type Props = {
   title: string;
 };
 
-interface CheckedButtons {
-  [index: string]: boolean;
+type CheckedButtons = {
+  [key in Button] : boolean
 }
 
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
   const [buttonStats, setbuttonStats] = useState(buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons));
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
-    const bs = Object.entries(buttonStats).reduce((acc: Array<string>, item) => {
-      item[1] && acc.push(item[0]);
-      return acc
-    }, []).sort()
+    const bs = Object.entries(buttonStats).reduce((acc, item) => {
+      const checked: boolean = item[1];
+      const button = item[0] as Button;
+      checked && acc.push(button);
+      return acc;
+    }, [] as Array<Button>).sort();
 
     callbackOnSubmit(bs);
     callbackOnClose(false);
@@ -49,7 +51,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
   `);
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setbuttonStats((previousButtonStats) => {
-      previousButtonStats[e.target.value] = e.target.checked;
+      previousButtonStats[e.target.value as Button] = e.target.checked;
       return previousButtonStats;
     })
   }
