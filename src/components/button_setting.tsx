@@ -35,23 +35,38 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlipCheckedName(e.target.value);
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].flip = {};
+      return settingContext.layers;
+    });
   };
 
   // 自分自身への条件付き連打
   const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlipCheckedName(e.target.value);
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].flip.if_pressed = [name];
+      return settingContext.layers;
+    });
   };
 
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
+  const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].flip.if_pressed = bs;
+      return settingContext.layers;
+    });
+    setFlipIfPressedSomeButtons(bs);
+  }
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     setFlipCheckedName((e.target as HTMLInputElement).value);
 
     setOpenModal(true)
     setModalTitle("特定のキーを押したときだけ")
     setModalPrefillButtons(flipIfPressedSomeButtons);
-    setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtons);
+    setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtonsWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   }
 
