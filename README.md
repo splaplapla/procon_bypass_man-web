@@ -37,8 +37,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * procon_bypass_manとsocket通信して、recordingができたり、なにかできるようにする
 * frontend
     * reduxを入れる
-    * 現行設定からのリストア
-    * 現在のファイルをダウンロードする
     * エクスポートしてから適用
     * モーダルのデザインを整える
     * useContextに入れているuseStateの代わりにuseReducerを使う
@@ -46,6 +44,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
         * radioboxを変更するとliが別の行になる
     * prefixボタンを設定できるようにする
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
-    * ボタンセッテイングの状態を、contextに直接セットする(いまだと別のuseStateを使っていて、exportするのがむずかしい)
-        * re-renderするためにuseStateに一旦入れる必要あった
+    * remap, flipに値が入ったままflip.enable:fasleになることがあって、エクスポート結果が不正になることがある
+    * ボタンメニューのopen判定関数, 初期値の設定がややこしい
+    * 連打設定をしているときは、リマップを無効にする
 * github pageでホスティングする(generator)
