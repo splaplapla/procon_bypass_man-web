@@ -74,21 +74,14 @@ export const ButtonsSettingPage = ({}:Prop) => {
     border-left: 1px solid #aaa;
   `;
   const layerLiStyle = (layer: LayerKey) => {
-    if(layer === selectedLayer) {
-      return css`
-        padding: 20px;
-        border-top: 1px solid #aaa;
-        border-right: 1px solid #aaa;
-        border-bottom: 1px solid #white;
-      `;
-    } else {
-      return css`
-        padding: 20px;
-        border-top: 1px solid #aaa;
-        border-right: 1px solid #aaa;
-        border-bottom: 1px solid #aaa;
-      `;
-    }
+    let color = "";
+    if(layer === selectedLayer) { color = "white" } else { color = "aaa" };
+    return css`
+      padding: 20px;
+      border-top: 1px solid #aaa;
+      border-right: 1px solid #aaa;
+      border-bottom: 1px solid #${color};
+    `
   };
 
   return (
