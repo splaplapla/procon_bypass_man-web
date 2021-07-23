@@ -37,7 +37,7 @@ module ProconBypassMan
                   fn = [force_neutral]
                 end
               end
-              @table[:flip][button] = { if_pressed: ifp, force_neutral: fn }
+              @table[:flip][button] = { if_pressed: ifp, force_neutral: fn, enable: true }
             end
             self
           end

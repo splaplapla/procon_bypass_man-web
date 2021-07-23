@@ -34,7 +34,7 @@ export const ButtonsSettingPage = ({}:Prop) => {
   }
   const exportSetting = () => {
     const body = ButtonsSettingConverter({ prefixKey: settingContext.prefixKeys, layers: settingContext.layers }) || ""
-    var data = new Blob([body], { type: 'text/yaml' });
+    var data = new Blob([body], { type: 'text/yaml' })
     var csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement('a');
     tempLink.href = csvURL;
@@ -52,7 +52,9 @@ export const ButtonsSettingPage = ({}:Prop) => {
         }, {} as Layers)
         layerKeys.forEach((layerkey) => {
           buttons.forEach((button) => {
-            if(layers[layerkey][button] === undefined) { layers[layerkey][button] = {} as ButtonInLayer }
+            if(layers[layerkey][button] === undefined) {
+              layers[layerkey][button] = { flip: { enable: false } } as ButtonInLayer
+            }
           })
         })
 

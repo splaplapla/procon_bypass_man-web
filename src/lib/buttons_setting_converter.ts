@@ -18,10 +18,15 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
     const flip = layer[button].flip;
     const remap = layer[button].remap;
     const macro = layer[button].macro;
-    if(flip) {
-      // ex) flip :a
-      //     flip :a, if_pressed: [:b]
-      return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed?.join(" ")})`}${(flip.force_neutral || "") && `, force_neutral: %i(${flip.force_neutral?.join(" ")})`}`;
+    if(flip && flip.enable) {
+      if(!flip.if_pressed) { return }
+      if(flip.if_pressed.length === 0) {
+        return `flip :${button}${(flip.force_neutral || "") && `, force_neutral: %i(${flip.force_neutral?.join(" ")})`}`;
+      } else {
+        // ex) flip :a
+        //     flip :a, if_pressed: [:b]
+        return `flip :${button}${(flip.if_pressed || "") && `, if_pressed: %i(${flip.if_pressed?.join(" ")})`}${(flip.force_neutral || "") && `, force_neutral: %i(${flip.force_neutral?.join(" ")})`}`;
+      }
     }
     if(remap) {
       return `remap:${button}${(remap.to || "") && `, to: %i(${remap.to.join(" ")})`}`;

@@ -32,11 +32,21 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   // checkbox state for flip
   const [flipCheckedName, setFlipCheckedName] = useState('none')
 
+  // 無効
+  const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlipCheckedName(e.target.value);
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].flip.enable = false;
+      return settingContext.layers;
+    });
+  };
+
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlipCheckedName(e.target.value);
     settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip = {};
+      settingContext.layers[layerKey][name].flip.if_pressed = [];
+      settingContext.layers[layerKey][name].flip.enable = true;
       return settingContext.layers;
     });
   };
@@ -47,6 +57,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setFlipCheckedName(e.target.value);
     settingContext.setLayers((layer: Layers) => {
       settingContext.layers[layerKey][name].flip.if_pressed = [name];
+      settingContext.layers[layerKey][name].flip.enable = true;
       return settingContext.layers;
     });
   };
@@ -56,6 +67,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     settingContext.setLayers((layer: Layers) => {
       settingContext.layers[layerKey][name].flip.if_pressed = bs;
+      settingContext.layers[layerKey][name].flip.enable = true;
       return settingContext.layers;
     });
     setFlipIfPressedSomeButtons(bs);
@@ -106,9 +118,10 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
-    if(buttonValue.flip && Object.keys(buttonValue.flip).length === 0) {
-      setFlipCheckedName("always");
-    } else if(buttonValue.flip) {
+
+    if(buttonValue.flip && Object.keys(buttonValue.flip).length === 1) {
+        setFlipCheckedName("none");
+    } else if(buttonValue.flip && Object.keys(buttonValue.flip).length > 1) {
       if(buttonValue.flip.if_pressed === name || buttonValue.flip.if_pressed === [name]) {
         setFlipCheckedName("if_pressed");
       } else {
@@ -134,7 +147,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} data-hoge={flipCheckedName} value="always"/>常に連打する</label><br />
+          <label><input type="radio" onChange={handleNullFlipValue} checked={flipCheckedName === "none"} value="none"/>無効</label><br />
+          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
           <label>
             <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} value="if_pressed_some_buttons"/>
@@ -173,13 +187,13 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     if(isOpenMenu()) { // 閉じる
       settingContext.setLayers((layers: Layers) => {
         const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = {}
+        currentLayer[name as Button] = { flip: { enable: false } }
         return { ...layers };
       })
     } else { // 開く
       settingContext.setLayers((layers: Layers) => {
         const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: {} }
+        currentLayer[name as Button] = { flip: { enable: true } }
         return { ...layers };
       })
     }
@@ -188,7 +202,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     return settingContext.layers[layerKey] &&
       settingContext.layers[layerKey][name] &&
       settingContext.layers[layerKey][name].flip && (
-        Object.keys(settingContext.layers[layerKey][name].flip).length >= 0
+        settingContext.layers[layerKey][name].flip.enable
       ) ||
       settingContext.layers[layerKey][name].remap && (
         Object.keys(settingContext.layers[layerKey][name].remap).length >= 0

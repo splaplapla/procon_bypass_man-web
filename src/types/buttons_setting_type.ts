@@ -3,6 +3,7 @@ import { LayerKey } from "./layer_key";
 
 export type Flip = {
   if_pressed?: Array<Button>,
+  enable: Boolean,
   force_neutral?: Array<Button>,
 }
 
