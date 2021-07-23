@@ -11,16 +11,16 @@ import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType } from "../types/buttons_setting_type";
+import { ButtonsSettingType, ButtonsInLayer } from "../types/buttons_setting_type";
 import { Layers } from "../types/buttons_setting_type";
 import { buttons } from "../types/button";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
   const initLayers: Layers = {
-    up: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
-    right: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
-    down: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
-    left: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as any),
+    up: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
+    right: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
+    down: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
+    left: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
   }
   const [prefixKeys, setPrefixKeys] = useState([] );
   const [layers, setLayers] = useState(initLayers);
