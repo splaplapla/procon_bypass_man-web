@@ -57,11 +57,18 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
 
   // 無視
   const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>([])
+  const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
+    settingContext.setLayers((layer: Layers) => {
+      settingContext.layers[layerKey][name].flip.force_neutral = bs;
+      return settingContext.layers;
+    });
+    setIgnoreButtonsOnFliping(bs);
+  }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("連打中は特定のボタンの入力を無視する")
     setModalPrefillButtons(ignoreButtonsOnFliping);
-    setModalCallbackOnSubmit(() => setIgnoreButtonsOnFliping);
+    setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
 
@@ -78,7 +85,6 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setOpenModal(true)
     setModalTitle("リマップ")
     setModalPrefillButtons(remapButtons);
-    // contextに書き込むための
     setModalCallbackOnSubmit(() => setRemapButtonsWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
@@ -181,4 +187,3 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     </>
   );
 };
-
