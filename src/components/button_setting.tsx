@@ -151,7 +151,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleNullFlipValue} checked={isDisabledFlip()} value="none"/>無効</label><br />
+          <label><input type="radio" onChange={handleNullFlipValue} checked={flipCheckedName === "none"} value="none"/>無効</label><br />
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
           <label>
