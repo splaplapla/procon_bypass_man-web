@@ -164,7 +164,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <h3>連打オプション</h3>
         <div>
           <label>
-            <input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping.length > 0} />
+            <input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping.length > 0} disabled={isDisabledFlip()} />
               連打中は特定のボタンの入力を無視する{ignoreButtonsOnFliping.length > 0 && `(${ignoreButtonsOnFliping.join(", ")})`}
             </label>
         </div>
