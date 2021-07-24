@@ -52,6 +52,9 @@ export const ButtonsSettingPage = () => {
           buttons.forEach((button) => {
             if(layers[layerkey][button] === undefined) {
               layers[layerkey][button] = { flip: { enable: false } } as ButtonInLayer
+            } else if (layers[layerkey][button].flip === undefined) {
+              // flipはなくて、remapの時にこっちくる
+              layers[layerkey][button].flip = { enable: false }
             }
           })
         })

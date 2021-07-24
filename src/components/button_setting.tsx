@@ -116,9 +116,13 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     setModalCloseCallback(() => setOpenModal);
   };
 
+  const buttonValue = settingContext.layers[layerKey][name];
+  const isDisabledFlip = (): boolean => {
+   return buttonValue.flip && !buttonValue.flip.enable;
+  }
+
   useEffect(() => {
     const buttonValue = settingContext.layers[layerKey][name];
-
     if(buttonValue.flip && Object.keys(buttonValue.flip).length === 1) {
         setFlipCheckedName("none");
     } else if(buttonValue.flip && Object.keys(buttonValue.flip).length > 1) {
@@ -147,7 +151,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleNullFlipValue} checked={flipCheckedName === "none"} value="none"/>無効</label><br />
+          <label><input type="radio" onChange={handleNullFlipValue} checked={isDisabledFlip()} value="none"/>無効</label><br />
           <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
           <label>
@@ -168,7 +172,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <h2>リマップ設定</h2>
         <div>
           <label>
-            <input type="checkbox"  onChange={handleRemapButton} checked={remapButtons.length > 0} />
+            <input type="checkbox"  onChange={handleRemapButton} checked={remapButtons.length > 0} disabled={!isDisabledFlip()} />
               別のボタンに置き換える{remapButtons.length > 0 && `(${remapButtons.join(", ")})`}
           </label>
         </div>
