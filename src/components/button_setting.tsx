@@ -117,7 +117,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   };
 
   const isDisabledFlip = (): boolean => {
-   return buttonValue.flip && !buttonValue.flip.enable;
+    return buttonValue.flip && !buttonValue.flip.enable;
+  }
+  const isAlwaysFlip = (): boolean => {
+    if(isDisabledFlip()) { return false };
+    return buttonValue.flip && buttonValue.flip.enable && !buttonValue.flip.if_pressed;
   }
 
   useEffect(() => {
@@ -151,8 +155,8 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleNullFlipValue} checked={flipCheckedName === "none"} value="none"/>無効</label><br />
-          <label><input type="radio" onChange={handleFlipValue} checked={flipCheckedName === "always"} value="always"/>常に連打する</label><br />
+          <label><input type="radio" onChange={handleNullFlipValue} checked={isDisabledFlip()} value="none"/>無効</label><br />
+          <label><input type="radio" onChange={handleFlipValue} checked={isAlwaysFlip()} value="always"/>常に連打する</label><br />
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={flipCheckedName === "if_pressed"} value="if_pressed"/>このボタンを押している時だけ連打する({flipIfPressedSelf})</label><br />
           <label>
             <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={flipCheckedName === "if_pressed_some_buttons"} value="if_pressed_some_buttons"/>
@@ -209,14 +213,9 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     }
   }
   const isOpenMenu = () => {
-    return settingContext.layers[layerKey] &&
-      settingContext.layers[layerKey][name] &&
-      settingContext.layers[layerKey][name].flip && (
-        settingContext.layers[layerKey][name].flip.enable
-      ) ||
-      settingContext.layers[layerKey][name].remap && (
-        Object.keys(settingContext.layers[layerKey][name].remap).length >= 0
-      )
+    return settingContext.layers[layerKey] && settingContext.layers[layerKey][name] && settingContext.layers[layerKey][name].flip &&
+      (settingContext.layers[layerKey][name].flip.enable) ||
+      (settingContext.layers[layerKey][name].remap && Object.keys(settingContext.layers[layerKey][name].remap).length >= 0)
   }
   const buttonValue = settingContext.layers[layerKey][name] || {} as ButtonInLayer;
 

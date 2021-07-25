@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
-import { ButtonInLayer, ButtonsInLayer, Layers } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { HttpClient } from "../lib/http_client";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
@@ -57,6 +57,12 @@ export const ButtonsSettingPage = () => {
             } else if (layers[layerkey][button].flip === undefined) {
               // flipはなくて、remapの時にこっちくる
               layers[layerkey][button].flip = { enable: false }
+            } else if ((Object.keys(layers[layerkey][button as Button].flip || {} as Flip).length === 0)) {
+              // 常に連打の時がここにくる
+              if(layers[layerkey][button]?.flip) {
+                const flip = layers[layerkey][button].flip as Flip
+                flip.enable = true
+              }
             }
           })
         })
