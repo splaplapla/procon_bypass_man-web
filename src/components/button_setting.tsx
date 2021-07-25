@@ -18,6 +18,7 @@ type ModalType = {
 };
 
 const ButtonMenu = ({ name, layerKey }: Prop) => {
+  // ここでuseContenxtするのをやめる。ButtonSettingのpropsから受け取る
   const settingContext = useContext(ButtonsSettingContext);
 
   const flipRadioName = `${layerKey}_button_menu_${name}`;
