@@ -5,19 +5,20 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType, ButtonsInLayer, Layers } from "../types/buttons_setting_type";
+import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
 
-type Prop = {
+type ButtonMenuProp = {
   name: Button;
   layerKey: string;
+  buttonValue: any;
 };
 
 type ModalType = {
   callback?(buttons: Array<string>): void;
 };
 
-const ButtonMenu = ({ name, layerKey }: Prop) => {
+const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   // ここでuseContenxtするのをやめる。ButtonSettingのpropsから受け取る
   const settingContext = useContext(ButtonsSettingContext);
 
@@ -101,23 +102,20 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   };
 
   // リマップ
-  const [remapButtons, setRemapButtons] = useState<Array<Button>>([])
   const setRemapButtonsWithPersistence = (bs: Array<Button>) => {
     settingContext.setLayers((layer: Layers) => {
       settingContext.layers[layerKey][name].remap = { to: bs };
       return settingContext.layers;
     })
-    setRemapButtons(bs); // component rerenderするためにuseStateに書き込む
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("リマップ")
-    setModalPrefillButtons(remapButtons);
+    setModalPrefillButtons(buttonValue.remap?.to || []);
     setModalCallbackOnSubmit(() => setRemapButtonsWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
 
-  const buttonValue = settingContext.layers[layerKey][name];
   const isDisabledFlip = (): boolean => {
    return buttonValue.flip && !buttonValue.flip.enable;
   }
@@ -136,7 +134,7 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         setIgnoreButtonsOnFliping([buttonValue.flip.force_neutral]);
       }
     } else if(buttonValue.remap) {
-      setRemapButtons(buttonValue.remap.to);
+      // 要らなくなった
     } else if(buttonValue.macro) {
       // TODO
     }
@@ -145,6 +143,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   const modalWrapperStyle = css(`
       position: relative;
   `)
+
+  // if(buttonValue.remap?.to) { debugger }
 
   return(
     <>
@@ -172,8 +172,8 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
         <h2>リマップ設定</h2>
         <div>
           <label>
-            <input type="checkbox"  onChange={handleRemapButton} checked={remapButtons.length > 0} disabled={!isDisabledFlip()} />
-              別のボタンに置き換える{remapButtons.length > 0 && `(${remapButtons.join(", ")})`}
+            <input type="checkbox" onChange={handleRemapButton} checked={buttonValue.remap?.to} disabled={!isDisabledFlip()} />
+              別のボタンに置き換える{buttonValue.remap?.to && buttonValue.remap?.to?.length > 0 && `(${buttonValue.remap?.to?.join(", ")})`}
           </label>
         </div>
       </div>
@@ -183,6 +183,12 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
     </>
   )
 }
+
+
+type Prop = {
+  name: Button;
+  layerKey: string;
+};
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const settingContext = useContext(ButtonsSettingContext);
@@ -212,11 +218,12 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
         Object.keys(settingContext.layers[layerKey][name].remap).length >= 0
       )
   }
+  const buttonValue = settingContext.layers[layerKey][name] || {} as ButtonInLayer;
 
   return (
     <>
       <label><input type="checkbox" defaultChecked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
-      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} />}
+      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue}/>}
     </>
   );
 };

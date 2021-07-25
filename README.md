@@ -47,4 +47,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * remap, flipに値が入ったままflip.enable:fasleになることがあって、エクスポート結果が不正になることがある
     * ボタンメニューのopen判定関数, 初期値の設定がややこしい
         * => layerのボタン状態をクラスのインスタンスにする
+    * ButtonMenuの中からuseContextするのをやめる。ButtonSettingのpropsから受け取る
 * github pageでホスティングする(generator)
