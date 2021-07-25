@@ -22,9 +22,12 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     down: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
     left: buttons.reduce((a, i) => { a[i] = {}; return a }, {} as ButtonsInLayer),
   }
-  const [prefixKeys, setPrefixKeys] = useState([] );
+  const [prefixKeys, setPrefixKeys] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const [layers, setLayers] = useState(initLayers);
   const value = {
+    loaded,
+    setLoaded,
     layers,
     setLayers,
     prefixKeys,

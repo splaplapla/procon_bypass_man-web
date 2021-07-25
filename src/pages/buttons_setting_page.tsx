@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
@@ -41,6 +41,8 @@ export const ButtonsSettingPage = () => {
   }
 
   useEffect(() => {
+    let isActive = true;
+
     httpClient.getSetting()
       .then(function (response) {
         settingContext.setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
@@ -59,13 +61,21 @@ export const ButtonsSettingPage = () => {
           })
         })
 
-        settingContext.setLayers(layers);
         console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
-        console.log("context:", settingContext);
+        if (isActive) {
+          settingContext.setLoaded(true);
+          settingContext.setLayers(layers);
+          console.log("context:", settingContext);
+        }
       })
-    layerRefs[0].setVisibility("show");
-  }, []);
+
+    if (settingContext.loaded) {
+      layerRefs[0].setVisibility("show");
+    }
+
+    return () => { isActive = false };
+  }, [settingContext.loaded]);
 
   const layerUlStyle = css`
     list-style: none;
@@ -84,7 +94,19 @@ export const ButtonsSettingPage = () => {
       border-bottom: 1px solid #${color};
     `
   };
+  const layerComponents = () => {
+    if(settingContext.loaded) {
+      return(
+        layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))
+      );
+    } else {
+      return(
+        "loading..."
+      );
+    }
+  }
 
+  const loaded = settingContext.loaded
   return (
     <>
       <hr />
@@ -103,7 +125,7 @@ export const ButtonsSettingPage = () => {
           </li>
         ))}
       </ul>
-      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
+      {layerComponents()}
     </>
   )
 }
