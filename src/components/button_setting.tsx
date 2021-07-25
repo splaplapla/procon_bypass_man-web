@@ -122,7 +122,6 @@ const ButtonMenu = ({ name, layerKey }: Prop) => {
   }
 
   useEffect(() => {
-    const buttonValue = settingContext.layers[layerKey][name];
     if(buttonValue.flip && Object.keys(buttonValue.flip).length === 1) {
         setFlipCheckedName("none");
     } else if(buttonValue.flip && Object.keys(buttonValue.flip).length > 1) {
