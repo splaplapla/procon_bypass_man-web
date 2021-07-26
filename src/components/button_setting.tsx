@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers } from "../types/buttons_setting_type";
+import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
 
 type ButtonMenuProp = {
@@ -33,9 +33,10 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
 
   // 無効
   const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip.enable = false;
-      return settingContext.layers;
+    settingContext.setLayers((layers: Layers) => {
+      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
+      flip.enable = false;
+      return layers;
     });
   };
 
