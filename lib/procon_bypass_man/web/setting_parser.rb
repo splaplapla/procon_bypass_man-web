@@ -111,7 +111,10 @@ module ProconBypassMan
             layer&.to_hash&.dig(:flip)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:flip] ||= {}
-              h[:layers][key][button][:flip].merge!(value) if value
+              if value
+                h[:layers][key][button][:flip].merge!(value)
+                h[:layers][key][button][:open] = true
+              end
             end
             if layer&.to_hash&.dig(:mode)
               h[:layers][key][:mode] = layer&.to_hash&.dig(:mode)
@@ -119,7 +122,10 @@ module ProconBypassMan
             layer&.to_hash&.dig(:remap)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:remap] ||= {}
-              h[:layers][key][button][:remap].merge!(value) if value
+              if value
+                h[:layers][key][button][:remap].merge!(value)
+                h[:layers][key][button][:open] = true
+              end
             end
           end
           h

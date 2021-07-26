@@ -36,35 +36,38 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
     settingContext.setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.enable = false;
-      return layers;
+      return { ...layers };
     });
   };
 
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip.if_pressed = [];
-      settingContext.layers[layerKey][name].flip.enable = true;
-      return settingContext.layers;
+    settingContext.setLayers((layers: Layers) => {
+      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
+      flip.if_pressed = [];
+      flip.enable = true;
+      return { ...layers };
     });
   };
 
   // 自分自身への条件付き連打
   const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip.if_pressed = [name];
-      settingContext.layers[layerKey][name].flip.enable = true;
-      return settingContext.layers;
+    settingContext.setLayers((layers: Layers) => {
+      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
+      flip.if_pressed = [name];
+      flip.enable = true;
+      return { ...layers };
     });
   };
 
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip.if_pressed = bs;
-      settingContext.layers[layerKey][name].flip.enable = true;
+    settingContext.setLayers((layers: Layers) => {
+      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
+      flip.if_pressed = bs;
+      flip.enable = true;
       return settingContext.layers;
     });
     setFlipIfPressedSomeButtons(bs);
@@ -114,11 +117,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   }
   const isAlwaysFlip = (): boolean => {
     if(isDisabledFlip()) { return false };
-    return buttonValue.flip && buttonValue.flip.enable && !buttonValue.flip.if_pressed;
+    return buttonValue.flip && buttonValue.flip.if_pressed.length === 0;
   }
   const isFlipIfPressedSelf = (): boolean => {
     if(isDisabledFlip() || isAlwaysFlip()) { return false }
-    return buttonValue.flip && buttonValue.flip.enable && buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
+    return buttonValue.flip && buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
   }
   const isFlipIfPressedSomeButtons = (): boolean => {
     if(isDisabledFlip() || isAlwaysFlip() || isFlipIfPressedSelf()) { return false }
@@ -198,21 +201,29 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     if(isOpenMenu()) { // 閉じる
       settingContext.setLayers((layers: Layers) => {
         const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: { enable: false } }
+        currentLayer[name as Button] = { flip: { enable: false }, open: false }
         return { ...layers };
       })
     } else { // 開く
       settingContext.setLayers((layers: Layers) => {
         const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: { enable: true } }
+        currentLayer[name as Button] = { flip: { enable: true }, open: true }
         return { ...layers };
       })
     }
   }
+  // - メニューが開いている
+  //   - button.open
+  // - 連打無効
+  //   - button.flip.enable === false
+  // - 常に連打
+  //   - button.flip.if_pressed
+  // - このボタンを押している時だけ
+  //   - button.flip.if_pressed_self
+  // - 特定のボタンを押している時だけ
+  //   - button.flip.if_pressed_some_buttons
   const isOpenMenu = () => {
-    return settingContext.layers[layerKey] && settingContext.layers[layerKey][name] && settingContext.layers[layerKey][name].flip &&
-      (settingContext.layers[layerKey][name].flip.enable) ||
-      (settingContext.layers[layerKey][name].remap && Object.keys(settingContext.layers[layerKey][name].remap).length >= 0)
+    return settingContext.layers[layerKey][name].open
   }
   const buttonValue = settingContext.layers[layerKey][name] || {} as ButtonInLayer;
 

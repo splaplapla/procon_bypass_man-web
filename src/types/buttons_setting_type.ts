@@ -19,6 +19,7 @@ export type ButtonInLayer = {
   flip?: Flip,
   macro?: Macro,
   remap?: Remap,
+  open: boolean,
 }
 
 export type ButtonsInLayer = {
