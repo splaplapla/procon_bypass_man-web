@@ -12,16 +12,14 @@ type ButtonMenuProp = {
   name: Button;
   layerKey: string;
   buttonValue: any;
+  setLayers: any;
 };
 
 type ModalType = {
   callback?(buttons: Array<string>): void;
 };
 
-const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
-  // ここでuseContenxtするのをやめる。ButtonSettingのpropsから受け取る
-  const settingContext = useContext(ButtonsSettingContext);
-
+const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) => {
   const flipRadioName = `${layerKey}_button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
 
@@ -33,7 +31,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
 
   // 無効
   const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layers: Layers) => {
+    setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.enable = false;
       return { ...layers };
@@ -42,7 +40,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
 
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layers: Layers) => {
+    setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.if_pressed = [];
       flip.enable = true;
@@ -53,7 +51,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   // 自分自身への条件付き連打
   const [flipIfPressedSelf, setFlipIfPressedSelf] = useState<Array<Button>>([name]);
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    settingContext.setLayers((layers: Layers) => {
+    setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.if_pressed = [name];
       flip.enable = true;
@@ -64,11 +62,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   // 条件付き連打
   const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
-    settingContext.setLayers((layers: Layers) => {
+    setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.if_pressed = bs;
       flip.enable = true;
-      return settingContext.layers;
+      return { ...layers };
     });
     setFlipIfPressedSomeButtons(bs);
   }
@@ -83,9 +81,10 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   // 無視
   const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>([])
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].flip.force_neutral = bs;
-      return settingContext.layers;
+    setLayers((layers: Layers) => {
+      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
+      flip.force_neutral = bs;
+      return layers;
     });
     setIgnoreButtonsOnFliping(bs);
   }
@@ -99,9 +98,10 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
 
   // リマップ
   const setRemapButtonsWithPersistence = (bs: Array<Button>) => {
-    settingContext.setLayers((layer: Layers) => {
-      settingContext.layers[layerKey][name].remap = { to: bs };
-      return settingContext.layers;
+    setLayers((layers: Layers) => {
+      const button = layers[layerKey as LayerKey][name as Button] as ButtonInLayer
+      button.remap = { to: bs };
+      return { ...layers };
     })
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,11 +117,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue }: ButtonMenuProp) => {
   }
   const isAlwaysFlip = (): boolean => {
     if(isDisabledFlip()) { return false };
-    return buttonValue.flip && buttonValue.flip.if_pressed.length === 0;
+    return buttonValue.flip && buttonValue.flip.if_pressed && buttonValue.flip.if_pressed.length === 0;
   }
   const isFlipIfPressedSelf = (): boolean => {
     if(isDisabledFlip() || isAlwaysFlip()) { return false }
-    return buttonValue.flip && buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
+    return buttonValue.flip && buttonValue.flip.if_pressed && buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
   }
   const isFlipIfPressedSomeButtons = (): boolean => {
     if(isDisabledFlip() || isAlwaysFlip() || isFlipIfPressedSelf()) { return false }
@@ -230,7 +230,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   return (
     <>
       <label><input type="checkbox" defaultChecked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
-      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue}/>}
+      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} setLayers={settingContext.setLayers} />}
     </>
   );
 };
