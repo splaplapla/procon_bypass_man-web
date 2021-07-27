@@ -64,7 +64,7 @@ export const ButtonsSettingPage = () => {
             } else if ((Object.keys(layers[layerkey][button as Button].flip || {} as Flip).length === 0)) {
               // 常に連打の時がここにくる
               if(layers[layerkey][button]?.flip) {
-                layers[layerkey][button].flip = { enable: true }
+                layers[layerkey][button].flip = { enable: true, if_pressed: [] } as Flip
                 layers[layerkey][button].open = true
               }
             }
