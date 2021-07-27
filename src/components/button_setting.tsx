@@ -207,7 +207,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
     } else { // 開く
       settingContext.setLayers((layers: Layers) => {
         const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: { enable: true }, open: true }
+        currentLayer[name as Button] = { flip: { enable: false }, open: true }
         return { ...layers };
       })
     }
