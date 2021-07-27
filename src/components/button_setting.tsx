@@ -223,13 +223,13 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   // - 特定のボタンを押している時だけ
   //   - button.flip.if_pressed_some_buttons
   const isOpenMenu = () => {
-    return settingContext.layers[layerKey][name].open
+    return settingContext.layers[layerKey][name].open;
   }
   const buttonValue = settingContext.layers[layerKey][name] || {} as ButtonInLayer;
 
   return (
     <>
-      <label><input type="checkbox" defaultChecked={isOpenMenu()} onClick={handleToggle}/>{name}</label>
+      <label><input type="checkbox" checked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
       {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} setLayers={settingContext.setLayers} />}
     </>
   );

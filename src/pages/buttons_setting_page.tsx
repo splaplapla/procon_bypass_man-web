@@ -53,7 +53,10 @@ export const ButtonsSettingPage = () => {
         layerKeys.forEach((layerkey) => {
           buttons.forEach((button) => {
             if(layers[layerkey][button] === undefined) {
-              layers[layerkey][button] = { flip: { enable: false }, open: false } as ButtonInLayer
+              layers[layerkey][button] = {
+                flip: { enable: false },
+                open: false
+              } as ButtonInLayer
             } else if (layers[layerkey][button].flip === undefined) {
               // flipはなくて、remapの時にこっちくる
               layers[layerkey][button].flip = { enable: false }
@@ -61,8 +64,8 @@ export const ButtonsSettingPage = () => {
             } else if ((Object.keys(layers[layerkey][button as Button].flip || {} as Flip).length === 0)) {
               // 常に連打の時がここにくる
               if(layers[layerkey][button]?.flip) {
-                const flip = layers[layerkey][button].flip as Flip
-                flip.enable = true
+                layers[layerkey][button].flip = { enable: true }
+                layers[layerkey][button].open = true
               }
             }
           })
