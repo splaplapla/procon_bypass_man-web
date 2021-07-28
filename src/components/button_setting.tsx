@@ -59,7 +59,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   };
 
   // 条件付き連打
-  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>(buttonValue.flip.if_pressed)
+  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>(buttonValue.flip.if_pressed || [] as Array<Button>)
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -78,7 +78,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   }
 
   // 無視
-  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>(buttonValue.flip.force_neutral)
+  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>(buttonValue.flip.force_neutral || [] as Array<Button>)
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
