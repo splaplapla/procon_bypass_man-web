@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
@@ -59,7 +59,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   };
 
   // 条件付き連打
-  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>([])
+  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>(buttonValue.flip.if_pressed)
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -78,7 +78,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   }
 
   // 無視
-  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>([])
+  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>(buttonValue.flip.force_neutral)
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -127,28 +127,9 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
     return true
   }
 
-  useEffect(() => {
-    if(buttonValue.flip && Object.keys(buttonValue.flip).length === 1) {
-    } else if(buttonValue.flip && Object.keys(buttonValue.flip).length > 1) {
-      if(buttonValue.flip.if_pressed === name || buttonValue.flip.if_pressed === [name]) {
-      } else {
-        setFlipIfPressedSomeButtons([buttonValue.flip.if_pressed] as Array<Button>);
-      }
-      if(buttonValue.flip.force_neutral) {
-        setIgnoreButtonsOnFliping([buttonValue.flip.force_neutral]);
-      }
-    } else if(buttonValue.remap) {
-      // 要らなくなった
-    } else if(buttonValue.macro) {
-      // TODO
-    }
-  }, [])
-
   const modalWrapperStyle = css(`
       position: relative;
   `)
-
-  // if(buttonValue.remap?.to) { debugger }
 
   return(
     <>
@@ -160,7 +141,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
           <label>
             <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={isFlipIfPressedSomeButtons()}/>
-            特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
+            特定のキーを押したときだけ連打する{flipIfPressedSomeButtons && flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
           </label><br />
         </div>
         <br />
@@ -168,8 +149,8 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
         <h3>連打オプション</h3>
         <div>
           <label>
-            <input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping.length > 0} disabled={isDisabledFlip()} />
-              連打中は特定のボタンの入力を無視する{ignoreButtonsOnFliping.length > 0 && `(${ignoreButtonsOnFliping.join(", ")})`}
+            <input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping && ignoreButtonsOnFliping.length > 0} disabled={isDisabledFlip()} />
+              連打中は特定のボタンの入力を無視する{ignoreButtonsOnFliping && ignoreButtonsOnFliping.length > 0 && `(${ignoreButtonsOnFliping.join(", ")})`}
             </label>
         </div>
 
@@ -187,7 +168,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
     </>
   )
 }
-
 
 type Prop = {
   name: Button;
