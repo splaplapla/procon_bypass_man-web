@@ -59,7 +59,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   };
 
   // 条件付き連打
-  const [flipIfPressedSomeButtons, setFlipIfPressedSomeButtons] = useState<Array<Button>>(buttonValue.flip.if_pressed || [] as Array<Button>)
+  const flipIfPressedSomeButtons = buttonValue.flip.if_pressed || [] as Array<Button>;
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -67,7 +67,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
       flip.enable = true;
       return { ...layers };
     });
-    setFlipIfPressedSomeButtons(bs);
   }
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -140,7 +139,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
           <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
           <label>
             <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={isFlipIfPressedSomeButtons()}/>
-            特定のキーを押したときだけ連打する{flipIfPressedSomeButtons && flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
+            特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
           </label><br />
         </div>
         <br />
