@@ -3,6 +3,7 @@
 import { jsx, css } from '@emotion/react'
 import React, { useState, useContext } from "react";
 import { Button } from "../types/button";
+import { ButtonState } from "./../lib/button_state";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
@@ -171,6 +172,7 @@ type Prop = {
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const settingContext = useContext(ButtonsSettingContext);
+  const buttonState = new ButtonState(name, settingContext.layers[layerKey][name].open);
   const handleToggle = () => {
     if(isOpenMenu()) { // 閉じる
       settingContext.setLayers((layers: Layers) => {
