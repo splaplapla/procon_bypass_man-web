@@ -48,4 +48,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * ボタンメニューのopen判定関数, 初期値の設定がややこしい
         * => layerのボタン状態をクラスのインスタンスにする
     * checkをつけてメニューを開いてモーダルを出した時の警告を出さないようにする
+    * ignoreButtonsOnFliping, flipIfPressedSomeButtonsを消す. contextの中身を直接参照する
 * github pageでホスティングする(generator)
