@@ -78,19 +78,18 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   }
 
   // 無視
-  const [ignoreButtonsOnFliping, setIgnoreButtonsOnFliping] = useState<Array<Button>>(buttonValue.flip.force_neutral || [] as Array<Button>)
+  const forceNeutralButtons = buttonValue.flip.force_neutral || [] as Array<Button>
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
       flip.force_neutral = bs;
       return layers;
     });
-    setIgnoreButtonsOnFliping(bs);
   }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("連打中は特定のボタンの入力を無視する")
-    setModalPrefillButtons(ignoreButtonsOnFliping);
+    setModalPrefillButtons(buttonValue.flip.force_neutral || [] as Array<Button>);
     setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
@@ -149,8 +148,8 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
         <h3>連打オプション</h3>
         <div>
           <label>
-            <input type="checkbox" onChange={handleIgnoreButton} checked={ignoreButtonsOnFliping && ignoreButtonsOnFliping.length > 0} disabled={isDisabledFlip()} />
-              連打中は特定のボタンの入力を無視する{ignoreButtonsOnFliping && ignoreButtonsOnFliping.length > 0 && `(${ignoreButtonsOnFliping.join(", ")})`}
+            <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={isDisabledFlip()} />
+              連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
             </label>
         </div>
 
