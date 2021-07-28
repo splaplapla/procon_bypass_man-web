@@ -11,12 +11,8 @@ import { LayerKey } from "../types/layer_key";
 type ButtonMenuProp = {
   name: Button;
   layerKey: string;
-  buttonValue: any;
+  buttonValue: ButtonInLayer;
   setLayers: any;
-};
-
-type ModalType = {
-  callback?(buttons: Array<string>): void;
 };
 
 const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) => {
@@ -59,7 +55,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   };
 
   // 条件付き連打
-  const flipIfPressedSomeButtons = buttonValue.flip.if_pressed || [] as Array<Button>;
+  const flipIfPressedSomeButtons = buttonValue?.flip?.if_pressed || [] as Array<Button>;
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -77,7 +73,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   }
 
   // 無視
-  const forceNeutralButtons = buttonValue.flip.force_neutral || [] as Array<Button>
+  const forceNeutralButtons = buttonValue.flip?.force_neutral || [] as Array<Button>
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
     setLayers((layers: Layers) => {
       const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
@@ -88,7 +84,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("連打中は特定のボタンの入力を無視する")
-    setModalPrefillButtons(buttonValue.flip.force_neutral || [] as Array<Button>);
+    setModalPrefillButtons(buttonValue.flip?.force_neutral || [] as Array<Button>);
     setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
     setModalCloseCallback(() => setOpenModal);
   };
@@ -110,15 +106,16 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
   };
 
   const isDisabledFlip = (): boolean => {
-    return buttonValue.flip && !buttonValue.flip.enable;
+    if(!buttonValue.flip) { return false }
+    return buttonValue.flip && !buttonValue.flip?.enable;
   }
   const isAlwaysFlip = (): boolean => {
     if(isDisabledFlip()) { return false };
-    return buttonValue.flip && buttonValue.flip.if_pressed && buttonValue.flip.if_pressed.length === 0;
+    return buttonValue.flip?.if_pressed?.length === 0;
   }
   const isFlipIfPressedSelf = (): boolean => {
-    if(isDisabledFlip() || isAlwaysFlip()) { return false }
-    return buttonValue.flip && buttonValue.flip.if_pressed && buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
+    if(isDisabledFlip() || isAlwaysFlip() || !buttonValue.flip || !buttonValue.flip.if_pressed) { return false }
+    return buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
   }
   const isFlipIfPressedSomeButtons = (): boolean => {
     if(isDisabledFlip() || isAlwaysFlip() || isFlipIfPressedSelf()) { return false }
@@ -155,7 +152,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
         <h2>リマップ設定</h2>
         <div>
           <label>
-            <input type="checkbox" onChange={handleRemapButton} checked={buttonValue.remap?.to} disabled={!isDisabledFlip()} />
+            <input type="checkbox" onChange={handleRemapButton} checked={!!buttonValue?.remap?.to} disabled={!isDisabledFlip()} />
               別のボタンに置き換える{buttonValue.remap?.to && buttonValue.remap?.to?.length > 0 && `(${buttonValue.remap?.to?.join(", ")})`}
           </label>
         </div>
