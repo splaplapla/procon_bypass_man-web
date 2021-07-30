@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { Button, buttons } from "../types/button";
 
 type Props = {
-  // callback?(buttons: Array<string>): void;
   callbackOnSubmit: any;
   callbackOnClose: any;
   prefill: Array<Button>;
@@ -17,10 +16,15 @@ type CheckedButtons = {
 }
 
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
-  const [buttonStats, setbuttonStats] = useState(buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons));
+  const [checkedButtonMap, setCheckedButtonMap] = useState(
+    prefill.reduce((a, b) => { a[b] = true; return a },
+      buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons)
+    )
+  )
+
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
-    const bs = Object.entries(buttonStats).reduce((acc, item) => {
+    const bs = Object.entries(checkedButtonMap).reduce((acc, item) => {
       const checked: boolean = item[1];
       const button = item[0] as Button;
       checked && acc.push(button);
@@ -50,19 +54,11 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     background-color: white;
   `);
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setbuttonStats((previousButtonStats) => {
+    setCheckedButtonMap((previousButtonStats) => {
       previousButtonStats[e.target.value as Button] = e.target.checked;
       return previousButtonStats;
     })
   }
-
-  useEffect(() => {
-    console.log(`loaded ${title} modal`)
-    setbuttonStats((previousButtonStats) => {
-      prefill.forEach((b) => { previousButtonStats[b] = true });
-      return previousButtonStats;
-    })
-  }, [])
 
   return (
     <>
@@ -72,7 +68,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
         <ul>
           {buttons.map((b, index) => (
             <li key={index}>
-              <label><input type="checkbox" value={b} defaultChecked={buttonStats[b]} onChange={handleClick} />{b}</label>
+              <label><input type="checkbox" value={b} defaultChecked={checkedButtonMap[b]} onChange={handleClick} />{b}</label>
             </li>
           ))}
         </ul>
