@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { ButtonSetting } from "./button_setting";
 import { Button, buttons } from "../types/button";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
@@ -32,7 +32,6 @@ const listyle = css`
 `;
 
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
-  // const settingContext = useContext(ButtonsSettingContext);
   const [visibility, setVisibility] = useState("hidden");
 
   const style = () => {
@@ -67,8 +66,8 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
               <li key={i} css={listyle}>
                 <ButtonSetting layerKey={layerKey} name={b} />
               </li>
-              ))
-            }
+            ))
+          }
           </ul>
         </div>
       </div>
