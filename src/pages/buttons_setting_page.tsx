@@ -17,7 +17,7 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const settingContext = useContext(ButtonsSettingContext);
+  const { loaded, setLoaded, layers, setLayers, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
@@ -31,7 +31,7 @@ export const ButtonsSettingPage = () => {
     }
   }
   const exportSetting = () => {
-    const body = ButtonsSettingConverter({ prefixKey: settingContext.prefixKeys, layers: settingContext.layers }) || ""
+    const body = ButtonsSettingConverter({ prefixKey: prefixKeys, layers: layers }) || ""
     var data = new Blob([body], { type: 'text/yaml' })
     var csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement('a');
@@ -41,11 +41,9 @@ export const ButtonsSettingPage = () => {
   }
 
   useEffect(() => {
-    let isActive = true;
-
     httpClient.getSetting()
       .then(function (response) {
-        settingContext.setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
+        setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
         const layers = layerKeys.reduce((a, key) => {
           a[key] = response.data.setting_group_by_button.layers[key];
           return a;
@@ -71,21 +69,16 @@ export const ButtonsSettingPage = () => {
           })
         })
 
-        console.log(response.data.setting["layers"][layerKeys[0]]);
         setDebugConsole("<設定ファイルの取得に成功しました>");
-        if (isActive) {
-          settingContext.setLoaded(true);
-          settingContext.setLayers(layers);
-          console.log("context:", settingContext);
-        }
+        setLoaded(true);
+        setLayers(layers);
       })
 
-    if (settingContext.loaded) {
+    if (loaded) {
       layerRefs[0].setVisibility("show");
     }
 
-    return () => { isActive = false };
-  }, [settingContext.loaded]);
+  }, [loaded]);
 
   const layerUlStyle = css`
     list-style: none;
@@ -104,19 +97,7 @@ export const ButtonsSettingPage = () => {
       border-bottom: 1px solid #${color};
     `
   };
-  const layerComponents = () => {
-    if(settingContext.loaded) {
-      return(
-        layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))
-      );
-    } else {
-      return(
-        "loading..."
-      );
-    }
-  }
 
-  const loaded = settingContext.loaded
   return (
     <>
       <hr />
@@ -127,7 +108,7 @@ export const ButtonsSettingPage = () => {
 
       {debugConsole}
 
-      <div>設定中のプレフィックスキー: {settingContext.prefixKeys.join(", ")}</div>
+      <div>設定中のプレフィックスキー: {prefixKeys.join(", ")}</div>
       <ul css={layerUlStyle}>
         {layerKeys.map((l, index) => (
           <li key={l} css={layerLiStyle(l)}>
@@ -135,7 +116,9 @@ export const ButtonsSettingPage = () => {
           </li>
         ))}
       </ul>
-      {layerComponents()}
+
+      {loaded && layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
+      {!loaded && "loading..."}
     </>
   )
 }
