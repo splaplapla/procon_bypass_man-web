@@ -34,30 +34,38 @@ const reducer = (layers: Layers, action: ACTIONTYPE) => {
   switch (action.type) {
     case "disableFlip":
       flip.enable = false;
+      layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
     case "alwaysFlip":
       flip.if_pressed = [];
       flip.enable = true;
+      layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
     case "flipIfPressedSelf":
       flip.if_pressed = [button];
       flip.enable = true;
+      layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
     case "flipIfPressedSomeButtons":
       flip.if_pressed = action.payload.targetButtons;
       flip.enable = true;
+      layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
     case "ignoreButtonsInFliping":
       flip.force_neutral = action.payload.targetButtons;
+      layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
     case "remap":
+      flip.enable = false;
       remap.to = action.payload.targetButtons;
+      layers[layerKey][button] = { flip: flip, remap: remap, open: true }
       return { ...layers };
     case "openMenu":
-      layers[layerKey][button].open = true;
+      layers[layerKey][button] = { open: true };
       return { ...layers };
     case "closeMenu":
-      layers[layerKey][button].open = false;
+      flip.enable = false;
+      layers[layerKey][button] = { flip: flip, open: false }
       return { ...layers };
     default:
       return { ...layers };
@@ -73,13 +81,11 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [layers, setLayers] = useState(initLayers);
-  const [layers2, layersDispatch] = useReducer(reducer, initLayers as Layers);
+  const [layers, layersDispatch] = useReducer(reducer, initLayers as Layers);
   const value = {
     loaded,
     setLoaded,
     layers,
-    setLayers,
     prefixKeys,
     setPrefixKeys,
     layersDispatch,

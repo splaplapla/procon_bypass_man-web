@@ -13,11 +13,10 @@ type ButtonMenuProp = {
   name: Button;
   layerKey: string;
   buttonValue: ButtonInLayer;
-  setLayers: any;
   layersDispatch: any;
 };
 
-const ButtonMenu = ({ name, layerKey, buttonValue, setLayers, layersDispatch }: ButtonMenuProp) => {
+const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
   const flipRadioName = `${layerKey}_button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.macro, buttonValue.remap);
@@ -31,49 +30,22 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers, layersDispatch }: 
   // 無効
   const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     layersDispatch({ type: "disableFlip", payload: { layerKey: layerKey, button: name }});
-
-    setLayers((layers: Layers) => {
-      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
-      flip.enable = false;
-      return { ...layers };
-    });
   };
 
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     layersDispatch({ type: "alwaysFlip", payload: { layerKey: layerKey, button: name }});
-
-    setLayers((layers: Layers) => {
-      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
-      flip.if_pressed = [];
-      flip.enable = true;
-      return { ...layers };
-    });
   };
 
   // 自分自身への条件付き連打
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
     layersDispatch({ type: "flipIfPressedSelf", payload: { layerKey: layerKey, button: name }});
-
-    setLayers((layers: Layers) => {
-      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
-      flip.if_pressed = [name];
-      flip.enable = true;
-      return { ...layers };
-    });
   };
 
   // 条件付き連打
   const flipIfPressedSomeButtons = buttonValue?.flip?.if_pressed || [] as Array<Button>;
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     layersDispatch({ type: "flipIfPressedSomeButtons", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
-
-    setLayers((layers: Layers) => {
-      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
-      flip.if_pressed = bs;
-      flip.enable = true;
-      return { ...layers };
-    });
   }
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -87,12 +59,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers, layersDispatch }: 
   const forceNeutralButtons = buttonValue.flip?.force_neutral || [] as Array<Button>
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
     layersDispatch({ type: "ignoreButtonsInFliping", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
-
-    setLayers((layers: Layers) => {
-      const flip = layers[layerKey as LayerKey][name as Button].flip as Flip
-      flip.force_neutral = bs;
-      return layers;
-    });
   }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -105,12 +71,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers, layersDispatch }: 
   // リマップ
   const setRemapButtonsWithPersistence = (bs: Array<Button>) => {
     layersDispatch({ type: "remap", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
-
-    setLayers((layers: Layers) => {
-      const button = layers[layerKey as LayerKey][name as Button] as ButtonInLayer
-      button.remap = { to: bs };
-      return { ...layers };
-    })
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -173,32 +133,11 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const handleToggle = () => {
     if(isOpenMenu()) { // 閉じる
       settingContext.layersDispatch({ type: "closeMenu", payload: { layerKey: layerKey, button: name }});
-
-      settingContext.setLayers((layers: Layers) => {
-        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: { enable: false }, open: false }
-        return { ...layers };
-      })
     } else { // 開く
       settingContext.layersDispatch({ type: "openMenu", payload: { layerKey: layerKey, button: name }});
-
-      settingContext.setLayers((layers: Layers) => {
-        const currentLayer = layers[layerKey as LayerKey] || {} as ButtonsInLayer
-        currentLayer[name as Button] = { flip: { enable: false }, open: true }
-        return { ...layers };
-      })
     }
   }
-  // - メニューが開いている
-  //   - button.open
-  // - 連打無効
-  //   - button.flip.enable === false
-  // - 常に連打
-  //   - button.flip.if_pressed
-  // - このボタンを押している時だけ
-  //   - button.flip.if_pressed_self
-  // - 特定のボタンを押している時だけ
-  //   - button.flip.if_pressed_some_buttons
+
   const isOpenMenu = () => {
     return settingContext.layers[layerKey][name].open;
   }
@@ -207,7 +146,7 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   return (
     <>
       <label><input type="checkbox" checked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
-      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} setLayers={settingContext.setLayers} layersDispatch={settingContext.layersDispatch} />}
+      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} layersDispatch={settingContext.layersDispatch} />}
     </>
   );
 };

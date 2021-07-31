@@ -7,6 +7,7 @@ import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { ButtonInLayer, ButtonsInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { HttpClient } from "../lib/http_client";
+import { ButtonState } from "./../lib/button_state";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 
@@ -17,10 +18,11 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, setLoaded, layers, setLayers, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
+  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
+
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
       setSelectedLayer(event.target.dataset.layerKey as LayerKey);
@@ -48,30 +50,33 @@ export const ButtonsSettingPage = () => {
           a[key] = response.data.setting_group_by_button.layers[key];
           return a;
         }, {} as Layers)
-        layerKeys.forEach((layerkey) => {
+        layerKeys.forEach((layerKey) => {
           buttons.forEach((button) => {
-            if(layers[layerkey][button] === undefined) {
-              layers[layerkey][button] = {
-                flip: { enable: false },
-                open: false
-              } as ButtonInLayer
-            } else if (layers[layerkey][button].flip === undefined) {
-              // flipはなくて、remapの時にこっちくる
-              layers[layerkey][button].flip = { enable: false }
-              layers[layerkey][button].open = true
-            } else if ((Object.keys(layers[layerkey][button as Button].flip || {} as Flip).length === 0)) {
-              // 常に連打の時がここにくる
-              if(layers[layerkey][button]?.flip) {
-                layers[layerkey][button].flip = { enable: true, if_pressed: [] } as Flip
-                layers[layerkey][button].open = true
-              }
+            const buttonState = new ButtonState(
+              button,
+              layers[layerKey][button]?.flip, layers[layerKey][button]?.macro, layers[layerKey][button]?.remap,
+            );
+
+            if(layers[layerKey][button] === undefined) {
+              layersDispatch({ type: "closeMenu", payload: { layerKey: layerKey, button: button }});
+            } else if (layers[layerKey][button].remap?.to) {
+              layersDispatch({ type: "remap", payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].remap?.to }});
+            } else if (buttonState.isDisabledFlip()) {
+              layersDispatch({ type: "disableFlip", payload: { layerKey: layerKey, button: button }});
+            } else if (buttonState.isAlwaysFlip()) {
+              layersDispatch({ type: "alwaysFlip", payload: { layerKey: layerKey, button: button }});
+            } else if (buttonState.isFlipIfPressedSelf()) {
+              layersDispatch({ type: "flipIfPressedSelf", payload: { layerKey: layerKey, button: button }});
+            } else if (buttonState.isFlipIfPressedSomeButtons()) {
+              layersDispatch({ type: "flipIfPressedSomeButtons", payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].flip?.if_pressed }});
+            } else {
+              console.log("unexpectですです!!!!!!!!!!!!!");
             }
-          })
-        })
+          });
+        });
 
         setDebugConsole("<設定ファイルの取得に成功しました>");
         setLoaded(true);
-        setLayers(layers);
       })
 
     if (loaded) {
