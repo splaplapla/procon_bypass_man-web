@@ -26,7 +26,7 @@ export class ButtonState {
 
   isAlwaysFlip(): boolean {
     if(this.isDisabledFlip()) { return false };
-    return this.flip?.if_pressed?.length === 0;
+    return !!this.flip && !!this.flip.enable && (this.flip?.if_pressed || []) ?.length === 0;
   }
 
   isFlipIfPressedSelf(): boolean {
@@ -37,5 +37,9 @@ export class ButtonState {
   isFlipIfPressedSomeButtons(): boolean {
     if(this.isDisabledFlip() || this.isAlwaysFlip() || this.isFlipIfPressedSelf()) { return false }
     return true;
+  }
+
+  hasFlipSetting(): boolean {
+    return this.isAlwaysFlip() || this.isFlipIfPressedSelf() || this.isFlipIfPressedSomeButtons();
   }
 }
