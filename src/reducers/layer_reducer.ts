@@ -2,8 +2,17 @@ import { buttons, Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
 import { Layers, Flip, Remap } from "../types/buttons_setting_type";
 
-type ACTIONTYPE =
-    | { type: "disableFlip", payload: { layerKey: LayerKey, button: Button } }
+export const disableFlipType = Symbol('disableFlip');
+export const alwaysFlipType = Symbol('alwaysFlip');
+export const flipIfPressedSelfType = Symbol('flipIfPressedSelf');
+export const flipIfPressedSomeButtonsType = Symbol('flipIfPressedSomeButtons');
+export const ignoreButtonsInFlipingType = Symbol('ignoreButtonsInFliping');
+export const remapType = Symbol('remap');
+export const openMenuType = Symbol('openMenu');
+export const closeMenuType = Symbol('closeMenu');
+
+type ACTION_TYPE =
+    | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
     | { type: "alwaysFlip", payload: { layerKey: LayerKey, button: Button } }
     | { type: "flipIfPressedSelf", payload: { layerKey: LayerKey, button: Button } }
     | { type: "flipIfPressedSomeButtons", payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
@@ -12,14 +21,14 @@ type ACTIONTYPE =
     | { type: "openMenu", payload: { layerKey: LayerKey, button: Button } }
     | { type: "closeMenu", payload: { layerKey: LayerKey, button: Button } }
 
-export const LayerReducer = (layers: Layers, action: ACTIONTYPE) => {
+export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey;
   const button = action.payload.button;
   const flip = layers[layerKey][button].flip || {} as Flip
   const remap = layers[layerKey][button].remap || {} as Remap
 
   switch (action.type) {
-    case "disableFlip":
+    case disableFlipType:
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };

@@ -10,6 +10,7 @@ import { HttpClient } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
+import { disableFlipType } from "../reducers/layer_reducer";
 
 const httpClient = new HttpClient();
 
@@ -62,7 +63,7 @@ export const ButtonsSettingPage = () => {
             } else if (layers[layerKey][button].remap?.to) {
               layersDispatch({ type: "remap", payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].remap?.to }});
             } else if (buttonState.isDisabledFlip()) {
-              layersDispatch({ type: "disableFlip", payload: { layerKey: layerKey, button: button }});
+              layersDispatch({ type: disableFlipType, payload: { layerKey: layerKey, button: button }});
             } else if (buttonState.isAlwaysFlip()) {
               layersDispatch({ type: "alwaysFlip", payload: { layerKey: layerKey, button: button }});
             } else if (buttonState.isFlipIfPressedSelf()) {

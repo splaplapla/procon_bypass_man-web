@@ -8,6 +8,7 @@ import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
+import { disableFlipType } from "../reducers/layer_reducer";
 
 type ButtonMenuProp = {
   name: Button;
@@ -29,7 +30,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
   // 無効
   const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    layersDispatch({ type: "disableFlip", payload: { layerKey: layerKey, button: name }});
+    layersDispatch({ type: disableFlipType, payload: { layerKey: layerKey, button: name }});
   };
 
   // 常に連打
