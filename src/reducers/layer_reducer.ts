@@ -48,7 +48,8 @@ export const LayerReducer = (layers: Layers, action: ACTIONTYPE) => {
       layers[layerKey][button] = { flip: flip, remap: remap, open: true }
       return { ...layers };
     case "openMenu":
-      layers[layerKey][button] = { open: true };
+      flip.enable = false;
+      layers[layerKey][button] = { flip: flip, open: true };
       return { ...layers };
     case "closeMenu":
       flip.enable = false;
