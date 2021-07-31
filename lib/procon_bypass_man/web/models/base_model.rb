@@ -39,8 +39,8 @@ module ProconBypassMan
       end
 
       def update!(attributes)
-        c = attributes.map {|key, value| "'#{key}' = ?"  }.join(", ")
-        self.class.db.execute("update #{table_name} set #{c}", attributes.map {|key, value| value })
+        c = attributes.map {|key, _value| "'#{key}' = ?"  }.join(", ")
+        self.class.db.execute("update #{table_name} set #{c}", attributes.map {|_key, value| value })
       end
     end
   end

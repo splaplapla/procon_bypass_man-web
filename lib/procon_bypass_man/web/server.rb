@@ -5,6 +5,7 @@ begin
   require 'sinatra/reloader'
   require "pry"
 rescue LoadError
+  ProconBypassMan.logger.debug("sinatra/reloaderのrequireに失敗しました")
 end
 
 require "procon_bypass_man"

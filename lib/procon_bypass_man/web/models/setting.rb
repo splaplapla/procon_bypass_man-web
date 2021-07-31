@@ -6,7 +6,7 @@ module ProconBypassMan
       self.column_names = %w(root_path setting_path)
       self.table_name = :settings
 
-      attr_accessor *column_names
+      attr_accessor(*column_names)
 
       def self.find_or_create_by(*)
         rows = db.execute("select * from #{table_name}")
