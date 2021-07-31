@@ -45,13 +45,15 @@ describe ProconBypassMan::Web::SettingParser do
            :layers=>
            {:up=>
             {:zr=>{:flip=>{:if_pressed=>[:zr], :force_neutral=>[:zl], enable: true }, open: true },
-             :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true}, open: true },
-             :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}, open: true },
-             :y=>{:flip=>{}},
-             :l=>{:remap=>{:to=>[:zr]}, open: true, enable: true }},
+             :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true }, open: true },
+             :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true }, open: true },
+             :y=>{:flip=>{ enable: true }, open: true },
+             :l=>{:remap=>{:to=>[:zr]}, open: true }},
             :right=>{},
             :left=>{},
-            :down=>{:zl=>{:flip=>{}}}}}
+            :down=>{:zl=>{
+              :flip=>{ enable: true }, open: true }
+            }}}
         )
       end
     end
@@ -108,10 +110,10 @@ describe ProconBypassMan::Web::SettingParser do
             {:zr=>{:flip=>{:if_pressed=>[:zr], :force_neutral=>[:zl], enable: true}, open: true },
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true}, open: true },
              :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}, open: true },
-             :l=>{:remap=>{:to=>[:zr]}, open: true, enable: true } },
+             :l=>{:remap=>{:to=>[:zr]}, open: true } },
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
             :left=>{},
-            :down=>{:zl=>{:flip=>{} }}}}
+            :down=>{:zl=>{:flip=>{ enable: true}, open: true }}}}
         )
       end
     end
