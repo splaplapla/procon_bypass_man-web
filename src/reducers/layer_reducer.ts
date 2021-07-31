@@ -13,13 +13,13 @@ export const closeMenuType = Symbol('closeMenu');
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
-    | { type: "alwaysFlip", payload: { layerKey: LayerKey, button: Button } }
-    | { type: "flipIfPressedSelf", payload: { layerKey: LayerKey, button: Button } }
-    | { type: "flipIfPressedSomeButtons", payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
-    | { type: "ignoreButtonsInFliping", payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
-    | { type: "remap", payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
-    | { type: "openMenu", payload: { layerKey: LayerKey, button: Button } }
-    | { type: "closeMenu", payload: { layerKey: LayerKey, button: Button } }
+    | { type: typeof alwaysFlipType, payload: { layerKey: LayerKey, button: Button } }
+    | { type: typeof flipIfPressedSelfType, payload: { layerKey: LayerKey, button: Button } }
+    | { type: typeof flipIfPressedSomeButtonsType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
+    | { type: typeof ignoreButtonsInFlipingType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
+    | { type: typeof remapType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
+    | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
+    | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey;
@@ -32,39 +32,40 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
-    case "alwaysFlip":
+    case alwaysFlipType:
       flip.if_pressed = [];
       flip.enable = true;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
-    case "flipIfPressedSelf":
+    case flipIfPressedSelfType:
       flip.if_pressed = [button];
       flip.enable = true;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
-    case "flipIfPressedSomeButtons":
+    case flipIfPressedSomeButtonsType:
       flip.if_pressed = action.payload.targetButtons;
       flip.enable = true;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
-    case "ignoreButtonsInFliping":
+    case ignoreButtonsInFlipingType:
       flip.force_neutral = action.payload.targetButtons;
       layers[layerKey][button] = { flip: flip, open: true }
       return { ...layers };
-    case "remap":
+    case remapType:
       flip.enable = false;
       remap.to = action.payload.targetButtons;
       layers[layerKey][button] = { flip: flip, remap: remap, open: true }
       return { ...layers };
-    case "openMenu":
+    case openMenuType:
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: true };
       return { ...layers };
-    case "closeMenu":
+    case closeMenuType:
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: false }
       return { ...layers };
     default:
+      console.log("一致しないaction typeです")
       return { ...layers };
   }
 };

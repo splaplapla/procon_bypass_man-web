@@ -10,7 +10,7 @@ import { HttpClient } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
-import { disableFlipType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, remapType, closeMenuType } from "../reducers/layer_reducer";
 
 const httpClient = new HttpClient();
 
@@ -59,17 +59,17 @@ export const ButtonsSettingPage = () => {
             );
 
             if(layers[layerKey][button] === undefined) {
-              layersDispatch({ type: "closeMenu", payload: { layerKey: layerKey, button: button }});
+              layersDispatch({ type: closeMenuType, payload: { layerKey: layerKey, button: button }});
             } else if (layers[layerKey][button].remap?.to) {
-              layersDispatch({ type: "remap", payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].remap?.to }});
+              layersDispatch({ type: remapType, payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].remap?.to }});
             } else if (buttonState.isDisabledFlip()) {
               layersDispatch({ type: disableFlipType, payload: { layerKey: layerKey, button: button }});
             } else if (buttonState.isAlwaysFlip()) {
-              layersDispatch({ type: "alwaysFlip", payload: { layerKey: layerKey, button: button }});
+              layersDispatch({ type: alwaysFlipType, payload: { layerKey: layerKey, button: button }});
             } else if (buttonState.isFlipIfPressedSelf()) {
-              layersDispatch({ type: "flipIfPressedSelf", payload: { layerKey: layerKey, button: button }});
+              layersDispatch({ type: flipIfPressedSelfType, payload: { layerKey: layerKey, button: button }});
             } else if (buttonState.isFlipIfPressedSomeButtons()) {
-              layersDispatch({ type: "flipIfPressedSomeButtons", payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].flip?.if_pressed }});
+              layersDispatch({ type: flipIfPressedSomeButtonsType, payload: { layerKey: layerKey, button: button, targetButtons: layers[layerKey][button].flip?.if_pressed }});
             } else {
               console.log("unexpectですです!!!!!!!!!!!!!");
             }

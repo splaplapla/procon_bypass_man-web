@@ -8,7 +8,7 @@ import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
-import { disableFlipType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, openMenuType, closeMenuType } from "../reducers/layer_reducer";
 
 type ButtonMenuProp = {
   name: Button;
@@ -35,18 +35,18 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
   // 常に連打
   const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    layersDispatch({ type: "alwaysFlip", payload: { layerKey: layerKey, button: name }});
+    layersDispatch({ type: alwaysFlipType, payload: { layerKey: layerKey, button: name }});
   };
 
   // 自分自身への条件付き連打
   const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    layersDispatch({ type: "flipIfPressedSelf", payload: { layerKey: layerKey, button: name }});
+    layersDispatch({ type: flipIfPressedSelfType, payload: { layerKey: layerKey, button: name }});
   };
 
   // 条件付き連打
   const flipIfPressedSomeButtons = buttonValue?.flip?.if_pressed || [] as Array<Button>;
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
-    layersDispatch({ type: "flipIfPressedSomeButtons", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
+    layersDispatch({ type: flipIfPressedSomeButtonsType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -59,7 +59,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
   // 無視
   const forceNeutralButtons = buttonValue.flip?.force_neutral || [] as Array<Button>
   const setIgnoreButtonsOnFlipingWithPersistence = (bs: Array<Button>) => {
-    layersDispatch({ type: "ignoreButtonsInFliping", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
+    layersDispatch({ type: ignoreButtonsInFlipingType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -71,7 +71,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
   // リマップ
   const setRemapButtonsWithPersistence = (bs: Array<Button>) => {
-    layersDispatch({ type: "remap", payload: { layerKey: layerKey, button: name, targetButtons: bs }});
+    layersDispatch({ type: remapType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
@@ -133,9 +133,9 @@ export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const settingContext = useContext(ButtonsSettingContext);
   const handleToggle = () => {
     if(isOpenMenu()) { // 閉じる
-      settingContext.layersDispatch({ type: "closeMenu", payload: { layerKey: layerKey, button: name }});
+      settingContext.layersDispatch({ type: closeMenuType, payload: { layerKey: layerKey, button: name }});
     } else { // 開く
-      settingContext.layersDispatch({ type: "openMenu", payload: { layerKey: layerKey, button: name }});
+      settingContext.layersDispatch({ type: openMenuType, payload: { layerKey: layerKey, button: name }});
     }
   }
 
