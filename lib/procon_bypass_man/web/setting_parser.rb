@@ -125,6 +125,7 @@ module ProconBypassMan
               if value
                 h[:layers][key][button][:remap].merge!(value)
                 h[:layers][key][button][:open] = true
+                h[:layers][key][button][:enable] = true
               end
             end
           end

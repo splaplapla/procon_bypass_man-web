@@ -48,7 +48,7 @@ describe ProconBypassMan::Web::SettingParser do
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true}, open: true },
              :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}, open: true },
              :y=>{:flip=>{}},
-             :l=>{:remap=>{:to=>[:zr]}, open: true }},
+             :l=>{:remap=>{:to=>[:zr]}, open: true, enable: true }},
             :right=>{},
             :left=>{},
             :down=>{:zl=>{:flip=>{}}}}}
@@ -108,7 +108,7 @@ describe ProconBypassMan::Web::SettingParser do
             {:zr=>{:flip=>{:if_pressed=>[:zr], :force_neutral=>[:zl], enable: true}, open: true },
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true}, open: true },
              :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}, open: true },
-             :l=>{:remap=>{:to=>[:zr]}, open: true } },
+             :l=>{:remap=>{:to=>[:zr]}, open: true, enable: true } },
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
             :left=>{},
             :down=>{:zl=>{:flip=>{} }}}}
