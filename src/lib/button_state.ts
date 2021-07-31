@@ -1,44 +1,41 @@
 import { Button } from "../types/button";
+import { Flip, Macro, Remap } from "../types/buttons_setting_type";
 
 export const flip_types = ["disable", "always", "ifPress"] as const;
 export type FlipType = typeof flip_types[number];
 
+// (1) menuへの開閉には関与しない
+//     開閉するとrenderが必要になっていて、contextを変更する必要があるから
 export class ButtonState {
-  button: Button;
-  open: boolean;
-  flipType: FlipType;
-  ifPressButtons: Array<Button>;
+  name: Button;
+  flip?: Flip;
+  macro?: Macro;
+  remap?: Remap;
 
-  constructor(button: Button, open: boolean) {
-    this.button = button;
-    this.open = open;
-    this.flipType = "disable"
-    this.ifPressButtons = []
+  constructor(name: Button, flip?: Flip, macro?: Macro, remap?: Remap) {
+    this.name = name;
+    this.flip = flip;
+    this.macro = macro;
+    this.remap = remap;
   };
 
-  openMenu() {
+  isDisabledFlip(): boolean {
+    if(!this.flip) { return false }
+    return this.flip && !this.flip?.enable;
   }
 
-  beDisableFlip() {
+  isAlwaysFlip(): boolean {
+    if(this.isDisabledFlip()) { return false };
+    return this.flip?.if_pressed?.length === 0;
   }
 
-  beAlwaysFlip() {
+  isFlipIfPressedSelf(): boolean {
+    if(this.isDisabledFlip() || this.isAlwaysFlip() || !this.flip || !this.flip.if_pressed) { return false }
+    return this.flip.if_pressed.length === 1 && this.flip.if_pressed[0] === this.name;
   }
 
-  beAlwaysFlipIfPressSelf(button: Button) {
-  }
-
-  beAlwaysFlipIfPressButtons(buttons: Array<Button>) {
-  }
-
-  isDisabledFlip() {
-  }
-
-  isAlwaysFlip() {
-  }
-
-  isFlipIfPressedSelf() {
-  }
-  isFlipIfPressedSomeButtons() {
+  isFlipIfPressedSomeButtons(): boolean {
+    if(this.isDisabledFlip() || this.isAlwaysFlip() || this.isFlipIfPressedSelf()) { return false }
+    return true;
   }
 }

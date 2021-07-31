@@ -19,6 +19,7 @@ type ButtonMenuProp = {
 const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) => {
   const flipRadioName = `${layerKey}_button_menu_${name}`;
   const [openModal, setOpenModal] = useState(false)
+  const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.macro, buttonValue.remap);
 
   // like pipe for modal
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
@@ -106,22 +107,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
     setModalCloseCallback(() => setOpenModal);
   };
 
-  const isDisabledFlip = (): boolean => {
-    if(!buttonValue.flip) { return false }
-    return buttonValue.flip && !buttonValue.flip?.enable;
-  }
-  const isAlwaysFlip = (): boolean => {
-    if(isDisabledFlip()) { return false };
-    return buttonValue.flip?.if_pressed?.length === 0;
-  }
-  const isFlipIfPressedSelf = (): boolean => {
-    if(isDisabledFlip() || isAlwaysFlip() || !buttonValue.flip || !buttonValue.flip.if_pressed) { return false }
-    return buttonValue.flip.if_pressed.length === 1 && buttonValue.flip.if_pressed[0] === name;
-  }
-  const isFlipIfPressedSomeButtons = (): boolean => {
-    if(isDisabledFlip() || isAlwaysFlip() || isFlipIfPressedSelf()) { return false }
-    return true
-  }
 
   const modalWrapperStyle = css(`
       position: relative;
@@ -132,11 +117,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
       <div>
         <h2>連打設定</h2>
         <div>
-          <label><input type="radio" onChange={handleNullFlipValue} checked={isDisabledFlip()}/>無効</label><br />
-          <label><input type="radio" onChange={handleFlipValue} checked={isAlwaysFlip()}/>常に連打する</label><br />
-          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
+          <label><input type="radio" onChange={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
+          <label><input type="radio" onChange={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
+          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
           <label>
-            <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={isFlipIfPressedSomeButtons()}/>
+            <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
             特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
           </label><br />
         </div>
@@ -145,7 +130,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
         <h3>連打オプション</h3>
         <div>
           <label>
-            <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={isDisabledFlip()} />
+            <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={buttonState.isDisabledFlip()} />
               連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
             </label>
         </div>
@@ -153,7 +138,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, setLayers }: ButtonMenuProp) 
         <h2>リマップ設定</h2>
         <div>
           <label>
-            <input type="checkbox" onChange={handleRemapButton} checked={!!buttonValue?.remap?.to} disabled={!isDisabledFlip()} />
+            <input type="checkbox" onChange={handleRemapButton} checked={!!buttonValue?.remap?.to} disabled={!buttonState.isDisabledFlip()} />
               別のボタンに置き換える{buttonValue.remap?.to && buttonValue.remap?.to?.length > 0 && `(${buttonValue.remap?.to?.join(", ")})`}
           </label>
         </div>
@@ -172,7 +157,6 @@ type Prop = {
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
   const settingContext = useContext(ButtonsSettingContext);
-  const buttonState = new ButtonState(name, settingContext.layers[layerKey][name].open);
   const handleToggle = () => {
     if(isOpenMenu()) { // 閉じる
       settingContext.setLayers((layers: Layers) => {
