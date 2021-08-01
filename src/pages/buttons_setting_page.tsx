@@ -44,6 +44,11 @@ export const ButtonsSettingPage = () => {
   }
 
   useEffect(() => {
+    if (loaded) {
+      layerRefs[0].setVisibility("show");
+      return;
+    }
+
     httpClient.getSetting()
       .then(function (response) {
         setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
@@ -84,10 +89,6 @@ export const ButtonsSettingPage = () => {
         setDebugConsole("<設定ファイルの取得に成功しました>");
         setLoaded(true);
       })
-
-    if (loaded) {
-      layerRefs[0].setVisibility("show");
-    }
 
   }, [loaded]);
 
