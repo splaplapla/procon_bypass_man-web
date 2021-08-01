@@ -1,5 +1,7 @@
+/** @jsx jsx */
+
+import { jsx, css } from '@emotion/react'
 import React, { useState, useReducer } from "react";
-import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,9 +13,8 @@ import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType, ButtonsInLayer, Layers, Flip, Remap } from "../types/buttons_setting_type";
+import { ButtonsInLayer, Layers } from "../types/buttons_setting_type";
 import { buttons, Button } from "../types/button";
-import { LayerKey } from "../types/layer_key";
 import { LayerReducer } from "../reducers/layer_reducer";
 
 const ButtonsSettingProfile: React.FC = ({children}) => {
@@ -42,26 +43,36 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
 }
 
 export const Top: React.FC = () => {
+  const ulCss = css`
+    list-style: none;
+    display:flex;
+    margin: 0;
+    padding: 0;
+  `;
+  const liCss = css`
+    padding-right: 10px;
+  `;
+
   return (
     <>
       <Router>
         <div>
           <nav>
-            <ul>
-              <li>
+            <ul css={ulCss}>
+              <li css={liCss}>
                 <Link to="/">home</Link>
               </li>
-              <li>
+              <li css={liCss}>
                 <Link to="/setting">設定</Link>
               </li>
-              <li>
+              <li css={liCss}>
                 <Link to="/pbm">PBMのステータス</Link>
               </li>
-              <li>
+              <li css={liCss}>
                 <Link to="/recoding_mode">入力の録画</Link>
               </li>
-              <li>
-                <Link to="/buttons_setting">ボタン設定(wip)</Link>
+              <li css={liCss}>
+                <Link to="/buttons_setting">ボタン設定</Link>
               </li>
             </ul>
           </nav>
