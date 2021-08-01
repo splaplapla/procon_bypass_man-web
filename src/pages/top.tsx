@@ -43,35 +43,45 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
 }
 
 export const Top: React.FC = () => {
-  const ulCss = css`
-    list-style: none;
-    display:flex;
-    margin: 0;
-    padding: 0;
-  `;
-  const liCss = css`
-    padding-right: 10px;
+  const menuStyle = css`
+    ul {
+      list-style: none;
+      display:flex;
+      margin: 0;
+      padding: 0;
+      li {
+        padding-right: 3px;
+        display: block;
+        a {
+          text-decoration: none;
+          display:block;
+          padding:10px;
+          background-color: #333;
+          color: white;
+        }
+      }
+    }
   `;
 
   return (
     <>
       <Router>
         <div>
-          <nav>
-            <ul css={ulCss}>
-              <li css={liCss}>
+          <nav css={menuStyle}>
+            <ul>
+              <li>
                 <Link to="/">home</Link>
               </li>
-              <li css={liCss}>
+              <li>
                 <Link to="/setting">設定</Link>
               </li>
-              <li css={liCss}>
+              <li>
                 <Link to="/pbm">PBMのステータス</Link>
               </li>
-              <li css={liCss}>
+              <li>
                 <Link to="/recoding_mode">入力の録画</Link>
               </li>
-              <li css={liCss}>
+              <li>
                 <Link to="/buttons_setting">ボタン設定</Link>
               </li>
             </ul>

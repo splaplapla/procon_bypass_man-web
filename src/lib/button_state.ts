@@ -4,8 +4,6 @@ import { Flip, Macro, Remap } from "../types/buttons_setting_type";
 export const flip_types = ["disable", "always", "ifPress"] as const;
 export type FlipType = typeof flip_types[number];
 
-// (1) menuへの開閉には関与しない
-//     開閉するとrenderが必要になっていて、contextを変更する必要があるから
 export class ButtonState {
   button: Button;
   flip?: Flip;
