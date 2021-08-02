@@ -92,27 +92,38 @@ export const ButtonsSettingPage = () => {
 
   }, [loaded]);
 
-  const layerUlStyle = css`
-    list-style: none;
-    display:flex;
-    margin: 0;
-    padding: 0;
-    border-left: 1px solid #aaa;
+  const layersTabStyle = () => {
+  return css`
+    ul {
+      list-style: none;
+      display:flex;
+      margin: 0;
+      padding: 0;
+      border-left: 1px solid #aaa;
+      li {
+        padding: 20px;
+        border-top: 1px solid #aaa;
+        border-right: 1px solid #aaa;
+        &.active {
+          border-bottom: 1px solid #white;
+        }
+        &.inactive {
+          border-bottom: 1px solid #aaa;
+        }
+      }
+    }
   `;
-  const layerLiStyle = (layer: LayerKey) => {
-    let color = "";
-    if(layer === selectedLayer) { color = "white" } else { color = "aaa" };
-    return css`
-      padding: 20px;
-      border-top: 1px solid #aaa;
-      border-right: 1px solid #aaa;
-      border-bottom: 1px solid #${color};
-    `
-  };
+  }
+  const liClassName = (layer: LayerKey) => {
+    if(layer === selectedLayer) {
+      return "active"
+    } else {
+      return "inactive"
+    };
+  }
 
   return (
     <>
-      <hr />
       <h2>設定ファイルの変更</h2>
       <div>
         <a href="#" onClick={exportSetting}>エクスポートする</a>
@@ -121,13 +132,15 @@ export const ButtonsSettingPage = () => {
       {debugConsole}
 
       <div>設定中のプレフィックスキー: {prefixKeys.join(", ")}</div>
-      <ul css={layerUlStyle}>
-        {layerKeys.map((l, index) => (
-          <li key={l} css={layerLiStyle(l)}>
-            <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
-          </li>
-        ))}
-      </ul>
+      <div css={layersTabStyle}>
+        <ul>
+          {layerKeys.map((l, index) => (
+            <li key={l} className={liClassName(l)}>
+              <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {loaded && layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
       {!loaded && "loading..."}
