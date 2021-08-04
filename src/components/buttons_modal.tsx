@@ -9,19 +9,19 @@ type Props = {
   callbackOnClose: any;
   prefill: Array<Button>;
   title: string;
+  positionOnShown: string;
 };
 
 type CheckedButtons = {
   [key in Button] : boolean
 }
 
-export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, positionOnShown }: Props) => {
   const [checkedButtonMap, setCheckedButtonMap] = useState(
     prefill.reduce((a, b) => { a[b] = true; return a },
       buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons)
     )
   )
-
   const callback = callbackOnSubmit;
   const handleSubmit = () => {
     const bs = Object.entries(checkedButtonMap).reduce((acc, item) => {
@@ -44,15 +44,27 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     font-size: 1.17em;
     font-weight: bold;
   `)
-  const style = css(`
-    position: absolute;
-    align: left;
-    top: -400px;
-    width: 400px;
-    height: 400px;
-    border: solid;
-    background-color: white;
-  `);
+  const style = () => {
+    if(positionOnShown === "relative") {
+      return css(`
+        position: absolute;
+        align: left;
+        top: -400px;
+        width: 400px;
+        height: 400px;
+        border: solid;
+        background-color: white;
+      `);
+    } else {
+      return css(`
+        align: left;
+        width: 400px;
+        height: 400px;
+        border: solid;
+        background-color: white;
+      `);
+    }
+  }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedButtonMap((previousButtonStats) => {
       previousButtonStats[e.target.value as Button] = e.target.checked;
@@ -62,7 +74,7 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
 
   return (
     <>
-      <div css={style}>
+      <div css={style()}>
         <div css={titlestyle}>{title}</div>
 
         <ul>

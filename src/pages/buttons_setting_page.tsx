@@ -11,6 +11,7 @@ import { ButtonState } from "./../lib/button_state";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType } from "../reducers/layer_reducer";
+import { ButtonsModal } from "../components/buttons_modal";
 
 const httpClient = new HttpClient();
 
@@ -128,6 +129,20 @@ export const ButtonsSettingPage = () => {
       return "inactive"
     };
   }
+  const handlePrefixKeysField = () => {
+    setOpenModal(true)
+    setModalTitle("キープレフィックスの変更")
+    setModalPrefillButtons(prefixKeys);
+    // setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtonsWithPersistence);
+    setModalCloseCallback(() => setOpenModal);
+  }
+
+  // for modal
+  const [openModal, setOpenModal] = useState(false)
+  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
+  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
+  const [modalTitle, setModalTitle] = useState("")
+  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
   return (
     <>
@@ -138,7 +153,11 @@ export const ButtonsSettingPage = () => {
 
       {debugConsole}
 
-      <div>設定中のプレフィックスキー: {prefixKeys.join(", ")}</div>
+      <h3>設定中のプレフィックスキー:
+        <input type="text" value={prefixKeys.join(", ")} onClick={handlePrefixKeysField} />
+        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
+      </h3>
+
       <div css={layersTabStyle}>
         <ul>
           {layerKeys.map((l, index) => (

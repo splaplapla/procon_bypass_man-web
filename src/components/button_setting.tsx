@@ -19,10 +19,10 @@ type ButtonMenuProp = {
 
 const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
   const flipRadioName = `${layerKey}_button_menu_${name}`;
-  const [openModal, setOpenModal] = useState(false)
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.macro, buttonValue.remap);
 
-  // like pipe for modal
+  // for modal
+  const [openModal, setOpenModal] = useState(false)
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
@@ -83,7 +83,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
 
   const modalWrapperStyle = css(`
-      position: relative;
+    position: relative;
   `)
 
   return(
@@ -118,7 +118,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
         </div>
       </div>
       <div css={modalWrapperStyle}>
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
+        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
       </div>
     </>
   )
