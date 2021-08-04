@@ -29,7 +29,7 @@
     "build": "webpack",
     "server": "webpack serve",
     "release-build": "NODE_ENV=production webpack",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.7",
