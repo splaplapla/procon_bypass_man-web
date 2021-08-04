@@ -48,7 +48,7 @@ export class ButtonState {
 
   isRemap(): boolean {
     if(this.hasFlipSetting()) { return false }
-    if(this.remap) { return true }
+    if(this.remap && this.remap.to?.length > 0) { return true }
     return false;
   }
 }

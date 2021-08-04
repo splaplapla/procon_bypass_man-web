@@ -112,8 +112,8 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
         <h2>リマップ設定</h2>
         <div>
           <label>
-            <input type="checkbox" onChange={handleRemapButton} checked={!!buttonValue?.remap?.to} disabled={!buttonState.isDisabledFlip()} />
-              別のボタンに置き換える{buttonValue.remap?.to && buttonValue.remap?.to?.length > 0 && `(${buttonValue.remap?.to?.join(", ")})`}
+            <input type="checkbox" onChange={handleRemapButton} checked={buttonState.isRemap()} disabled={!buttonState.isDisabledFlip()} />
+              別のボタンに置き換える{buttonState.isRemap() && `(${buttonValue.remap?.to?.join(", ")})`}
           </label>
         </div>
       </div>
