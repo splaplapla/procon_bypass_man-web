@@ -81,7 +81,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     setModalCloseCallback(() => setOpenModal);
   };
 
-
   const modalWrapperStyle = css(`
     position: relative;
   `)

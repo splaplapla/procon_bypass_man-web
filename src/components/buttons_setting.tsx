@@ -25,7 +25,6 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
       &.hidden {
         display: none;
       }
-
       ul.buttons_setting {
         border: 1px solid #666; display: flex;
         flex-wrap: wrap;
@@ -34,7 +33,6 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
         margin: 0 0 0 1em;
         padding: 0;
         width: 900px;
-
         li.buttons_setting {
           border: 1px solid #aaa;
           display: table;

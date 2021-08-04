@@ -95,14 +95,14 @@ export const ButtonsSettingPage = () => {
 
   const layersTabStyle = () => {
     return css`
-      ul {
+      ul.buttons_setting_page {
         list-style: none;
         display:flex;
         margin: 0;
         padding: 0;
         border-left: 1px solid #aaa;
         margin-bottom: 30px;
-        li {
+        li.buttons_setting_page {
           border-top: 1px solid #aaa;
           border-right: 1px solid #aaa;
           &.active {
@@ -153,15 +153,16 @@ export const ButtonsSettingPage = () => {
 
       {debugConsole}
 
-      <h3>設定中のプレフィックスキー:
-        <input type="text" value={prefixKeys.join(", ")} onClick={handlePrefixKeysField} />
+      <h3>設定中のプレフィックスキー</h3>
+      <div css={css`position: relative;`}>
+        <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
         {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
-      </h3>
+      </div>
 
       <div css={layersTabStyle}>
-        <ul>
+        <ul className={"buttons_setting_page"}>
           {layerKeys.map((l, index) => (
-            <li key={l} className={liClassName(l)}>
+            <li key={l} className={`${liClassName(l)} buttons_setting_page`}>
               <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
             </li>
           ))}
