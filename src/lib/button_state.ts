@@ -18,26 +18,37 @@ export class ButtonState {
   };
 
   isDisabledFlip(): boolean {
+    if(!this.flip && !this.macro && !this.remap) { return true }
+    if(this.remap) { return true }
     if(!this.flip) { return false }
     return this.flip && !this.flip?.enable;
   }
 
   isAlwaysFlip(): boolean {
+    if(!this.flip && !this.macro && !this.remap) { return false }
     if(this.isDisabledFlip()) { return false };
     return !!this.flip && !!this.flip.enable && (this.flip?.if_pressed || []) ?.length === 0;
   }
 
   isFlipIfPressedSelf(): boolean {
+    if(!this.flip && !this.macro && !this.remap) { return false }
     if(this.isDisabledFlip() || this.isAlwaysFlip() || !this.flip || !this.flip.if_pressed) { return false }
     return this.flip.if_pressed.length === 1 && this.flip.if_pressed[0] === this.button;
   }
 
   isFlipIfPressedSomeButtons(): boolean {
+    if(!this.flip) { return false }
     if(this.isDisabledFlip() || this.isAlwaysFlip() || this.isFlipIfPressedSelf()) { return false }
     return true;
   }
 
   hasFlipSetting(): boolean {
-    return this.isAlwaysFlip() || this.isFlipIfPressedSelf() || this.isFlipIfPressedSomeButtons();
+    return !this.isDisabledFlip();
+  }
+
+  isRemap(): boolean {
+    if(this.hasFlipSetting()) { return false }
+    if(this.remap) { return true }
+    return false;
   }
 }
