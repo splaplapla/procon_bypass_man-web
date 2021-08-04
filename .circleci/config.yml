@@ -10,10 +10,16 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install npm packages
+          command: yarn
+      - run:
+          name: run jest
+          command: yarn test
+      - run:
           name: install bundler
           command: gem install bundler:2.2.16
       - run:
-          name: bundle install
+          name: install gems
           command: bundle install --jobs 4
       - run:
           name: rubocop
