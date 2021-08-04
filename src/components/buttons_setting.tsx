@@ -25,11 +25,8 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
       &.hidden {
         display: none;
       }
-      &.shown {
-        display: block;
-      }
 
-      ul {
+      ul.buttons_setting {
         border: 1px solid #666; display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -38,7 +35,7 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
         padding: 0;
         width: 900px;
 
-        li {
+        li.buttons_setting {
           border: 1px solid #aaa;
           display: table;
           line-height: 110%;
@@ -56,9 +53,9 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
 
   return (
     <div className={visibilityClassName()} css={style}>
-      <ul>
+      <ul className={"buttons_setting"} >
         {buttons.map((b, i) => (
-          <li key={i}>
+          <li key={i} className={"buttons_setting"} >
             <ButtonSetting layerKey={layerKey} name={b} />
           </li>
         ))}
