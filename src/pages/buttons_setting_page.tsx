@@ -101,9 +101,7 @@ export const ButtonsSettingPage = () => {
         padding: 0;
         border-left: 1px solid #aaa;
         margin-bottom: 30px;
-
         li {
-          padding: 20px;
           border-top: 1px solid #aaa;
           border-right: 1px solid #aaa;
           &.active {
@@ -111,6 +109,13 @@ export const ButtonsSettingPage = () => {
           }
           &.inactive {
             border-bottom: 1px solid #aaa;
+          }
+          a {
+            padding: 20px;
+            display: block;
+            &:hover {
+             cursor:pointer;
+            }
           }
         }
       }
