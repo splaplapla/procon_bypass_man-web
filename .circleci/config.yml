@@ -2,6 +2,14 @@ version: 2.1
 
 orbs:
   pbm:
+    executors:
+      ruby:
+        docker:
+          - image: 'circleci/ruby:3.0.1'
+      node:
+        docker:
+          - image: 'circleci/node:stretch'
+
     commands:
       install-yarn:
         steps:
@@ -19,7 +27,7 @@ orbs:
               paths:
                 - ~/.cache/yarn
           - run: node --version
-      install-ruby:
+      install-gems:
         steps:
           - checkout
           - run:
@@ -33,25 +41,23 @@ orbs:
       run-jest:
         docker:
           - image: 'circleci/node:stretch'
+        executor: node
         steps:
           - install-yarn
-          - run: node --version
           - run:
               name: run jest
               command: yarn test
       run-rspec:
-        docker:
-          - image: circleci/ruby:3.0.1
+        executor: ruby
         steps:
-          - install-ruby
+          - install-gems
           - run:
               name: run test
               command: bundle exec rspec
       run-rubocop:
-        docker:
-          - image: circleci/ruby:3.0.1
+        executor: ruby
         steps:
-          - install-ruby
+          - install-gems
           - run:
               name: rubocop
               command: bundle exec rubocop
