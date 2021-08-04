@@ -45,31 +45,18 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
       `)
     }
   }
-  const handleDebug = () =>{
-    debugger;
-  }
   layerRef.setVisibility = setVisibility;
 
   return (
     <>
       <div css={style()}>
-        <h1>{layerKey}</h1>
-        <div>available plugins</div>
-        <div>available mode</div>
-        <div>
-          <a onClick={handleDebug}>key setting</a>
-        </div>
-        <div>
-
-          <ul css={ulstyle}>{
-            buttons.map((b, i) => (
-              <li key={i} css={listyle}>
-                <ButtonSetting layerKey={layerKey} name={b} />
-              </li>
-            ))
-          }
-          </ul>
-        </div>
+        <ul css={ulstyle}>
+          {buttons.map((b, i) => (
+            <li key={i} css={listyle}>
+              <ButtonSetting layerKey={layerKey} name={b} />
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   )

@@ -68,6 +68,6 @@ export class HttpClient {
   }
 
   getSetting() {
-    return axios.get<SettingApiResponse>( "/api/pbm_setting");
+    return axios.get<SettingApiResponse>("/api/pbm_setting");
   }
 }
