@@ -11,53 +11,58 @@ type Props = {
   layerRef: any;
 };
 
-const ulstyle = css`
-    border: 1px solid #666; display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    list-style-type: none;
-    margin: 0 0 0 1em;
-    padding: 0;
-    width: 900px;
-`;
-const listyle = css`
-    border: 1px solid #aaa;
-    display: table;
-    line-height: 110%;
-    margin: 0.2em;
-    padding: 0.5em;
-    text-align: center;
-    width: 200px;
-    height: 100px;
-`;
-
 export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   const [visibility, setVisibility] = useState("hidden");
-
-  const style = () => {
+  const visibilityClassName = () => {
     if(visibility === "hidden") {
-      return(css`
-        display: none;
-      `)
+      return "hidden"
     } else {
-      return(css`
-        display: block;
-      `)
+      return "shown"
     }
-  }
+  };
+  const style = () => {
+    return css`
+      &.hidden {
+        display: none;
+      }
+      &.shown {
+        display: block;
+      }
+
+      ul {
+        border: 1px solid #666; display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        list-style-type: none;
+        margin: 0 0 0 1em;
+        padding: 0;
+        width: 900px;
+
+        li {
+          border: 1px solid #aaa;
+          display: table;
+          line-height: 110%;
+          margin: 0.2em;
+          padding: 0.5em;
+          text-align: center;
+          width: 200px;
+          height: 100px;
+        }
+      }
+    `;
+  };
+
   layerRef.setVisibility = setVisibility;
 
   return (
-    <>
-      <div css={style()}>
-        <ul css={ulstyle}>
-          {buttons.map((b, i) => (
-            <li key={i} css={listyle}>
-              <ButtonSetting layerKey={layerKey} name={b} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+    <div className={visibilityClassName()} css={style}>
+      <ul>
+        {buttons.map((b, i) => (
+          <li key={i}>
+            <ButtonSetting layerKey={layerKey} name={b} />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }

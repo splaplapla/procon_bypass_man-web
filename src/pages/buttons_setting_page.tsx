@@ -30,7 +30,7 @@ export const ButtonsSettingPage = () => {
       layerRefs.forEach(r => r.setVisibility("hidden"));
       layerRefs[
         Number(event.target.dataset.layerKeyIndex)
-      ].setVisibility("show");
+      ].setVisibility("shown");
     }
   }
   const exportSetting = () => {
@@ -45,7 +45,7 @@ export const ButtonsSettingPage = () => {
 
   useEffect(() => {
     if (loaded) {
-      layerRefs[0].setVisibility("show");
+      layerRefs[0].setVisibility("shown");
       return;
     }
 
