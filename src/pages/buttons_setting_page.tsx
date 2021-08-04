@@ -154,7 +154,7 @@ export const ButtonsSettingPage = () => {
       {debugConsole}
 
       <h3>設定中のプレフィックスキー</h3>
-      <div css={css`position: relative;`}>
+      <div css={css`position: relative; margin-bottom: 20px;`}>
         <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
         {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
       </div>

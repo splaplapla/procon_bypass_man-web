@@ -50,7 +50,7 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   layerRef.setVisibility = setVisibility;
 
   return (
-    <div className={visibilityClassName()} css={style}>
+    <div className={visibilityClassName()} css={style()}>
       <ul className={"buttons_setting"} >
         {buttons.map((b, i) => (
           <li key={i} className={"buttons_setting"} >
