@@ -1,29 +1,65 @@
 version: 2.1
-orbs:
-  ruby: circleci/ruby@0.1.2 
 
-jobs:
+orbs:
+  pbm:
+    commands:
+      install-yarn:
+        steps:
+          - checkout
+          - restore_cache:
+              name: Restore Yarn Package Cache
+              keys:
+                - yarn-packages-{{ checksum "yarn.lock" }}
+          - run:
+              name: Install Dependencies
+              command: yarn install --immutable
+          - save_cache:
+              name: Save Yarn Package Cache
+              key: yarn-packages-{{ checksum "yarn.lock" }}
+              paths:
+                - ~/.cache/yarn
+          - run: node --version
+      install-ruby:
+        steps:
+          - checkout
+          - run:
+              name: install bundler
+              command: gem install bundler:2.2.16
+          - run:
+              name: install gems
+              command: bundle install --jobs 4
+
+    jobs:
+      run-jest:
+        docker:
+          - image: 'circleci/node:stretch'
+        steps:
+          - install-yarn
+          - run: node --version
+          - run:
+              name: run jest
+              command: yarn test
+      run-rspec:
+        docker:
+          - image: circleci/ruby:3.0.1
+        steps:
+          - install-ruby
+          - run:
+              name: run test
+              command: bundle exec rspec
+      run-rubocop:
+        docker:
+          - image: circleci/ruby:3.0.1
+        steps:
+          - install-ruby
+          - run:
+              name: rubocop
+              command: bundle exec rubocop
+
+workflows:
+  version: 2
   build:
-    docker:
-      - image: circleci/ruby:3.0.1
-    executor: ruby/default
-    steps:
-      - checkout
-      - run:
-          name: install npm packages
-          command: yarn
-      - run:
-          name: run jest
-          command: yarn test
-      - run:
-          name: install bundler
-          command: gem install bundler:2.2.16
-      - run:
-          name: install gems
-          command: bundle install --jobs 4
-      - run:
-          name: rubocop
-          command: bundle exec rubocop
-      - run:
-          name: run test
-          command: bundle exec rspec
+    jobs:
+      - pbm/run-jest
+      - pbm/run-rubocop
+      - pbm/run-rspec
