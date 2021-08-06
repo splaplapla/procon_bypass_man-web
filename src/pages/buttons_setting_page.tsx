@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
@@ -25,6 +25,8 @@ export const ButtonsSettingPage = () => {
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
 
+  let loadedSetting = useRef({});
+
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
       setSelectedLayer(event.target.dataset.layerKey as LayerKey);
@@ -42,6 +44,12 @@ export const ButtonsSettingPage = () => {
     tempLink.href = csvURL;
     tempLink.setAttribute('download', 'setting.yml');
     tempLink.click();
+  }
+  const applySetting = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    console.log("now", { prefixKeys: prefixKeys, layers: layers });
+    console.log("init", loadedSetting.current);
   }
 
   useEffect(() => {
@@ -87,7 +95,7 @@ export const ButtonsSettingPage = () => {
           });
         });
 
-        setDebugConsole("<設定ファイルの取得に成功しました>");
+        loadedSetting.current = { prefixKeys: response.data.setting.prefix_keys_for_changing_layer, layers: layers };
         setLoaded(true);
       })
 
@@ -148,8 +156,9 @@ export const ButtonsSettingPage = () => {
       <div>
         <a href="#" onClick={exportSetting}>エクスポートする</a>
       </div>
-
-      {debugConsole}
+      <div>
+        <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
+      </div>
 
       <h3>設定中のプレフィックスキー</h3>
       <div css={css`position: relative; margin-bottom: 20px;`}>
