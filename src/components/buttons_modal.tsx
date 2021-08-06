@@ -80,13 +80,11 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
       <div css={style()}>
         <div css={titlestyle}>{title}</div>
 
-        <ul>
-          {buttons.map((b, index) => (
-            <li key={index}>
-              <label><input type="checkbox" value={b} defaultChecked={checkedButtonMap[b]} onChange={handleClick} />{b}</label>
-            </li>
-          ))}
-        </ul>
+        {buttons.map((b, index) => (
+          <div key={index}>
+            <label><input type="checkbox" value={b} defaultChecked={checkedButtonMap[b]} onChange={handleClick} />{b}</label>
+          </div>
+        ))}
 
         <hr />
 

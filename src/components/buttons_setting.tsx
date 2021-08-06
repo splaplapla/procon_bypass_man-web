@@ -21,7 +21,8 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   }
   const ulStyle = () => {
     return css`
-      border: 1px solid #666; display: flex;
+      border: 1px solid #666;
+      display: flex;
       flex-wrap: wrap;
       justify-content: center;
       list-style-type: none;
@@ -33,26 +34,22 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   const liStyle = () => {
     return css`
       border: 1px solid #aaa;
-      display: table;
-      line-height: 110%;
       margin: 0.2em;
       padding: 0.5em;
-      text-align: center;
       width: 200px;
-      height: 100px;
     `;
   }
   layerRef.setVisibility = setVisibility;
 
   return (
     <div css={visibilityStyle()}>
-      <ul css={ulStyle()}>
+      <div css={ulStyle()}>
         {buttons.map((b, i) => (
-          <li key={i} css={liStyle()}>
+          <div key={i} css={liStyle()}>
             <ButtonSetting layerKey={layerKey} name={b} />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
