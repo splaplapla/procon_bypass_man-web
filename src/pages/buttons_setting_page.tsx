@@ -131,7 +131,7 @@ export const ButtonsSettingPage = () => {
     setOpenModal(true)
     setModalTitle("キープレフィックスの変更")
     setModalPrefillButtons(prefixKeys);
-    // setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtonsWithPersistence);
+    setModalCallbackOnSubmit(() => setPrefixKeys);
     setModalCloseCallback(() => setOpenModal);
   }
 
