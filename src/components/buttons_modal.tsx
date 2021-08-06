@@ -23,7 +23,8 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     )
   )
   const callback = callbackOnSubmit;
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     const bs = Object.entries(checkedButtonMap).reduce((acc, item) => {
       const checked: boolean = item[1];
       const button = item[0] as Button;
@@ -33,11 +34,10 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
 
     callbackOnSubmit(bs);
     callbackOnClose(false);
-    return false;
   };
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     callbackOnClose(false);
-    return false;
   }
   const titlestyle = css(`
     margin-top: 10px;
