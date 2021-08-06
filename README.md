@@ -40,7 +40,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * エクスポートした設定の妥当性をテストで確認したい
     * モーダルのデザインを整える
     * a layerのデザインを整える
-        * radioboxを変更するとliが別の行になる
-    * prefixボタンを設定できるようにする
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
 * github pageでホスティングする(generator)
