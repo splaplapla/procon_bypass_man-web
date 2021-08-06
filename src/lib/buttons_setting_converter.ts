@@ -29,7 +29,7 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
       }
     } else { // flipとremapは共存できないのでelseにする
       if(remap) {
-        return `remap:${button}${(remap.to || "") && `, to: %i(${remap.to.join(" ")})`}`;
+        return `remap :${button}${(remap.to || "") && `, to: %i(${remap.to.join(" ")})`}`;
       }
     }
     if(macro) {
