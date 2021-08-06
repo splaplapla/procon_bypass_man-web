@@ -45,7 +45,7 @@ setting: |-
   layer :left do
     remap :a, to: %i(b y)
   end`;
-    expect(expected).toBe(actual);
+    expect(actual).toBe(expected);
   })
 })
 
@@ -81,6 +81,6 @@ setting: |-
   end
   layer :left do
   end`;
-    expect(expected).toBe(actual);
+    expect(actual).toBe(expected);
   })
 })
