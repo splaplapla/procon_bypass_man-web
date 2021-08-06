@@ -68,6 +68,19 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
       `);
     }
   }
+  const aStyle = css`
+    background-color: #4669ff;
+    border-bottom: solid 2px #003aff;
+    border-right: solid 2px #003aff;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #FFF;
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block;
+    margin-left: 10px;
+  `;
+
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckedButtonMap((previousButtonStats) => {
       previousButtonStats[e.target.value as Button] = e.target.checked;
@@ -87,15 +100,10 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
         ))}
 
         <hr />
-
-        <ul>
-          <li>
-            <a onClick={handleCancel}>変更せず閉じる</a>
-          </li>
-          <li>
-            <a onClick={handleSubmit}>決定する</a>
-          </li>
-        </ul>
+        <div css={css`display: flex`}>
+          <a href={"#"} onClick={handleCancel} css={aStyle}>変更せず閉じる</a>
+          <a href={"#"} onClick={handleSubmit} css={aStyle}>決定する</a>
+        </div>
       </div>
     </>
   )
