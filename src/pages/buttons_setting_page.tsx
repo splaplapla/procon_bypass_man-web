@@ -95,28 +95,26 @@ export const ButtonsSettingPage = () => {
 
   const layersTabStyle = () => {
     return css`
-      ul.buttons_setting_page {
-        list-style: none;
-        display:flex;
-        margin: 0;
-        padding: 0;
-        border-left: 1px solid #aaa;
-        margin-bottom: 30px;
-        li.buttons_setting_page {
-          border-top: 1px solid #aaa;
-          border-right: 1px solid #aaa;
-          &.active {
-            border-bottom: 1px solid #white;
-          }
-          &.inactive {
-            border-bottom: 1px solid #aaa;
-          }
-          a {
-            padding: 20px;
-            display: block;
-            &:hover {
-             cursor:pointer;
-            }
+      list-style: none;
+      display:flex;
+      margin: 0;
+      padding: 0;
+      border-left: 1px solid #aaa;
+      margin-bottom: 30px;
+      li {
+        border-top: 1px solid #aaa;
+        border-right: 1px solid #aaa;
+        &.active {
+          border-bottom: 1px solid #white;
+        }
+        &.inactive {
+          border-bottom: 1px solid #aaa;
+        }
+        a {
+          padding: 20px;
+          display: block;
+          &:hover {
+           cursor:pointer;
           }
         }
       }
@@ -159,15 +157,13 @@ export const ButtonsSettingPage = () => {
         {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
       </div>
 
-      <div css={layersTabStyle}>
-        <ul className={"buttons_setting_page"}>
-          {layerKeys.map((l, index) => (
-            <li key={l} className={`${liClassName(l)} buttons_setting_page`}>
-              <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul css={layersTabStyle()}>
+        {layerKeys.map((l, index) => (
+          <li key={l} className={`${liClassName(l)}`}>
+            <a data-layer-key-index={index} data-layer-key={l} onClick={switchLayer}>{l}</a>
+          </li>
+        ))}
+      </ul>
 
       {loaded && layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
       {!loaded && "loading..."}
