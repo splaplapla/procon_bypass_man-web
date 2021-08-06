@@ -12,7 +12,7 @@ import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSo
 
 type ButtonMenuProp = {
   name: Button;
-  layerKey: string;
+  layerKey: LayerKey;
   buttonValue: ButtonInLayer;
   layersDispatch: any;
 };
@@ -125,7 +125,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
 type Prop = {
   name: Button;
-  layerKey: string;
+  layerKey: LayerKey;
 };
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
