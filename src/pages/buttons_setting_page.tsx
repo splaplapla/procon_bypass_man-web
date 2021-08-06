@@ -35,7 +35,7 @@ export const ButtonsSettingPage = () => {
     }
   }
   const exportSetting = () => {
-    const body = ButtonsSettingConverter({ prefixKey: prefixKeys, layers: layers }) || ""
+    const body = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     var data = new Blob([body], { type: 'text/yaml' })
     var csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement('a');

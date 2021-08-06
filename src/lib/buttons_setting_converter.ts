@@ -3,10 +3,10 @@ import { Macro, Remap, Flip, Layers, ButtonsInLayer } from "../types/buttons_set
 import { Button, buttons } from "../types/button";
 
 type Props = {
-  prefixKey: Array<Button>;
+  prefixKeys: Array<Button>;
   layers: Layers;
 };
-export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
+export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   const layerBlock = (layerKey: LayerKey) => {
     return `layer :${layerKey} do`;
   }
@@ -43,7 +43,7 @@ export const ButtonsSettingConverter = ({ prefixKey, layers }: Props) => {
   return(
 `version: 1.0
 setting: |-
-  prefix_keys_for_changing_layer %i(${prefixKey.join(" ")})
+  prefix_keys_for_changing_layer %i(${prefixKeys.join(" ")})
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ layer: layers.up, button: b })
     if(m) { a = a + `\n${layerBlockIndent}` + m }
