@@ -36,7 +36,6 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * server
     * procon_bypass_manとsocket通信して、recordingができたり、なにかできるようにする
 * frontend
-    * エクスポートしてから適用
     * エクスポートした設定の妥当性をテストで確認したい
     * モーダルのデザインを整える
     * a layerのデザインを整える
