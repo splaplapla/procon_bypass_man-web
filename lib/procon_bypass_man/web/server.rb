@@ -14,6 +14,8 @@ require "procon_bypass_man/web/storage"
 module ProconBypassMan
   module Web
     class App < Sinatra::Base
+      require "yaml"
+
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
       set :bind, '0.0.0.0'
 
@@ -71,7 +73,6 @@ module ProconBypassMan
       end
 
       get '/api/pbm_setting' do
-        require "yaml"
         begin
           setting_path = ProconBypassMan::Web::Storage.instance.setting_path
           parsed_setting = ProconBypassMan::Web::SettingParser.parse_file(setting_path)
@@ -87,7 +88,6 @@ module ProconBypassMan
       end
 
       post '/api/pbm_setting' do
-        require "yaml"
         begin
           params = JSON.parse(request.body.read)
           setting_path = ProconBypassMan::Web::Storage.instance.setting_path

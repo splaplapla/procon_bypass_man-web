@@ -60,6 +60,7 @@ describe ProconBypassMan::Web::App do
       end
     end
     context 'settingにyamlが存在するとき' do
+      let(:setting_path) { "#{ProconBypassMan::Web.root}/tmp/tmp_setting.yml" }
       let(:yaml) do
         yaml = <<~EOH
         setting: |-
@@ -67,7 +68,6 @@ describe ProconBypassMan::Web::App do
         EOH
       end
       before do
-        path = "./tmp/tmp_setting.yml"
         File.write(path, yaml)
         ProconBypassMan::Web::Storage.instance.setting_path = path
       end
