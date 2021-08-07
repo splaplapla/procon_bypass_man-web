@@ -31,7 +31,7 @@ describe('keyで差分がある時', () => {
     after.prefix_keys_for_changing_layer = ["y", "x"];
 
     const actual = ButtonStateDiff({ before: before, after: after })
-    expect(actual).toStrictEqual(["keyprefixは a => y,x になります"])
+    expect(actual).toStrictEqual(["key prefixは a => y,x になります"])
   })
 })
 
