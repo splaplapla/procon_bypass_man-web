@@ -48,6 +48,11 @@ export const ButtonsSettingPage = () => {
   const applySetting = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     console.log(changes(), initializedSetting)
+    httpClient.postSetting(
+      ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+    ).then(function (response) {
+        alert("設定ファイルのパスへ書き込みが完了しました");
+      });
   }
   const changes = (): Array<string> => {
     return ButtonStateDiff({

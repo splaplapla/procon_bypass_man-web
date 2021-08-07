@@ -71,7 +71,7 @@ export class HttpClient {
     return axios.get<SettingApiResponse>("/api/pbm_setting");
   }
 
-  postSetting() {
-    return axios.post<SettingApiResponse>("/api/pbm_setting");
+  postSetting(settingYaml: string) {
+    return axios.post<PostApiResponse>("/api/pbm_setting", { setting_yaml: settingYaml });
   }
 }
