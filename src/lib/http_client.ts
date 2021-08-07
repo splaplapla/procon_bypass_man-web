@@ -72,6 +72,11 @@ export class HttpClient {
     return axios.post<PostApiResponse>(`${path}`);
   }
 
+  reloadPbmSetting() {
+    const path = "/api/reload_pbm_setting";
+    return axios.post<PostApiResponse>(`${path}`);
+  }
+
   getSetting() {
     return axios.get<SettingApiResponse>("/api/pbm_setting");
   }

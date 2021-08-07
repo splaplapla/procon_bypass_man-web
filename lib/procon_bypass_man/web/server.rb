@@ -111,6 +111,14 @@ module ProconBypassMan
         end
       end
 
+      get '/api/reload_pbm_setting' do
+        if system "yes | sudo kill -USR2 `cat #{ProconBypassMan.pid_path}`"
+          { result: :ok }.to_json
+        else
+          { result: :bad }.to_json
+        end
+      end
+
       get '/' do
         send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
