@@ -13,7 +13,7 @@ describe('全部ブランクの時', () => {
     const after = { prefix_keys_for_changing_layer: [], layers: { up: upLayer, down: downLayer, left: leftLayer, right: rightLayer  } }
 
     const actual = ButtonStateDiff({ before: before, after: after })
-    expect(actual).toStrictEqual({"changes": []})
+    expect(actual).toStrictEqual([])
   })
 })
 
@@ -31,7 +31,7 @@ describe('keyで差分がある時', () => {
     after.prefix_keys_for_changing_layer = ["y", "x"];
 
     const actual = ButtonStateDiff({ before: before, after: after })
-    expect(actual).toStrictEqual({ changes: ["keyprefixは a => y,x になります"] })
+    expect(actual).toStrictEqual(["keyprefixは a => y,x になります"])
   })
 })
 
@@ -62,9 +62,9 @@ describe('layersで差分がある時', () => {
     after.layers.up.a = { flip: { if_pressed: ["a"], enable: false }, open: true }
 
     const actual = ButtonStateDiff({ before: before, after: after })
-    expect(actual).toStrictEqual({"changes": [
+    expect(actual).toStrictEqual([
       "layer up の a を変更しました",
       "layer down の a を変更しました",
-    ]})
+    ])
   })
 })

@@ -8,16 +8,14 @@ type Props = {
   after: ButtonsSettingType;
 };
 
-export type Diff = {
-  changes: Array<string>;
-}
+export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
+  const changes = [] as Array<string>;
 
-export const ButtonStateDiff = ({ before, after }: Props) => {
-  const result = { changes: [] } as Diff;
+  if(!before.prefix_keys_for_changing_layer || !after.prefix_keys_for_changing_layer) { return changes }
   if(before.prefix_keys_for_changing_layer.toString() === after.prefix_keys_for_changing_layer.toString()) {
     // no-op
   } else {
-    result.changes.push(`keyprefixは ${before.prefix_keys_for_changing_layer} => ${after.prefix_keys_for_changing_layer} になります`)
+    changes.push(`keyprefixは ${before.prefix_keys_for_changing_layer} => ${after.prefix_keys_for_changing_layer} になります`)
   }
 
   layerKeys.forEach((layerKey) => {
@@ -26,10 +24,10 @@ export const ButtonStateDiff = ({ before, after }: Props) => {
       const diffResult = diff(before.layers[layerKey as LayerKey][b], after.layers[layerKey as LayerKey][b]);
       if(Object.keys(diffResult || []).length > 0) {
         console.log(before.layers[layerKey as LayerKey][b], after.layers[layerKey as LayerKey][b])
-        result.changes.push(`layer ${layerKey} の ${b} を変更しました`)
+        changes.push(`layer ${layerKey} の ${b} を変更しました`)
       }
     })
   })
 
-  return result;
+  return changes;
 }

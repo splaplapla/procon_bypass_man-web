@@ -48,12 +48,13 @@ export const ButtonsSettingPage = () => {
   }
   const applySetting = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-
-    const changes = ButtonStateDiff({
-      before: { prefix_keys_for_changing_layer: prefixKeys, layers: layers } as ButtonsSettingType,
-      after: initializedSetting,
+    console.log(changes(), initializedSetting)
+  }
+  const changes = (): Array<string> => {
+    return ButtonStateDiff({
+      before: initializedSetting,
+      after: { prefix_keys_for_changing_layer: prefixKeys, layers: layers } as ButtonsSettingType,
     })
-    console.log(changes, initializedSetting)
   }
 
   useEffect(() => {
@@ -62,7 +63,6 @@ export const ButtonsSettingPage = () => {
         prefix_keys_for_changing_layer: prefixKeys,
         layers: _.cloneDeep(layers),
       });
-      console.log("done setInitializedSetting")
 
       layerRefs[0].setVisibility("shown");
       return;
@@ -161,18 +161,28 @@ export const ButtonsSettingPage = () => {
 
   return (
     <>
-      <h2>設定ファイルの変更</h2>
-      <div>
-        <a href="#" onClick={exportSetting}>エクスポートする</a>
-      </div>
-      <div>
-        <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
-      </div>
+      <div css={css`display: table`}>
+        <div css={css`display: table-cell; width: 400px;`}>
+          <h2>設定ファイルの変更</h2>
+          <div>
+            <a href="#" onClick={exportSetting}>エクスポートする</a>
+          </div>
 
-      <h3>設定中のプレフィックスキー</h3>
-      <div css={css`position: relative; margin-bottom: 20px;`}>
-        <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
+          <h3>設定中のプレフィックスキー</h3>
+          <div css={css`position: relative; margin-bottom: 20px;`}>
+            <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
+            {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
+          </div>
+        </div>
+        <div css={css`display: table-cell`}>
+          <h2></h2>
+          <div>
+            <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
+            <ul>
+              {changes().map((c, i) => <li key={i}>{c}</li>)}
+            </ul>
+          </div>
+        </div>
       </div>
 
       <ul css={layersTabStyle()}>
