@@ -5,13 +5,15 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
-import { ButtonInLayer, ButtonsInLayer, Layers, Flip } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip } from "../types/buttons_setting_type";
 import { HttpClient } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
+import { ButtonStateDiff } from "./../lib/button_state_diff";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
+import _ from 'lodash'
 
 const httpClient = new HttpClient();
 
@@ -20,12 +22,10 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
+  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys, initializedSetting, setInitializedSetting } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
-
-  let loadedSetting = useRef({});
 
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
@@ -48,12 +48,21 @@ export const ButtonsSettingPage = () => {
   const applySetting = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    console.log("now", { prefixKeys: prefixKeys, layers: layers });
-    console.log("init", loadedSetting.current);
+    const changes = ButtonStateDiff({
+      before: { prefix_keys_for_changing_layer: prefixKeys, layers: layers } as ButtonsSettingType,
+      after: initializedSetting,
+    })
+    console.log(changes, initializedSetting)
   }
 
   useEffect(() => {
     if (loaded) {
+      setInitializedSetting({
+        prefix_keys_for_changing_layer: prefixKeys,
+        layers: _.cloneDeep(layers),
+      });
+      console.log("done setInitializedSetting")
+
       layerRefs[0].setVisibility("shown");
       return;
     }
@@ -95,7 +104,6 @@ export const ButtonsSettingPage = () => {
           });
         });
 
-        loadedSetting.current = { prefixKeys: response.data.setting.prefix_keys_for_changing_layer, layers: layers };
         setLoaded(true);
       })
 

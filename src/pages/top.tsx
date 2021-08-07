@@ -13,7 +13,7 @@ import { BpmPage } from "./bpm_page";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsInLayer, Layers } from "../types/buttons_setting_type";
+import { ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_setting_type";
 import { buttons, Button } from "../types/button";
 import { LayerReducer } from "../reducers/layer_reducer";
 
@@ -26,6 +26,7 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType);
   const [layers, layersDispatch] = useReducer(LayerReducer, initLayers as Layers);
   const value = {
     loaded,
@@ -34,6 +35,8 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     prefixKeys,
     setPrefixKeys,
     layersDispatch,
+    initializedSetting,
+    setInitializedSetting,
   }
   return (
     <ButtonsSettingContext.Provider value={value}>

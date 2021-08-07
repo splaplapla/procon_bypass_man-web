@@ -24,7 +24,8 @@ export const ButtonStateDiff = ({ before, after }: Props) => {
     buttons.forEach((b) => {
       // どの項目が何に変化したかを出力したかったがめんどくさすぎたのでやめた
       const diffResult = diff(before.layers[layerKey as LayerKey][b], after.layers[layerKey as LayerKey][b]);
-      if(Object.keys(diffResult).length > 0) {
+      if(Object.keys(diffResult || []).length > 0) {
+        console.log(before.layers[layerKey as LayerKey][b], after.layers[layerKey as LayerKey][b])
         result.changes.push(`layer ${layerKey} の ${b} を変更しました`)
       }
     })
