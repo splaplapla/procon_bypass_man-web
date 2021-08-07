@@ -24,7 +24,6 @@ interface LayerRef {
 export const ButtonsSettingPage = () => {
   const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
-  const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
 
@@ -53,7 +52,7 @@ export const ButtonsSettingPage = () => {
   const changes = (): Array<string> => {
     return ButtonStateDiff({
       before: initializedSetting,
-      after: { prefix_keys_for_changing_layer: prefixKeys, layers: layers } as ButtonsSettingType,
+      after: { prefix_keys_for_changing_layer: prefixKeys, layers: layers },
     })
   }
 
