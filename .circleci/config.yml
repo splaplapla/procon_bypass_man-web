@@ -4,9 +4,11 @@ orbs:
   pbm:
     executors:
       ruby:
+        resource_class: small
         docker:
           - image: 'circleci/ruby:3.0.1'
       node:
+        resource_class: small
         docker:
           - image: 'circleci/node:stretch'
 
