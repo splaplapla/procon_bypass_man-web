@@ -52,6 +52,7 @@ export const ButtonsSettingPage = () => {
       ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     ).then(function (response) {
         alert("設定ファイルのパスへ書き込みが完了しました");
+        window.location.reload();
       });
   }
   const changes = (): Array<string> => {
