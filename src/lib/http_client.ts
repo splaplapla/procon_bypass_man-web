@@ -30,6 +30,11 @@ interface SettingApiResponse {
   setting_group_by_button: any,
 }
 
+interface SettingDigestApiResponse {
+  result: string,
+  digest: string,
+}
+
 export class HttpClient {
   constructor() {
   };
@@ -73,5 +78,9 @@ export class HttpClient {
 
   postSetting(settingYaml: string) {
     return axios.post<PostApiResponse>("/api/pbm_setting", { setting_yaml: settingYaml });
+  }
+
+  getSettingDigest() {
+    return axios.get<SettingDigestApiResponse>("/api/pbm_setting_digest");
   }
 }

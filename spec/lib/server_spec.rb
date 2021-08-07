@@ -124,4 +124,29 @@ describe ProconBypassMan::Web::App do
       end
     end
   end
+
+  describe '/api/pbm_setting_digest' do
+    context 'digestファイルが存在するとき' do
+      let(:path) { "#{ProconBypassMan::Web.root}/tmp/.digest" }
+      before do
+        expect(ProconBypassMan).to receive(:digest_path) { path }
+        File.write(path, nil)
+      end
+      it do
+        response = get "/api/pbm_setting_digest"
+        expect(response).to be_ok
+      end
+    end
+    context 'digestファイルが存在しないとき' do
+      let(:path) { "#{ProconBypassMan::Web.root}/tmp/nothing.yml" }
+      before do
+        expect(ProconBypassMan).to receive(:digest_path) { path }
+        FileUtils.rm_rf(path)
+      end
+      it do
+        response = get "/api/pbm_setting_digest"
+        expect(response).to be_not_found
+      end
+    end
+  end
 end

@@ -101,6 +101,16 @@ module ProconBypassMan
         end
       end
 
+      get '/api/pbm_setting_digest' do
+        require 'digest/md5'
+        begin
+          digest = File.read(ProconBypassMan.digest_path)
+          { result: :ok, digest: digest }.to_json
+        rescue Errno::ENOENT
+          not_found
+        end
+      end
+
       get '/' do
         send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end

@@ -13,7 +13,8 @@ import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
-import _ from 'lodash'
+import _ from 'lodash';
+import md5 from 'md5';
 
 const httpClient = new HttpClient();
 
@@ -26,6 +27,7 @@ export const ButtonsSettingPage = () => {
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
+  const [infoMessage, setInfoMessage] = useState(undefined as undefined | string)
 
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
@@ -66,6 +68,25 @@ export const ButtonsSettingPage = () => {
       prefix_keys_for_changing_layer: prefixKeys,
       layers: _.cloneDeep(layers),
     });
+    isUptodate()
+  }
+  const isUptodate = () => {
+    httpClient.getSettingDigest().then(function (response) {
+      const digest = md5(
+        ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+      )
+      if(digest === response.data.digest) {
+        console.log("最新です")
+      } else {
+        setInfoMessage("設定が未反映です. PBMの再起動が必要です。")
+      }
+    }).catch(function (error) {
+      if (error.response.status === 404) {
+        setInfoMessage("PBMを起動していません。")
+      } else {
+        console.log("想定外のエラーです");
+      }
+    })
   }
 
   useEffect(() => {
@@ -186,6 +207,7 @@ export const ButtonsSettingPage = () => {
           <h2></h2>
           <div>
             <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
+            <div>{infoMessage}</div>
             <ul>
               {changes().map((c, i) => <li key={i}>{c}</li>)}
             </ul>

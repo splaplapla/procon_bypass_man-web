@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/splaspla-hacker/procon_bypass_man.git
-  revision: d322f1e7413540e889612e246e9f04f05e471465
+  revision: 039e96c62cca52116a8f3b13a10f1f0c0c9b7c19
   branch: edge
   specs:
-    procon_bypass_man (0.1.4)
+    procon_bypass_man (0.1.6)
 
 PATH
   remote: .
