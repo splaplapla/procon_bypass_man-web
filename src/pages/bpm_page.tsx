@@ -37,6 +37,20 @@ export const BpmPage= ({}:Prop) => {
     httpClient.stopPbm()
       .then(function (response) {
         if(response.data.result === "ok") {
+          setPbmStats("waiting" as PbmStats);
+        } else {
+          setPbmStats("error" as PbmStats);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  const handleReloadPbmSetting = (e: React.MouseEvent<HTMLElement>) => {
+    httpClient.reloadPbmSetting()
+      .then(function (response) {
+        if(response.data.result === "ok") {
           setPbmStats("stopped" as PbmStats);
         } else {
           setPbmStats("error" as PbmStats);
@@ -72,6 +86,7 @@ export const BpmPage= ({}:Prop) => {
       <input type="button" onClick={handlePbmStats} value="現在のステータスを取得する" />
       {isShowStopButton() && <input type="button" onClick={handleStopPbm} value="停止する" />}
       {isShowStartButton() && <input type="button" onClick={handleStartPbm} value="開始する" />}
+      {pbmStats === "running" && <input type="button" onClick={handleReloadPbmSetting} value="設定を再読み込みする" />}
     </>
   )
 }
