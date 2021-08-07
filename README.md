@@ -38,6 +38,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * frontend
     * エクスポートした設定の妥当性をテストで確認したい
     * モーダルのデザインを整える
-    * a layerのデザインを整える
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
 * github pageでホスティングする(generator)

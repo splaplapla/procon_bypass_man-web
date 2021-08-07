@@ -87,34 +87,29 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
 
   return(
     <>
-      <div>
-        <h2>連打設定</h2>
-        <div>
-          <label><input type="radio" onChange={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
-          <label><input type="radio" onChange={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
-          <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
-          <label>
-            <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
-            特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
-          </label>
-        </div>
+      <fieldset><legend><strong>連打設定</strong></legend>
+        <label><input type="radio" onChange={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
+        <label><input type="radio" onChange={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
+        <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
+        <label>
+          <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
+          特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
+        </label>
+      </fieldset>
 
-        <h3>連打オプション</h3>
-        <div>
-          <label>
-            <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={buttonState.isDisabledFlip()} />
-              連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
-            </label>
-        </div>
+      <fieldset><legend><strong>連打オプション</strong></legend>
+        <label>
+          <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={buttonState.isDisabledFlip()} />
+          連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
+        </label>
+      </fieldset>
 
-        <h2>リマップ設定</h2>
-        <div>
-          <label>
-            <input type="checkbox" onChange={handleRemapButton} checked={buttonState.isRemap()} disabled={!buttonState.isDisabledFlip()} />
-              別のボタンに置き換える{buttonState.isRemap() && `(${buttonValue.remap?.to?.join(", ")})`}
-          </label>
-        </div>
-      </div>
+      <fieldset><legend><strong>リマップ設定</strong></legend>
+        <label>
+          <input type="checkbox" onChange={handleRemapButton} checked={buttonState.isRemap()} disabled={!buttonState.isDisabledFlip()} />
+            別のボタンに置き換える{buttonState.isRemap() && `(${buttonValue.remap?.to?.join(", ")})`}
+        </label>
+      </fieldset>
       <div css={modalWrapperStyle}>
         {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
       </div>
