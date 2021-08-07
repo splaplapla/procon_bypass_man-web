@@ -68,8 +68,8 @@ describe ProconBypassMan::Web::App do
         EOH
       end
       before do
-        File.write(path, yaml)
-        ProconBypassMan::Web::Storage.instance.setting_path = path
+        File.write(setting_path, yaml)
+        ProconBypassMan::Web::Storage.instance.setting_path = setting_path
       end
       it do
         response = get "/api/pbm_setting"
