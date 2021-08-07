@@ -26,7 +26,6 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType);
   const [layers, layersDispatch] = useReducer(LayerReducer, initLayers as Layers);
   const value = {
     loaded,
@@ -35,8 +34,6 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     prefixKeys,
     setPrefixKeys,
     layersDispatch,
-    initializedSetting,
-    setInitializedSetting,
   }
   return (
     <ButtonsSettingContext.Provider value={value}>

@@ -22,10 +22,11 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys, initializedSetting, setInitializedSetting } = useContext(ButtonsSettingContext);
+  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const [debugConsole, setDebugConsole] = useState("");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
+  const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
 
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
