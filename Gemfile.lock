@@ -33,6 +33,8 @@ GEM
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
     rainbow (3.0.0)
     rake (13.0.3)
     regexp_parser (2.1.1)
@@ -89,6 +91,8 @@ DEPENDENCIES
   procon_bypass_man!
   procon_bypass_man-web!
   pry
+  rack
+  rack-test
   rake (~> 13.0)
   rspec
   rubocop
