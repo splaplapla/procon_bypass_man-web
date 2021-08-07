@@ -75,8 +75,10 @@ export const ButtonsSettingPage = () => {
       const digest = md5(
         ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
       )
+      console.log("digest:", digest);
       if(digest === response.data.digest) {
         console.log("最新です")
+        setInfoMessage("設定が反映済みです。")
       } else {
         setInfoMessage("設定が未反映です. PBMの再起動が必要です。")
       }
