@@ -70,4 +70,8 @@ export class HttpClient {
   getSetting() {
     return axios.get<SettingApiResponse>("/api/pbm_setting");
   }
+
+  postSetting() {
+    return axios.post<SettingApiResponse>("/api/pbm_setting");
+  }
 }
