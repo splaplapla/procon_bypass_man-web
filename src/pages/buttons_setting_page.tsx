@@ -52,7 +52,7 @@ export const ButtonsSettingPage = () => {
       ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     ).then(function (response) {
         alert("設定ファイルのパスへ書き込みが完了しました");
-        window.location.reload();
+        reset();
       });
   }
   const changes = (): Array<string> => {
@@ -61,13 +61,16 @@ export const ButtonsSettingPage = () => {
       after: { prefix_keys_for_changing_layer: prefixKeys, layers: layers },
     })
   }
+  const reset = () => {
+    setInitializedSetting({
+      prefix_keys_for_changing_layer: prefixKeys,
+      layers: _.cloneDeep(layers),
+    });
+  }
 
   useEffect(() => {
     if (loaded) {
-      setInitializedSetting({
-        prefix_keys_for_changing_layer: prefixKeys,
-        layers: _.cloneDeep(layers),
-      });
+      reset();
 
       layerRefs[0].setVisibility("shown");
       return;
