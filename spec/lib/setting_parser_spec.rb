@@ -106,6 +106,8 @@ describe ProconBypassMan::Web::SettingParser do
 
         expect(h).to eq(
           {:prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
+           :installed_macros => ["ProconBypassMan::Splatoon2::Macro::FastReturn"],
+           :installed_modes => ["ProconBypassMan::Splatoon2::Mode::Guruguru"],
            :layers=>
            {:up=>
             {:zr=>{:flip=>{:if_pressed=>[:zr], :force_neutral=>[:zl], enable: true}, open: true },

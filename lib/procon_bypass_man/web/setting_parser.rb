@@ -70,11 +70,16 @@ module ProconBypassMan
           end
         end
 
-        # webでは不要
-        def install_macro_plugin(name); end
-        def install_mode_plugin(name); end
+        def install_macro_plugin(name)
+          @installed_plugin[:macros] << name.to_s
+        end
+
+        def install_mode_plugin(name)
+          @installed_plugin[:modes] << name.to_s
+        end
 
         def initialize
+          @installed_plugin = { macros: [], modes: [] }
           @layers = {}
         end
 
@@ -110,6 +115,13 @@ module ProconBypassMan
           @layers.each do |key, layer|
             h[:layers][key] ||= {}
             next if layer.nil?
+
+            if !@installed_plugin[:macros].empty?
+              h[:installed_macros] = @installed_plugin[:macros]
+            end
+            if !@installed_plugin[:modes].empty?
+              h[:installed_modes] = @installed_plugin[:modes]
+            end
 
             layer.to_hash.dig(:flip)&.each do |button, value|
               h[:layers][key][button] ||= {}
