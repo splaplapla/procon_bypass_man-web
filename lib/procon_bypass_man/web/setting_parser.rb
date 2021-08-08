@@ -58,9 +58,9 @@ module ProconBypassMan
           def macro(name, if_pressed: nil)
             @table[:macro] ||= {}
             if if_pressed.nil?
-              @table[:macro][name] = nil
+              @table[:macro][name.to_s] = { if_pressed: [] }
             else
-              @table[:macro][name] = { if_pressed: if_pressed }
+              @table[:macro][name.to_s] = { if_pressed: if_pressed }
             end
             self
           end
@@ -70,6 +70,7 @@ module ProconBypassMan
           end
         end
 
+        # webでは不要
         def install_macro_plugin(name); end
         def install_mode_plugin(name); end
 
@@ -108,6 +109,7 @@ module ProconBypassMan
           h[:layers] ||= {}
           @layers.each do |key, layer|
             h[:layers][key] ||= {}
+            next if layer.nil?
             layer&.to_hash&.dig(:flip)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:open] = true
@@ -117,10 +119,19 @@ module ProconBypassMan
                 h[:layers][key][button][:flip].merge!(value)
               end
             end
-            if layer&.to_hash&.dig(:mode)
-              h[:layers][key][:mode] = layer&.to_hash&.dig(:mode)
+
+            if layer.to_hash&.dig(:macro)
+              h[:layers][key][:macro] = []
+              layer.to_hash.dig(:macro).each do |name, option|
+                h[:layers][key][:macro] << { name => option }
+              end
             end
-            layer&.to_hash&.dig(:remap)&.each do |button, value|
+
+            if layer.to_hash&.dig(:mode)
+              h[:layers][key][:mode] = layer.to_hash.dig(:mode)
+            end
+
+            layer.to_hash&.dig(:remap)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:remap] ||= {}
               h[:layers][key][button][:open] = true

@@ -93,7 +93,7 @@ describe ProconBypassMan::Web::SettingParser do
                   :zl=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true},
                   :down=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}},
           :remap=>{:l=>{:to=>[:zr]}},
-          :macro=>{ProconBypassMan::Splatoon2::Macro::FastReturn=>{:if_pressed=>[:y, :b, :down]}},
+          :macro=>{"ProconBypassMan::Splatoon2::Macro::FastReturn"=>{:if_pressed=>[:y, :b, :down]}},
         )
         expect(h[:layers][:left]).to eq(nil)
         expect(h[:layers][:right]).to eq(:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru)
@@ -103,6 +103,7 @@ describe ProconBypassMan::Web::SettingParser do
     describe '#to_hash_group_by_button' do
       it do
         h = ProconBypassMan::Web::SettingParser.parse(text).to_hash_group_by_button
+
         expect(h).to eq(
           {:prefix_keys_for_changing_layer=>[:zr, :r, :zl, :l],
            :layers=>
@@ -110,9 +111,13 @@ describe ProconBypassMan::Web::SettingParser do
             {:zr=>{:flip=>{:if_pressed=>[:zr], :force_neutral=>[:zl], enable: true}, open: true },
              :zl=>{:flip=>{:if_pressed=>[:y, :b, :zl], :force_neutral=>nil, enable: true}, open: true },
              :down=>{:flip=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}, open: true },
+             :macro=> [{"ProconBypassMan::Splatoon2::Macro::FastReturn"=> {:if_pressed=>[:y, :b, :down]}}],
              :l=>{:remap=>{:to=>[:zr]}, open: true } },
+
             :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
+
             :left=>{},
+
             :down=>{:zl=>{:flip=>{ enable: true}, open: true }}}}
         )
       end
