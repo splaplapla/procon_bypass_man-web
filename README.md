@@ -39,4 +39,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * エクスポートした設定の妥当性をテストで確認したい
     * モーダルのデザインを整える
     * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
+    * prettierでフォーマットする
+    * HttpClientのエラーレスポンスにも型をつける
+    * HttpClientを使うときはエラーレスポンスで分岐する
 * github pageでホスティングする(generator)
