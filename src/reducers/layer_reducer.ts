@@ -10,7 +10,7 @@ export const ignoreButtonsInFlipingType = Symbol('ignoreButtonsInFliping');
 export const remapType = Symbol('remap');
 export const openMenuType = Symbol('openMenu');
 export const closeMenuType = Symbol('closeMenu');
-export const applyMacrosType = Symbol('applyMacros');
+export const applyMacroType = Symbol('applyMacros');
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -21,7 +21,7 @@ type ACTION_TYPE =
     | { type: typeof remapType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
-    | { type: typeof applyMacrosType, payload: { layerKey: LayerKey, button: Button | undefined, macros: Array<Macro> } }
+    | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: Macro } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey;
@@ -70,10 +70,12 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: false }
       return { ...layers };
-    case applyMacrosType:
-      const macros = action.payload.macros  || []
-      flip.enable = false;
-      layers[layerKey]["macro"] = macros
+    case applyMacroType:
+      const macro = action.payload.macro
+      if(!macro) { return { ...layers } };
+      const macroTable = layers[layerKey]["macro"] || {} as any // TODO any
+      macroTable[macro.name as string] = macro.if_pressed
+      layers[layerKey]["macro"] = macroTable
       return { ...layers };
     default:
       console.log("一致しないaction typeです")

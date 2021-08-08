@@ -8,7 +8,7 @@ import { Button } from "../types/button";
 import { Macro } from "../types/buttons_setting_type";
 import { Plugin, PluginBody } from "../types/plugin";
 import { ButtonsModal } from "./buttons_modal";
-import { applyMacrosType } from "../reducers/layer_reducer";
+import { applyMacroType } from "../reducers/layer_reducer";
 
 // plugins.
 const availablePlugins = [
@@ -52,10 +52,10 @@ const liStyle = css`
 `;
 
 type MacroSettingProps = {
-  name: string;
-  if_pressed: Array<Button>;
+  layerKey: LayerKey;
+  macro: Macro;
 };
-const MacroSetting = ({ name, if_pressed }: MacroSettingProps) => {
+const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
   // for modal
   const [openModal, setOpenModal] = useState(false)
@@ -64,28 +64,31 @@ const MacroSetting = ({ name, if_pressed }: MacroSettingProps) => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
+  const setButtonsForModal = (bs: Array<Button>) => {
+    macro.if_pressed = bs;
+    layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
+  }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOpenModal(true)
     setModalTitle("発動キーの設定")
-    setModalPrefillButtons(if_pressed);
-    // setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
+    setModalPrefillButtons(macro.if_pressed);
+    setModalCallbackOnSubmit(() => setButtonsForModal);
     setModalCloseCallback(() => setOpenModal);
-    //  layersDispatch({ type: applyMacrosType, payload: { layerKey: layerKey,  }});
   }
-  const isEnable = if_pressed.length > 0;
+  const isEnable = macro.if_pressed.length > 0;
 
   return(
     <>
-      <li key={name}>
+      <li key={macro.name}>
         <label>
           <input type="checkbox" onChange={handleClick} checked={isEnable} />
-          {PluginsNameMap[name]}
+          {PluginsNameMap[macro.name]}
         </label>
         <br />
-          {isEnable && `${if_pressed.join(", ")}で発動`}
+        {isEnable && `${macro.if_pressed.join(", ")}で発動`}
       </li>
       <div css={css`position: relative;`}>
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={if_pressed} positionOnShown={"relative"} />}
+        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} positionOnShown={"relative"} />}
       </div>
     </>
   )
@@ -96,17 +99,21 @@ type MacroSettingsProps = {
 };
 export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
   const { layers } = useContext(ButtonsSettingContext);
-  const macros = layers[layerKey].macro as Array<Macro>;
+  const macroTable = layers[layerKey].macro as Macro || {} as Macro;
+  const macros = Object.entries(macroTable).reduce((acc, item) => {
+    acc.push({ name: item[0], if_pressed: item[1] });
+    return acc;
+  }, [] as Array<any>)
 
   return(
     <>
-      {macros && <h4>設定可能なマクロ</h4>}
-      {macros &&
+      {<h4>設定可能なマクロ</h4>}
+      {
         <ul>
-          {macros.map((m) => <MacroSetting key={m.name} name={m.name} if_pressed={m.if_pressed} />)}
+          {macros.map((m) => <MacroSetting key={m.name} macro={m} layerKey={layerKey} />)}
         </ul>
       }
-      {macros && <div css={css`margin-top: 20px;`}></div>}
+      {<div css={css`margin-top: 20px;`}></div>}
     </>
   )
 }

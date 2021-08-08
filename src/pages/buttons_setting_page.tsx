@@ -12,7 +12,7 @@ import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
-import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacrosType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
 import _ from 'lodash';
 import md5 from 'md5';
@@ -110,7 +110,9 @@ export const ButtonsSettingPage = () => {
         layerKeys.forEach((layerKey) => {
           const macros = layers[layerKey].macro
           if(macros) {
-            layersDispatch({ type: applyMacrosType, payload: { layerKey: layerKey, macros: macros }});
+            macros.forEach((macro) => {
+              layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
+            })
           }
 
           buttons.forEach((button) => {
