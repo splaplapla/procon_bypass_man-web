@@ -6,6 +6,7 @@ import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip } from "../types/buttons_setting_type";
+import { Plugin } from "../types/plugin";
 import { HttpClient } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
@@ -190,7 +191,21 @@ export const ButtonsSettingPage = () => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
-  return (
+  // plugins.
+  const availablePlugins = [
+    {
+      splatoon2: {
+        modes: [
+          { display_name: "splatoon2.guruguru", class_namespace: "ProconBypassMan::Splatoon2::Mode::Guruguru" },
+        ],
+        macros: [
+          { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
+        ],
+      }
+    } as Plugin,
+  ]
+
+  return(
     <>
       <div css={css`display: table`}>
         <div css={css`display: table-cell; width: 400px;`}>
@@ -198,6 +213,8 @@ export const ButtonsSettingPage = () => {
           <div>
             <a href="#" onClick={exportSetting}>エクスポートする</a>
           </div>
+
+          <h3>利用可能なプラグイン</h3>
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
