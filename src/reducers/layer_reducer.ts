@@ -1,6 +1,6 @@
 import { buttons, Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
-import { Layers, Flip, Remap } from "../types/buttons_setting_type";
+import { Layers, Flip, Remap, Macro } from "../types/buttons_setting_type";
 
 export const disableFlipType = Symbol('disableFlip');
 export const alwaysFlipType = Symbol('alwaysFlip');
@@ -10,6 +10,7 @@ export const ignoreButtonsInFlipingType = Symbol('ignoreButtonsInFliping');
 export const remapType = Symbol('remap');
 export const openMenuType = Symbol('openMenu');
 export const closeMenuType = Symbol('closeMenu');
+export const applyMacrosType = Symbol('applyMacros');
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -20,12 +21,18 @@ type ACTION_TYPE =
     | { type: typeof remapType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
+    | { type: typeof applyMacrosType, payload: { layerKey: LayerKey, button: Button | undefined, macros: Array<Macro> } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey;
-  const button = action.payload.button;
-  const flip = layers[layerKey][button].flip || {} as Flip
-  const remap = layers[layerKey][button].remap || {} as Remap
+  const button = action.payload.button as Button;
+  let flip =  {} as Flip
+  let remap = {} as Remap
+  if(button) {
+    flip = layers[layerKey][button].flip || {} as Flip
+    remap = layers[layerKey][button].remap || {} as Remap
+  }
+  const macros = layers[layerKey].macro  || []
 
   switch (action.type) {
     case disableFlipType:
@@ -63,6 +70,11 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
     case closeMenuType:
       flip.enable = false;
       layers[layerKey][button] = { flip: flip, open: false }
+      return { ...layers };
+    case applyMacrosType:
+      flip.enable = false;
+      // TODO add payload
+      layers[layerKey]["macro"] = []
       return { ...layers };
     default:
       console.log("一致しないaction typeです")
