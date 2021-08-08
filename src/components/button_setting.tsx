@@ -81,10 +81,6 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     setModalCloseCallback(() => setOpenModal);
   };
 
-  const modalWrapperStyle = css(`
-    position: relative;
-  `)
-
   return(
     <>
       <fieldset><legend><strong>連打設定</strong></legend>
@@ -110,7 +106,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
             別のボタンに置き換える{buttonState.isRemap() && `(${buttonValue.remap?.to?.join(", ")})`}
         </label>
       </fieldset>
-      <div css={modalWrapperStyle}>
+      <div css={css`position: relative;`}>
         {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
       </div>
     </>
