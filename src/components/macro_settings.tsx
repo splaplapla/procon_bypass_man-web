@@ -25,31 +25,14 @@ const availablePlugins = [
 ]
 
 // class_namespaceをキーにしたnameのhashを作る
-const PluginsNameMap = availablePlugins.reduce((hash: any, item: Plugin) => {
+const PluginsNameMap = availablePlugins.reduce((hash, item: Plugin) => {
   for (var [name, plugin] of Object.entries(item)) {
     plugin.macros.forEach((macro: PluginBody) => {
       hash[macro.class_namespace] = macro.display_name
     })
   };
   return hash;
-}, {})
-
-const ulStyle = css`
-  border: 1px solid #666;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  list-style-type: none;
-  margin: 0 0 0 1em;
-  padding: 0;
-  width: 900px;
-`;
-const liStyle = css`
-  border: 1px solid #aaa;
-  margin: 0.2em;
-  padding: 0.5em;
-  width: 200px;
-`;
+}, {} as any)
 
 type MacroSettingProps = {
   layerKey: LayerKey;
@@ -107,12 +90,9 @@ export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
 
   return(
     <>
-      {
-        <ul>
-          {macros.map((m) => <MacroSetting key={m.name} macro={m} layerKey={layerKey} />)}
-        </ul>
-      }
-      {<div css={css`margin-top: 20px;`}></div>}
+      <ul>
+        {macros.map((m) => <MacroSetting key={m.name} macro={m} layerKey={layerKey} />)}
+      </ul>
     </>
   )
 }
