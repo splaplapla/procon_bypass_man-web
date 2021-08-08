@@ -90,7 +90,7 @@ module ProconBypassMan
           if block_given?
             @layers[dir] = Layer.new.instance_eval(&block)
           else
-            @layers[dir] = { mode: mode }.compact
+            @layers[dir] = { mode: mode&.to_s }.compact
           end
         end
 
@@ -110,7 +110,8 @@ module ProconBypassMan
           @layers.each do |key, layer|
             h[:layers][key] ||= {}
             next if layer.nil?
-            layer&.to_hash&.dig(:flip)&.each do |button, value|
+
+            layer.to_hash.dig(:flip)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:open] = true
               h[:layers][key][button][:flip] ||= {}
@@ -120,18 +121,18 @@ module ProconBypassMan
               end
             end
 
-            if layer.to_hash&.dig(:macro)
+            if layer.to_hash.dig(:macro)
               h[:layers][key][:macro] = []
               layer.to_hash.dig(:macro).each do |name, option|
                 h[:layers][key][:macro] << { name => option }
               end
             end
 
-            if layer.to_hash&.dig(:mode)
+            if layer.to_hash.dig(:mode)
               h[:layers][key][:mode] = layer.to_hash.dig(:mode)
             end
 
-            layer.to_hash&.dig(:remap)&.each do |button, value|
+            layer.to_hash.dig(:remap)&.each do |button, value|
               h[:layers][key][button] ||= {}
               h[:layers][key][button][:remap] ||= {}
               h[:layers][key][button][:open] = true

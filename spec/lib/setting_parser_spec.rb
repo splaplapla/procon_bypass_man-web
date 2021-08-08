@@ -96,7 +96,7 @@ describe ProconBypassMan::Web::SettingParser do
           :macro=>{"ProconBypassMan::Splatoon2::Macro::FastReturn"=>{:if_pressed=>[:y, :b, :down]}},
         )
         expect(h[:layers][:left]).to eq(nil)
-        expect(h[:layers][:right]).to eq(:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru)
+        expect(h[:layers][:right]).to eq(:mode=>"ProconBypassMan::Splatoon2::Mode::Guruguru")
         expect(h[:layers][:down]).to eq(:flip=>{:zl=>nil})
       end
     end
@@ -114,7 +114,7 @@ describe ProconBypassMan::Web::SettingParser do
              :macro=> [{"ProconBypassMan::Splatoon2::Macro::FastReturn"=> {:if_pressed=>[:y, :b, :down]}}],
              :l=>{:remap=>{:to=>[:zr]}, open: true } },
 
-            :right=>{:mode=>ProconBypassMan::Splatoon2::Mode::Guruguru},
+            :right=>{:mode=>"ProconBypassMan::Splatoon2::Mode::Guruguru"},
 
             :left=>{},
 
