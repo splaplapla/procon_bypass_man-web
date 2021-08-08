@@ -7,31 +7,29 @@ export type FlipType = typeof flip_types[number];
 export class ButtonState {
   button: Button;
   flip?: Flip;
-  macro?: Macro;
   remap?: Remap;
 
-  constructor(button: Button, flip?: Flip, macro?: Macro, remap?: Remap) {
+  constructor(button: Button, flip?: Flip, remap?: Remap) {
     this.button = button;
     this.flip = flip;
-    this.macro = macro;
     this.remap = remap;
   };
 
   isDisabledFlip(): boolean {
-    if(!this.flip && !this.macro && !this.remap) { return true }
+    if(!this.flip && !this.remap) { return true }
     if(this.remap) { return true }
     if(!this.flip) { return false }
     return this.flip && !this.flip?.enable;
   }
 
   isAlwaysFlip(): boolean {
-    if(!this.flip && !this.macro && !this.remap) { return false }
+    if(!this.flip && !this.remap) { return false }
     if(this.isDisabledFlip()) { return false };
     return !!this.flip && !!this.flip.enable && (this.flip?.if_pressed || []) ?.length === 0;
   }
 
   isFlipIfPressedSelf(): boolean {
-    if(!this.flip && !this.macro && !this.remap) { return false }
+    if(!this.flip && !this.remap) { return false }
     if(this.isDisabledFlip() || this.isAlwaysFlip() || !this.flip || !this.flip.if_pressed) { return false }
     return this.flip.if_pressed.length === 1 && this.flip.if_pressed[0] === this.button;
   }

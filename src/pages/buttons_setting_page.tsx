@@ -108,10 +108,17 @@ export const ButtonsSettingPage = () => {
           return a;
         }, {} as Layers)
         layerKeys.forEach((layerKey) => {
+          const macro = layers[layerKey].macro
+          if(macro) {
+            macro.forEach((macroName) => {
+              // layersDispatch({ type: disableFlipType, payload: { layerKey: layerKey, button: button }});
+            })
+          }
+
           buttons.forEach((button) => {
             const buttonState = new ButtonState(
               button,
-              layers[layerKey][button]?.flip, layers[layerKey][button]?.macro, layers[layerKey][button]?.remap,
+              layers[layerKey][button]?.flip, layers[layerKey][button]?.remap,
             );
             const flip = layers[layerKey][button]?.flip || {} as Flip
 

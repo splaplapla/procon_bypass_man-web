@@ -17,14 +17,18 @@ export type Remap = {
 
 export type ButtonInLayer = {
   flip?: Flip,
-  macro?: Macro,
+  macro?: Macro, // deprecated
   remap?: Remap,
   open: boolean,
 }
 
-export type ButtonsInLayer = {
-  [key in Button] : ButtonInLayer
+type _ButtonsInLayer = {
+  [key in Button] : ButtonInLayer;
 }
+
+export type ButtonsInLayer = _ButtonsInLayer & {
+  macro?: Array<Macro>;
+};
 
 export type Layers = {
   up: ButtonsInLayer,

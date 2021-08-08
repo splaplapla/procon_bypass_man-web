@@ -88,7 +88,7 @@ describe('flipに値がある時', () => {
 describe('remapに値がある時', () => {
   describe("flipに無効な値がある", () => {
     it('isRemap()がtrueを返す', () => {
-      const buttonState = new ButtonState("y", { if_pressed: [], enable: false }, undefined, { to: ["y"] });
+      const buttonState = new ButtonState("y", { if_pressed: [], enable: false }, { to: ["y"] });
       expect(buttonState.isDisabledFlip()).toBe(true);
       expect(buttonState.isAlwaysFlip()).toBe(false);
       expect(buttonState.isFlipIfPressedSelf()).toBe(false);
@@ -99,7 +99,7 @@ describe('remapに値がある時', () => {
   })
   describe("flipがundefined", () => {
     it('isRemap()がtrueを返す', () => {
-      const buttonState = new ButtonState("y", undefined, undefined, { to: ["y"] });
+      const buttonState = new ButtonState("y", undefined, { to: ["y"] });
       expect(buttonState.isDisabledFlip()).toBe(true);
       expect(buttonState.isAlwaysFlip()).toBe(false);
       expect(buttonState.isFlipIfPressedSelf()).toBe(false);
