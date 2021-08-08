@@ -32,7 +32,6 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
     flip = layers[layerKey][button].flip || {} as Flip
     remap = layers[layerKey][button].remap || {} as Remap
   }
-  const macros = layers[layerKey].macro  || []
 
   switch (action.type) {
     case disableFlipType:
@@ -72,9 +71,9 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       layers[layerKey][button] = { flip: flip, open: false }
       return { ...layers };
     case applyMacrosType:
+      const macros = action.payload.macros  || []
       flip.enable = false;
-      // TODO add payload
-      layers[layerKey]["macro"] = []
+      layers[layerKey]["macro"] = macros
       return { ...layers };
     default:
       console.log("一致しないaction typeです")

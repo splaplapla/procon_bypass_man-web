@@ -8,6 +8,7 @@ export type Flip = {
 }
 
 export type Macro = {
+  name: string,
   if_pressed: Array<Button>,
 }
 

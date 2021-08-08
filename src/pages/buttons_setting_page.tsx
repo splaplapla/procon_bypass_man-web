@@ -196,20 +196,6 @@ export const ButtonsSettingPage = () => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
-  // plugins.
-  const availablePlugins = [
-    {
-      splatoon2: {
-        modes: [
-          { display_name: "splatoon2.guruguru", class_namespace: "ProconBypassMan::Splatoon2::Mode::Guruguru" },
-        ],
-        macros: [
-          { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
-        ],
-      }
-    } as Plugin,
-  ]
-
   return(
     <>
       <div css={css`display: table`}>
