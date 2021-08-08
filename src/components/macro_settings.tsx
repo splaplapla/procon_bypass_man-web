@@ -107,7 +107,6 @@ export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
 
   return(
     <>
-      {<h4>設定可能なマクロ</h4>}
       {
         <ul>
           {macros.map((m) => <MacroSetting key={m.name} macro={m} layerKey={layerKey} />)}

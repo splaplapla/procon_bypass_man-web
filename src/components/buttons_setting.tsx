@@ -40,7 +40,10 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
 
   return(
     <div css={visibilityStyle()}>
+      <h4>設定可能なマクロ</h4>
       <MacroSettings layerKey={layerKey} />
+
+      <h4>各ボタンの設定</h4>
       <div css={ulStyle}>
         {buttons.map((b, i) => (
           <div key={i} css={liStyle}>
