@@ -7,9 +7,13 @@ export type Flip = {
   force_neutral?: Array<Button>,
 }
 
-export type Macro = {
+export type StructMacro = {
   name: string,
   if_pressed: Array<Button>,
+}
+
+export type Macro = {
+  [key in string]: Array<Button>;
 }
 
 export type Remap = {
@@ -28,7 +32,7 @@ type _ButtonsInLayer = {
 }
 
 export type ButtonsInLayer = _ButtonsInLayer & {
-  macro?: Array<Macro>;
+  macro?: Macro; // TODO macroTableという名前にしたい
 };
 
 export type InstalledPlugin = {

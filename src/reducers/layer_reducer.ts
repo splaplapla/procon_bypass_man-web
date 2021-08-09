@@ -1,6 +1,6 @@
 import { buttons, Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
-import { Layers, Flip, Remap, Macro } from "../types/buttons_setting_type";
+import { Layers, Flip, Remap, Macro, StructMacro } from "../types/buttons_setting_type";
 
 export const disableFlipType = Symbol('disableFlip');
 export const alwaysFlipType = Symbol('alwaysFlip');
@@ -23,7 +23,7 @@ type ACTION_TYPE =
     | { type: typeof remapType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
-    | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: Macro } }
+    | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: StructMacro } }
     | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof unregisterInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
 
@@ -72,11 +72,11 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       layers[layerKey][button] = { flip: flip, open: false }
       return { ...layers };
     case applyMacroType:
-      const macro = action.payload.macro
-      if(!macro) { return { ...layers } };
-      const macroTable = layers[layerKey]["macro"] || {} as any // TODO any
-      macroTable[macro.name as string] = macro.if_pressed
-      layers[layerKey]["macro"] = macroTable
+      const structMacro = action.payload.macro
+      if(!structMacro) { return { ...layers } };
+      const macroTable = layers[layerKey].macro as Macro || {} as Macro
+      macroTable[structMacro.name] = structMacro.if_pressed
+      layers[layerKey].macro = macroTable
       return { ...layers };
     case registerInstalledMacroType:
       const installedMacro = action.payload.installed_macro

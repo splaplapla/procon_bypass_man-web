@@ -122,7 +122,7 @@ export const ButtonsSettingPage = () => {
         layerKeys.forEach((layerKey) => {
           const macros = layers[layerKey].macro
           if(macros) {
-            macros.forEach((macro) => {
+            Object.keys(macros).forEach((macro) => {
               layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
             })
           }

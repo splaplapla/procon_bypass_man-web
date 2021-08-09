@@ -5,7 +5,7 @@ import React, { useState, useContext } from "react";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
-import { Macro } from "../types/buttons_setting_type";
+import { Macro, StructMacro } from "../types/buttons_setting_type";
 import { Plugin, PluginBody } from "../types/plugin";
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
@@ -36,7 +36,7 @@ const PluginsNameMap = availablePlugins.reduce((hash, item: Plugin) => {
 
 type MacroSettingProps = {
   layerKey: LayerKey;
-  macro: Macro;
+  macro: StructMacro;
 };
 const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
@@ -82,9 +82,10 @@ type MacroSettingsProps = {
 };
 export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
   const { layers } = useContext(ButtonsSettingContext);
-  const macroTable = layers[layerKey].macro as Macro || {} as Macro;
-  const macros = Object.entries(macroTable).reduce((acc, item) => {
-    acc.push({ name: item[0], if_pressed: item[1] });
+  const macroTable = layers[layerKey].macro as any || {} as any;
+  const macros = Object.keys(PluginsNameMap).reduce((acc, macroName: string) => {
+    const ifp = macroTable[macroName as string] as Array<Button> || [] as Array<Button>;
+    acc.push({ name: macroName, if_pressed: ifp } as StructMacro);
     return acc;
   }, [] as Array<any>)
 
