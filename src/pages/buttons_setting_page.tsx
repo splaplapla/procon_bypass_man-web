@@ -220,7 +220,7 @@ export const ButtonsSettingPage = () => {
           </div>
 
           <h3>インストール可能なマクロ</h3>
-          <InstallableMacros />
+          {loaded && <InstallableMacros />}
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
