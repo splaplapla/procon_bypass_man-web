@@ -24,10 +24,12 @@ interface StatsApiResponse {
   pid: number | null,
 }
 
-interface SettingApiResponse {
+export interface SettingApiResponse {
   result: string,
   setting: ButtonsSettingType,
   setting_group_by_button: any,
+  installed_macros: Array<string>,
+  installed_modes: Array<string>,
 }
 
 interface SettingDigestApiResponse {

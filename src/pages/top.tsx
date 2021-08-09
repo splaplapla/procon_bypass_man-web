@@ -23,6 +23,8 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     right: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
     down: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
     left: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
+    installed_macros: {},
+    installed_modes: {},
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
   const [loaded, setLoaded] = useState(false);

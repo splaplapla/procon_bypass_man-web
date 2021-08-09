@@ -10,7 +10,8 @@ export const ignoreButtonsInFlipingType = Symbol('ignoreButtonsInFliping');
 export const remapType = Symbol('remap');
 export const openMenuType = Symbol('openMenu');
 export const closeMenuType = Symbol('closeMenu');
-export const applyMacroType = Symbol('applyMacros');
+export const applyMacroType = Symbol('applyMacro');
+export const registerInstalledMacroType = Symbol('installedMacro');
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -22,16 +23,14 @@ type ACTION_TYPE =
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: Macro } }
+    | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
-  const layerKey = action.payload.layerKey;
+  const layerKey = action.payload.layerKey as LayerKey;
   const button = action.payload.button as Button;
-  let flip =  {} as Flip
-  let remap = {} as Remap
-  if(button) {
-    flip = layers[layerKey][button].flip || {} as Flip
-    remap = layers[layerKey][button].remap || {} as Remap
-  }
+
+  const flip = layerKey && button && layers[layerKey][button]?.flip || {} as Flip
+  const remap = layerKey && button && layers[layerKey][button]?.remap || {} as Remap
 
   switch (action.type) {
     case disableFlipType:
@@ -77,6 +76,14 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       macroTable[macro.name as string] = macro.if_pressed
       layers[layerKey]["macro"] = macroTable
       return { ...layers };
+    case registerInstalledMacroType:
+      const installedMacro = action.payload.installed_macro
+      const h = { ...layers }
+      if(installedMacro) {
+        h.installed_macros ||= {}
+        h.installed_macros[installedMacro] = true
+      }
+      return h;
     default:
       console.log("一致しないaction typeです")
       return { ...layers };

@@ -7,12 +7,12 @@ import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip } from "../types/buttons_setting_type";
 import { Plugin } from "../types/plugin";
-import { HttpClient } from "../lib/http_client";
+import { HttpClient, SettingApiResponse } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
-import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
 import _ from 'lodash';
 import md5 from 'md5';
@@ -102,11 +102,23 @@ export const ButtonsSettingPage = () => {
 
     httpClient.getSetting()
       .then(function (response) {
+        const body = response.data.setting_group_by_button as SettingApiResponse;
+
+        if(body.installed_macros) {
+          body.installed_macros.forEach((installed_macro: string) => {
+            layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: installed_macro }});
+          })
+        }
+        if(response.data.installed_modes) {
+          // layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
+        }
+
         setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
         const layers = layerKeys.reduce((a, key) => {
           a[key] = response.data.setting_group_by_button.layers[key];
           return a;
         }, {} as Layers)
+
         layerKeys.forEach((layerKey) => {
           const macros = layers[layerKey].macro
           if(macros) {

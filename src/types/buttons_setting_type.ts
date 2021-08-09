@@ -31,11 +31,17 @@ export type ButtonsInLayer = _ButtonsInLayer & {
   macro?: Array<Macro>;
 };
 
+export type InstalledPlugin = {
+  [key in string]: boolean;
+}
+
 export type Layers = {
   up: ButtonsInLayer,
   right: ButtonsInLayer,
   down: ButtonsInLayer,
   left: ButtonsInLayer,
+  installed_macros?: InstalledPlugin,
+  installed_modes?: InstalledPlugin,
 }
 
 export type ButtonsSettingType = {
