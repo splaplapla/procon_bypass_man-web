@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody } from "../types/plugin";
+import { registerInstalledMacroType, unregisterInstalledMacroType } from "../reducers/layer_reducer";
 
 // TODO extract to file
 const availablePlugins = [
@@ -37,14 +38,30 @@ const macroClassNamespaces = availablePlugins.map((v) => {
   })
 }).flat().flat();
 
-export const InstallableMacros = () => {
-  const { layers } = useContext(ButtonsSettingContext);
-  const handleClick = () => {
-  }
+
+type Props = {
+  classNamespace: string;
+};
+export const InstallableMacro = ({ classNamespace }: Props) => {
+  const { layers, layersDispatch } = useContext(ButtonsSettingContext);
   const isChecked = (name: string) => {
     return layers.installed_macros[name];
   }
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(isChecked(classNamespace)) {
+    layersDispatch({ type: unregisterInstalledMacroType, payload: { installed_macro: classNamespace }});
+    } else {
+    layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: classNamespace }});
+    }
+  }
+  return(
+    <>
+      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} /> {classNamespace}
+    </>
+  )
+}
 
+export const InstallableMacros = () => {
   return(
     <>
       {
@@ -52,7 +69,7 @@ export const InstallableMacros = () => {
           return(
             <div key={i}>
               <label>
-                <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} /> {classNamespace}
+                <InstallableMacro classNamespace={classNamespace} />
               </label>
             </div>
           );
