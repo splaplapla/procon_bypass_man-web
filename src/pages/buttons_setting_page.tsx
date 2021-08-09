@@ -6,7 +6,6 @@ import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip } from "../types/buttons_setting_type";
-import { Plugin, PluginBody } from "../types/plugin";
 import { HttpClient, SettingApiResponse } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
@@ -14,6 +13,7 @@ import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
+import { InstallableMacros } from "../components/installable_macros";
 import _ from 'lodash';
 import md5 from 'md5';
 
@@ -210,39 +210,6 @@ export const ButtonsSettingPage = () => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
-
-  // TODO extract to file
-  const availablePlugins = [
-    {
-      splatoon2: {
-        modes: [
-          { display_name: "splatoon2.guruguru", class_namespace: "ProconBypassMan::Splatoon2::Mode::Guruguru" },
-        ],
-        macros: [
-          { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
-        ],
-      }
-    } as Plugin,
-  ]
-  const PluginsNameMap = availablePlugins.reduce((hash, item: Plugin) => {
-    for (var [name, plugin] of Object.entries(item)) {
-      plugin.macros.forEach((macro: PluginBody) => {
-        hash[macro.class_namespace] = macro.display_name
-      })
-    };
-    return hash;
-  }, {} as any)
-
-  const macros = availablePlugins.map((v) => {
-    return Object.entries(v).map((v) => {
-      const name = v[0];
-      const plugin = v[1];
-      return plugin.macros.map((m) => {
-        return m.display_name
-      })
-    })
-  }).flat();
-
   return(
     <>
       <div css={css`display: table`}>
@@ -253,13 +220,7 @@ export const ButtonsSettingPage = () => {
           </div>
 
           <h3>インストール可能なマクロ</h3>
-          <ul>
-            {
-              macros.map((m, i) => {
-                return <li key={i}>{m}</li>
-              })
-             }
-          </ul>
+          <InstallableMacros />
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
