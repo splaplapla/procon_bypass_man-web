@@ -135,8 +135,9 @@ module ProconBypassMan
 
             if layer.to_hash.dig(:macro)
               h[:layers][key][:macro] = []
-              layer.to_hash.dig(:macro).each do |name, options|
-                h[:layers][key][:macro] << { name: name }.merge!(options)
+              if(macros = layer.to_hash.dig(:macro))
+                macros.transform_values! { |x| x[:if_pressed] }
+                h[:layers][key][:macro] = macros
               end
             end
 

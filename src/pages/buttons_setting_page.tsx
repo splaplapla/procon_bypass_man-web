@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
-import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip, Macro, StructMacro } from "../types/buttons_setting_type";
 import { HttpClient, SettingApiResponse } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
@@ -120,9 +120,12 @@ export const ButtonsSettingPage = () => {
         }, {} as Layers)
 
         layerKeys.forEach((layerKey) => {
-          const macros = layers[layerKey].macro
-          if(macros) {
-            Object.keys(macros).forEach((macro) => {
+          const macroTable = layers[layerKey].macro as Macro
+          if(macroTable) {
+            Object.entries(macroTable).forEach((val, i) => {
+              const name = val[0];
+              const ifPressed = val[1];
+              const macro = { name: name, if_pressed: ifPressed } as StructMacro
               layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
             })
           }

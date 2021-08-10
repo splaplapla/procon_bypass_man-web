@@ -42,7 +42,9 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * prettierでフォーマットする
     * HttpClientのエラーレスポンスにも型をつける
     * HttpClientを使うときはエラーレスポンスで分岐する
+    * prefix_keys_for_changing_layerをsettingに書かないとクラッシュするのを直す
     * plugin TODO
         * 変更履歴に出す
         * exportに反映する
+        * インストール可能なマクロ、になっている部分をプラグインでグルーピングする
 * github pageでホスティングする(generator)
