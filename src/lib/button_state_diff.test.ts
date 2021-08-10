@@ -75,3 +75,18 @@ describe('installed_macrosで差分がある時', () => {
     ])
   })
 })
+
+describe('layer.x.macroで差分がある時', () => {
+  it('値を返す', () => {
+    const before = Object.assign({}, makeLayer());
+    const after = Object.assign({}, makeLayer());
+
+    before.layers.up.macro = { a: [] }
+    after.layers.up.macro = { a: ["b"] }
+
+    const actual = ButtonStateDiff({ before: before, after: after })
+    expect(actual).toStrictEqual([
+      "layer up の macro を変更しました"
+    ])
+  })
+})

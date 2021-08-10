@@ -1,5 +1,5 @@
 import { Button, buttons } from "../types/button";
-import { ButtonInLayer, ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, Layers, ButtonsSettingType, Macro } from "../types/buttons_setting_type";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { diff } from 'deep-object-diff';
 
@@ -26,6 +26,13 @@ export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
   }
 
   layerKeys.forEach((layerKey) => {
+    const beforeMacro = before.layers[layerKey].macro || {} as Macro
+    const afterMacro = after.layers[layerKey].macro || {} as Macro
+    const macroDiffResult = diff(beforeMacro, afterMacro);
+    if(Object.keys(macroDiffResult || []).length > 0) {
+      changes.push(`layer ${layerKey} の macro を変更しました`)
+    }
+
     buttons.forEach((b) => {
       // どの項目が何に変化したかを出力したかったがめんどくさすぎたのでやめた
       const diffResult = diff(before.layers[layerKey as LayerKey][b], after.layers[layerKey as LayerKey][b]);
