@@ -68,3 +68,33 @@ describe('layersで差分がある時', () => {
     ])
   })
 })
+
+describe('installed_macrosで差分がある時', () => {
+  const makeLayer = () => {
+    const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
+    const upLayer =  Object.assign({}, defaultLayer);
+    const downLayer = Object.assign({}, defaultLayer);
+    const leftLayer = Object.assign({}, defaultLayer);
+    const rightLayer = Object.assign({}, defaultLayer);
+    return {
+      prefix_keys_for_changing_layer: [] as Array<Button>,
+      layers: {
+        up: Object.assign({}, upLayer),
+        down: Object.assign({}, downLayer),
+        left: Object.assign({}, leftLayer),
+        right: Object.assign({}, rightLayer),
+        installed_macros: {},
+      }
+    };
+  };
+  it('値を返す', () => {
+    const before = Object.assign({}, makeLayer());
+    const after = Object.assign({}, makeLayer());
+    before.layers.installed_macros = { a: true }
+
+    const actual = ButtonStateDiff({ before: before, after: after })
+    expect(actual).toStrictEqual([
+      "インストール可能なマクロを変更しました"
+    ])
+  })
+})

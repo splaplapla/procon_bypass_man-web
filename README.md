@@ -45,7 +45,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
     * plugin TODO
         * 変更履歴に出す
         * exportに反映する
-        * 利用可能プラグインに表示する
-        * 利用可能プラグインにcheckを入れると設定ファイルに反映する
-        * 利用可能プラグインにcheckを入れると,設定可能なマクロを表示する
 * github pageでホスティングする(generator)

@@ -50,10 +50,10 @@ export const ButtonsSettingPage = () => {
   }
   const applySetting = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    console.log(changes(), initializedSetting)
     httpClient.postSetting(
       ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
-    ).then(function (response) {
+    ).then(
+      function (response) {
         alert("設定ファイルのパスへ書き込みが完了しました");
         reset();
       });
@@ -234,7 +234,7 @@ export const ButtonsSettingPage = () => {
             <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
             <div>{infoMessage}</div>
             <ul>
-              {changes().map((c, i) => <li key={i}>{c}</li>)}
+              {loaded && changes().map((c, i) => <li key={i}>{c}</li>)}
             </ul>
           </div>
         </div>
