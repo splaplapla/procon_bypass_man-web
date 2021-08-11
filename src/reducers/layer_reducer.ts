@@ -13,6 +13,7 @@ export const closeMenuType = Symbol('closeMenu');
 export const applyMacroType = Symbol('applyMacro');
 export const registerInstalledMacroType = Symbol('installedMacro');
 export const unregisterInstalledMacroType = Symbol('uninstalledMacro');
+export const registerInstalledModeType = Symbol('uninstalledMacro');
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -26,6 +27,7 @@ type ACTION_TYPE =
     | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: StructMacro } }
     | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof unregisterInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
+    | { type: typeof registerInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey as LayerKey;
@@ -81,19 +83,21 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
     case registerInstalledMacroType:
       const installedMacro = action.payload.installed_macro
       const h = { ...layers }
-      if(installedMacro) {
-        h.installed_macros ||= {}
-        h.installed_macros[installedMacro] = true
-      }
+      h.installed_macros ||= {}
+      h.installed_macros[installedMacro] = true
       return h;
     case unregisterInstalledMacroType:
       const unregisterInstalledMacro = action.payload.installed_macro
       const hh = { ...layers }
-      if(unregisterInstalledMacro) {
-        hh.installed_macros ||= {}
-        hh.installed_macros[unregisterInstalledMacro] = false
-      }
+      hh.installed_macros ||= {}
+      hh.installed_macros[unregisterInstalledMacro] = false
       return hh;
+    case registerInstalledModeType:
+      const installedMode = action.payload.installed_mode
+      const l = { ...layers }
+      l.installed_modes ||= {}
+      l.installed_modes[installedMode] = true
+      return l;
     default:
       console.log("一致しないaction typeです")
       return { ...layers };

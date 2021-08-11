@@ -11,7 +11,7 @@ import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
-import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType, registerInstalledModeType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
 import { InstallableMacros } from "../components/installable_macros";
 import _ from 'lodash';
@@ -109,8 +109,11 @@ export const ButtonsSettingPage = () => {
             layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: installed_macro }});
           })
         }
-        if(response.data.installed_modes) {
-          // layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
+
+        if(body.installed_modes) {
+          body.installed_modes.forEach((modeName: string) => {
+            layersDispatch({ type: registerInstalledModeType, payload: { installed_mode: modeName } });
+          })
         }
 
         setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
