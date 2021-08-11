@@ -11,18 +11,21 @@ type Props = {
 export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
   const changes = [] as Array<string>;
 
-  if(before.layers?.installed_macros && after.layers?.installed_macros) {
+  if(!before || !after || !before.layers) { return changes; };
+
+  if(before.layers.installed_macros && after.layers.installed_macros) {
     const installedMacrosDiffResult = diff(before.layers.installed_macros, after.layers.installed_macros);
     if(Object.keys(installedMacrosDiffResult || []).length > 0) {
       changes.push("インストール可能なマクロを変更しました")
     }
   }
 
-  if(!before.prefix_keys_for_changing_layer || !after.prefix_keys_for_changing_layer) { return changes }
-  if(before.prefix_keys_for_changing_layer.toString() === after.prefix_keys_for_changing_layer.toString()) {
-    // no-op
-  } else {
-    changes.push(`key prefixは ${before.prefix_keys_for_changing_layer} => ${after.prefix_keys_for_changing_layer} になります`)
+  if(before.prefix_keys_for_changing_layer && after.prefix_keys_for_changing_layer) {
+    if(before.prefix_keys_for_changing_layer.toString() === after.prefix_keys_for_changing_layer.toString()) {
+      // no-op
+    } else {
+      changes.push(`key prefixは ${before.prefix_keys_for_changing_layer} => ${after.prefix_keys_for_changing_layer} になります`)
+    }
   }
 
   layerKeys.forEach((layerKey) => {
