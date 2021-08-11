@@ -39,14 +39,18 @@ setting: |-
   layer :up do
     flip :a, force_neutral: %i(y)
     flip :b, if_pressed: %i(a), force_neutral: %i(y)
+
   end
   layer :right do
+
   end
   layer :down do
     flip :a, if_pressed: %i(a b), force_neutral: %i(y x)
+
   end
   layer :left do
     remap :a, to: %i(b y)
+
   end`;
     expect(actual).toBe(expected);
   })
@@ -56,6 +60,7 @@ describe('macroがあるとき', () => {
   const prefixKeys = ["y", "l"] as Array<Button>;
   const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
   const upLayer =  _.cloneDeep(defaultLayer);
+  upLayer.macro = { "ProconBypassMan::Splatoon2::Macro::FastReturn": ["y", "l"] }
   const downLayer = _.cloneDeep(defaultLayer);
   const leftLayer = _.cloneDeep(defaultLayer);
   const rightLayer = _.cloneDeep(defaultLayer);
@@ -79,12 +84,16 @@ setting: |-
   prefix_keys_for_changing_layer %i(y l)
 
   layer :up do
+    macro ProconBypassMan::Splatoon2::Macro::FastReturn, if_pressed: %i(y l)
   end
   layer :right do
+
   end
   layer :down do
+
   end
   layer :left do
+
   end`;
     expect(actual).toBe(expected);
   })
@@ -113,12 +122,16 @@ setting: |-
   prefix_keys_for_changing_layer %i(y l)
 
   layer :up do
+
   end
   layer :right do
+
   end
   layer :down do
+
   end
   layer :left do
+
   end`;
     expect(actual).toBe(expected);
   })

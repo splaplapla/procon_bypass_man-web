@@ -14,10 +14,10 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
     layer: ButtonsInLayer;
     button: Button;
   };
+  const buttons_with_macro = buttons
   const createButtonMethod = ({ layer , button }: defineButtonMethodProps) => {
     const flip = layer[button].flip;
     const remap = layer[button].remap;
-    const macro = layer[button].macro;
     if(flip && flip.enable) {
       if(!flip.if_pressed) { return }
       if(flip.if_pressed.length === 0) {
@@ -32,44 +32,64 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
         return `remap :${button}${(remap.to || "") && `, to: %i(${remap.to.join(" ")})`}`;
       }
     }
-    if(macro) {
-      // TODO
-    }
-
     return null;
   }
   const layerBlockIndent = "    ";
-  const toplevelIndent = "  ";
-  if(!layers.installed_macros) {  layers.installed_macros = {} }
+  const topLevelIndent = "  ";
+  if(!layers.installed_macros) {  layers.installed_macros = {} };
+  if(!layers.up.macro) { layers.up.macro = {} };
+  if(!layers.down.macro) { layers.down.macro = {} };
+  if(!layers.right.macro) { layers.right.macro = {} };
+  if(!layers.left.macro) { layers.left.macro = {} };
+
+  const expandMacroInLayer = (macro: Macro) => {
+    return Object.entries(macro).map((m) => {
+      const name = m[0] as string;
+      const ifPressed = m[1] as Array<Button>;
+      return `${layerBlockIndent}macro ${name}, if_pressed: %i(${ifPressed.join(" ")})` }
+    )
+  };
 
   return(
 `version: 1.0
 setting: |-
-${(layers.installed_macros) && Object.keys(layers.installed_macros).map((name) => `${toplevelIndent}install_macro_plugin ${name}`).join("\n")}
+${(layers.installed_macros) && Object.keys(layers.installed_macros).map((name) => `${topLevelIndent}install_macro_plugin ${name}`).join("\n")}
   prefix_keys_for_changing_layer %i(${prefixKeys.join(" ")})
 
-  ${buttons.reduce((a, b) => {
-    const m = createButtonMethod({ layer: layers.up, button: b })
-    if(m) { a = a + `\n${layerBlockIndent}` + m }
-    return a;
-  }, layerBlock("up"))}
+  ${
+    buttons.reduce((a, b) => {
+      const m = createButtonMethod({ layer: layers.up, button: b })
+      if(m) { a = a + `\n${layerBlockIndent}` + m }
+      return a;
+    }, layerBlock("up"))
+  }
+${expandMacroInLayer(layers.up.macro)}
   end
-  ${buttons.reduce((a, b) => {
-    const m = createButtonMethod({ layer: layers.right, button: b })
-    if(m) { a = a + `\n${layerBlockIndent}` + m }
-    return a;
-  }, layerBlock("right"))}
+  ${
+    buttons.reduce((a, b) => {
+      const m = createButtonMethod({ layer: layers.right, button: b })
+      if(m) { a = a + `\n${layerBlockIndent}` + m }
+      return a;
+    }, layerBlock("right"))
+  }
+${expandMacroInLayer(layers.down.macro)}
   end
-  ${buttons.reduce((a, b) => {
-    const m = createButtonMethod({ layer: layers.down, button: b })
-    if(m) { a = a + `\n${layerBlockIndent}` + m }
-    return a;
-  }, layerBlock("down"))}
+  ${
+    buttons.reduce((a, b) => {
+      const m = createButtonMethod({ layer: layers.down, button: b })
+      if(m) { a = a + `\n${layerBlockIndent}` + m }
+      return a;
+    }, layerBlock("down"))
+  }
+${expandMacroInLayer(layers.down.macro)}
   end
-  ${buttons.reduce((a, b) => {
-    const m = createButtonMethod({ layer: layers.left, button: b })
-    if(m) { a = a + `\n${layerBlockIndent}` + m }
-    return a;
-  }, layerBlock("left"))}
+  ${
+    buttons.reduce((a, b) => {
+      const m = createButtonMethod({ layer: layers.left, button: b })
+      if(m) { a = a + `\n${layerBlockIndent}` + m }
+      return a;
+    }, layerBlock("left"))
+  }
+${expandMacroInLayer(layers.left.macro)}
   end`)
 }
