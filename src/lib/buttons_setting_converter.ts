@@ -39,11 +39,15 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
     return null;
   }
   const layerBlockIndent = "    ";
+  const toplevelIndent = "  ";
+  if(!layers.installed_macros) {  layers.installed_macros = {} }
 
   return(
 `version: 1.0
 setting: |-
+${(layers.installed_macros) && Object.keys(layers.installed_macros).map((name) => `${toplevelIndent}install_macro_plugin ${name}`).join("\n")}
   prefix_keys_for_changing_layer %i(${prefixKeys.join(" ")})
+
   ${buttons.reduce((a, b) => {
     const m = createButtonMethod({ layer: layers.up, button: b })
     if(m) { a = a + `\n${layerBlockIndent}` + m }

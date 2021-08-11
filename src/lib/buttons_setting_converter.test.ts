@@ -33,7 +33,9 @@ describe('値があるとき', () => {
     const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     const expected = `version: 1.0
 setting: |-
+
   prefix_keys_for_changing_layer %i(y l)
+
   layer :up do
     flip :a, force_neutral: %i(y)
     flip :b, if_pressed: %i(a), force_neutral: %i(y)
@@ -51,6 +53,41 @@ setting: |-
 })
 
 describe('macroがあるとき', () => {
+  const prefixKeys = ["y", "l"] as Array<Button>;
+  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
+  const upLayer =  _.cloneDeep(defaultLayer);
+  const downLayer = _.cloneDeep(defaultLayer);
+  const leftLayer = _.cloneDeep(defaultLayer);
+  const rightLayer = _.cloneDeep(defaultLayer);
+  const layers = {
+    up: upLayer,
+    down: downLayer,
+    left: leftLayer,
+    right: rightLayer,
+    installed_macros: {
+      "ProconBypassMan::Splatoon2::Macro::FastReturn": true,
+      "ProconBypassMan::Sumabura::Macro::Foo": true,
+    }
+  };
+
+  it('installed_macroを出力すること', () => {
+    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+    const expected = `version: 1.0
+setting: |-
+  install_macro_plugin ProconBypassMan::Splatoon2::Macro::FastReturn
+  install_macro_plugin ProconBypassMan::Sumabura::Macro::Foo
+  prefix_keys_for_changing_layer %i(y l)
+
+  layer :up do
+  end
+  layer :right do
+  end
+  layer :down do
+  end
+  layer :left do
+  end`;
+    expect(actual).toBe(expected);
+  })
 })
 
 describe('全部からのとき', () => {
@@ -72,7 +109,9 @@ describe('全部からのとき', () => {
     const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     const expected = `version: 1.0
 setting: |-
+
   prefix_keys_for_changing_layer %i(y l)
+
   layer :up do
   end
   layer :right do
