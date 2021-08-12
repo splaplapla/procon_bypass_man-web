@@ -14,6 +14,7 @@ export const applyMacroType = Symbol('applyMacro');
 export const registerInstalledMacroType = Symbol('installedMacro');
 export const unregisterInstalledMacroType = Symbol('uninstalledMacro');
 export const registerInstalledModeType = Symbol('uninstalledMacro');
+export const unregisterInstalledModeType = Symbol('a')
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -28,6 +29,7 @@ type ACTION_TYPE =
     | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof unregisterInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof registerInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
+    | { type: typeof unregisterInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey as LayerKey;
@@ -98,6 +100,12 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       l.installed_modes ||= {}
       l.installed_modes[installedMode] = true
       return l;
+    case unregisterInstalledModeType:
+      const uninstallMode = action.payload.installed_mode
+      const uml = { ...layers }
+      uml.installed_modes ||= {}
+      uml.installed_modes[uninstallMode] = false
+      return uml;
     default:
       console.log("一致しないaction typeです")
       return { ...layers };

@@ -45,7 +45,7 @@ type Props = {
 export const InstallableMacro = ({ classNamespace }: Props) => {
   const { layers, layersDispatch } = useContext(ButtonsSettingContext);
   const isChecked = (name: string) => {
-    return layers.installed_macros[name];
+    return layers.installed_macros[name] || false;
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(isChecked(classNamespace)) {
@@ -56,7 +56,7 @@ export const InstallableMacro = ({ classNamespace }: Props) => {
   }
   return(
     <>
-      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} />{classNamespace}
+      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} /> {classNamespace}
     </>
   )
 }

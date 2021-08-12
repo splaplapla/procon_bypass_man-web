@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody } from "../types/plugin";
+import { registerInstalledModeType, unregisterInstalledModeType } from "../reducers/layer_reducer";
 
 // TODO extract to file
 const availablePlugins = [
@@ -43,10 +44,15 @@ type Props = {
 };
 export const InstallableMode = ({ classNamespace }: Props) => {
   const { layers, layersDispatch } = useContext(ButtonsSettingContext);
-  const handleClick = () => {
-  }
   const isChecked = (name: string) => {
-    return layers.installed_modes[name];
+    return layers.installed_modes[name] || false;
+  }
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(isChecked(classNamespace)) {
+      layersDispatch({ type: unregisterInstalledModeType, payload: { installed_mode: classNamespace }});
+    } else {
+      layersDispatch({ type: registerInstalledModeType, payload: { installed_mode: classNamespace }});
+    }
   }
   return(
     <div>
