@@ -56,7 +56,7 @@ export const InstallableMacro = ({ classNamespace }: Props) => {
   }
   return(
     <>
-      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} /> {classNamespace}
+      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} />{classNamespace}
     </>
   )
 }

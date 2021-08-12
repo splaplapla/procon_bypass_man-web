@@ -42,16 +42,20 @@ type Props = {
   classNamespace: string;
 };
 export const InstallableMode = ({ classNamespace }: Props) => {
+  const { layers, layersDispatch } = useContext(ButtonsSettingContext);
+  const handleClick = () => {
+  }
+  const isChecked = (name: string) => {
+    return layers.installed_modes[name];
+  }
   return(
-    <div>{classNamespace}</div>
+    <div>
+      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} />{classNamespace}
+  </div>
   )
 }
 
 export const InstallableModes = () => {
-  const { layers, layersDispatch } = useContext(ButtonsSettingContext);
-  const isChecked = (name: string) => {
-    return layers.installed_modes[name];
-  }
   return(
     <>
       {
