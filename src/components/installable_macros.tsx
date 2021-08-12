@@ -6,15 +6,6 @@ import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
 import { registerInstalledMacroType, unregisterInstalledMacroType } from "../reducers/layer_reducer";
 
-const PluginsNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
-  for (var [name, plugin] of Object.entries(item)) {
-    plugin.macros.forEach((macro: PluginBody) => {
-      hash[macro.class_namespace] = macro.display_name
-    })
-  };
-  return hash;
-}, {} as any)
-
 const macroClassNamespaces = AvailablePlugins.map((v) => {
   return Object.entries(v).map((v) => {
     const name = v[0];

@@ -6,19 +6,9 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
 import { Macro, StructMacro } from "../types/buttons_setting_type";
-import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
+import { Plugin, PluginBody, AvailablePlugins, PluginsNameMap } from "../types/plugin";
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
-
-// class_namespaceをキーにしたnameのhashを作る
-const PluginsNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
-  for (var [name, plugin] of Object.entries(item)) {
-    plugin.macros.forEach((macro: PluginBody) => {
-      hash[macro.class_namespace] = macro.display_name
-    })
-  };
-  return hash;
-}, {} as any)
 
 type MacroSettingProps = {
   layerKey: LayerKey;
