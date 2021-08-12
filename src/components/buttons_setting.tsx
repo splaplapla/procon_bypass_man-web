@@ -4,6 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState } from "react";
 import { ButtonSetting } from "./button_setting";
 import { MacroSettings } from "./macro_settings";
+import { ModeSettings } from "./mode_settings";
 import { Button, buttons } from "../types/button";
 import { LayerKey } from "../types/layer_key";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
@@ -40,6 +41,9 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
 
   return(
     <div css={visibilityStyle()}>
+      <h4>モード</h4>
+      <ModeSettings layerKey={layerKey} />
+
       <h4>マクロ</h4>
       <MacroSettings layerKey={layerKey} />
 
