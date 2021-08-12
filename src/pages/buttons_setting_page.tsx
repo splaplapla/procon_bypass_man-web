@@ -14,6 +14,7 @@ import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType, registerInstalledModeType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
 import { InstallableMacros } from "../components/installable_macros";
+import { InstallableModes } from "../components/installable_modes";
 import _ from 'lodash';
 import md5 from 'md5';
 
@@ -227,6 +228,9 @@ export const ButtonsSettingPage = () => {
 
           <h3>インストール可能なマクロ</h3>
           {loaded && <InstallableMacros />}
+
+          <h3>インストール可能なモード</h3>
+          {loaded && <InstallableModes />}
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
