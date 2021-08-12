@@ -49,9 +49,9 @@ export const InstallableMacro = ({ classNamespace }: Props) => {
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(isChecked(classNamespace)) {
-    layersDispatch({ type: unregisterInstalledMacroType, payload: { installed_macro: classNamespace }});
+      layersDispatch({ type: unregisterInstalledMacroType, payload: { installed_macro: classNamespace }});
     } else {
-    layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: classNamespace }});
+      layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: classNamespace }});
     }
   }
   return(

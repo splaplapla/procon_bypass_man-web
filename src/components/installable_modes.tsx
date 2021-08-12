@@ -11,6 +11,7 @@ const availablePlugins = [
     splatoon2: {
       modes: [
         { display_name: "splatoon2.guruguru", class_namespace: "ProconBypassMan::Splatoon2::Mode::Guruguru" },
+        { display_name: "splatoon2.guruguru3", class_namespace: "ProconBypassMan::Splatoon2::Mode::Foo" },
       ],
       macros: [
         { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
@@ -27,21 +28,43 @@ const PluginsNameMap = availablePlugins.reduce((hash, item: Plugin) => {
   return hash;
 }, {} as any)
 
-const macroClassNamespaces = availablePlugins.map((v) => {
+const modeClassNamespaces = availablePlugins.map((v) => {
   return Object.entries(v).map((v) => {
     const name = v[0];
     const plugin = v[1];
-    return plugin.macros.map((m) => {
+    return plugin.modes.map((m) => {
       return m.class_namespace
     })
   })
 }).flat().flat();
 
+type Props = {
+  classNamespace: string;
+};
+export const InstallableMode = ({ classNamespace }: Props) => {
+  return(
+    <div>{classNamespace}</div>
+  )
+}
 
 export const InstallableModes = () => {
+  const { layers, layersDispatch } = useContext(ButtonsSettingContext);
+  const isChecked = (name: string) => {
+    return layers.installed_modes[name];
+  }
   return(
     <>
-      <div></div>
+      {
+        modeClassNamespaces.map((classNamespace, i) => {
+          return(
+            <div key={i}>
+              <label>
+                <InstallableMode classNamespace={classNamespace} />
+              </label>
+            </div>
+          );
+        })
+      }
     </>
   )
 }
