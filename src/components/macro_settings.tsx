@@ -6,26 +6,12 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
 import { Macro, StructMacro } from "../types/buttons_setting_type";
-import { Plugin, PluginBody } from "../types/plugin";
+import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
 
-// plugins.
-const availablePlugins = [
-  {
-    splatoon2: {
-      modes: [
-        { display_name: "splatoon2.guruguru", class_namespace: "ProconBypassMan::Splatoon2::Mode::Guruguru" },
-      ],
-      macros: [
-        { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
-      ],
-    }
-  } as Plugin,
-]
-
 // class_namespaceをキーにしたnameのhashを作る
-const PluginsNameMap = availablePlugins.reduce((hash, item: Plugin) => {
+const PluginsNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
   for (var [name, plugin] of Object.entries(item)) {
     plugin.macros.forEach((macro: PluginBody) => {
       hash[macro.class_namespace] = macro.display_name
