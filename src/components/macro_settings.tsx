@@ -6,7 +6,7 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
 import { Macro, StructMacro } from "../types/buttons_setting_type";
-import { Plugin, PluginBody, AvailablePlugins, PluginsNameMap } from "../types/plugin";
+import { Plugin, PluginBody, AvailablePlugins, MacroNameMap } from "../types/plugin";
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
 
@@ -41,7 +41,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
       <li key={macro.name}>
         <label>
           <input type="checkbox" onChange={handleClick} checked={isEnable} />
-          {PluginsNameMap[macro.name]}
+          {MacroNameMap[macro.name]}
         </label>
         <br />
         {isEnable && `${macro.if_pressed.join(", ")}で発動`}
@@ -59,7 +59,7 @@ type MacroSettingsProps = {
 export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
   const { layers } = useContext(ButtonsSettingContext);
   const macroTable = layers[layerKey].macro as any || {} as any;
-  const macros = Object.keys(PluginsNameMap).reduce((acc, macroName: string) => {
+  const macros = Object.keys(MacroNameMap).reduce((acc, macroName: string) => {
     const ifp = macroTable[macroName as string] as Array<Button> || [] as Array<Button>;
     acc.push({ name: macroName, if_pressed: ifp } as StructMacro);
     return acc;

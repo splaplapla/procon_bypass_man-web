@@ -12,8 +12,16 @@ export type StructMacro = {
   if_pressed: Array<Button>,
 }
 
+export type StructMode = {
+  name: string,
+}
+
 export type Macro = {
   [key in string]: Array<Button>;
+}
+
+export type ModeTable = {
+  [key in string]: boolean;
 }
 
 export type Remap = {
@@ -33,6 +41,7 @@ type _ButtonsInLayer = {
 
 export type ButtonsInLayer = _ButtonsInLayer & {
   macro?: Macro; // TODO macroTableという名前にしたい
+  mode: ModeTable;
 };
 
 export type InstalledPlugin = {

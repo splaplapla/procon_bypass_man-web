@@ -24,10 +24,19 @@ export const AvailablePlugins = [
   } as Plugin,
 ]
 
-export const PluginsNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
+export const MacroNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
   for (var [name, plugin] of Object.entries(item)) {
     plugin.macros.forEach((macro: PluginBody) => {
       hash[macro.class_namespace] = macro.display_name
+    })
+  };
+  return hash;
+}, {} as any)
+
+export const ModeNameMap = AvailablePlugins.reduce((hash, item: Plugin) => {
+  for (var [name, plugin] of Object.entries(item)) {
+    plugin.modes.forEach((mode: PluginBody) => {
+      hash[mode.class_namespace] = mode.display_name
     })
   };
   return hash;

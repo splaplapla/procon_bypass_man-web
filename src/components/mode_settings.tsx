@@ -3,14 +3,23 @@
 import { jsx, css } from '@emotion/react'
 import React, { useState, useContext } from "react";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
+import { Plugin, PluginBody, AvailablePlugins, ModeNameMap } from "../types/plugin";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
-import { Macro, StructMacro } from "../types/buttons_setting_type";
+import { StructMode } from "../types/buttons_setting_type";
 
 type MacroSettingsProps = {
   layerKey: LayerKey;
 };
 export const ModeSettings = ({ layerKey }:MacroSettingsProps) => {
+  const { layers } = useContext(ButtonsSettingContext);
+  const modeTable = layers[layerKey].mode as any || {} as any;
+  const modes = Object.keys(ModeNameMap).reduce((acc, modeName: string) => {
+    const ifp = modeTable[modeName as string] as Array<Button> || [] as Array<Button>;
+    acc.push({ name: modeName } as StructMode);
+    return acc;
+  }, [] as Array<any>)
+
   return(
     <div></div>
   )
