@@ -8,10 +8,24 @@ import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
 import { StructMode } from "../types/buttons_setting_type";
 
-type MacroSettingsProps = {
+type DetailProps = {
+  layerKey: LayerKey;
+  mode: StructMode;
+};
+export const ModeSetting = ({ layerKey, mode }: DetailProps) => {
+  const { layersDispatch } = useContext(ButtonsSettingContext);
+
+  return(
+    <p>
+      {mode.name}
+    </p>
+  )
+}
+
+type ListProps = {
   layerKey: LayerKey;
 };
-export const ModeSettings = ({ layerKey }:MacroSettingsProps) => {
+export const ModeSettings = ({ layerKey }:ListProps) => {
   const { layers } = useContext(ButtonsSettingContext);
   const modeTable = layers[layerKey].mode as any || {} as any;
   const modes = Object.keys(ModeNameMap).reduce((acc, modeName: string) => {
@@ -21,6 +35,11 @@ export const ModeSettings = ({ layerKey }:MacroSettingsProps) => {
   }, [] as Array<any>)
 
   return(
-    <div></div>
+    <ul>
+      {modes.map((m) => {
+         return layers.installed_modes[m.name] && <ModeSetting key={m.name} mode={m} layerKey={layerKey} />
+        }
+      )}
+    </ul>
   )
 }
