@@ -34,7 +34,7 @@ export const InstallableMode = ({ classNamespace }: Props) => {
   return(
     <div>
       <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} />{classNamespace}
-  </div>
+    </div>
   )
 }
 
