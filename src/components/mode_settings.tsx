@@ -19,7 +19,6 @@ export const ModeSetting = ({ layerKey, mode }: DetailProps) => {
     layersDispatch({ type: applyModeType, payload: { layerKey: layerKey, mode: mode }});
   }
   const isChecked = (mode: StructMode) => {
-    console.log(layers[layerKey] && layers[layerKey].mode)
     return ((layers[layerKey].mode || false) && !!layers[layerKey].mode[mode.name]);
   }
   return(
@@ -36,17 +35,28 @@ export const ModeSettings = ({ layerKey }:ListProps) => {
   const { layers } = useContext(ButtonsSettingContext);
   const modeTable: ModeTable = layers[layerKey].mode || {};
   const modes = Object.keys(ModeNameMap).reduce((acc, modeName: string) => {
-    acc.push({ name: modeName } as StructMode);
+    if(layers.installed_modes[modeName]) {
+      acc.push({ name: modeName } as StructMode);
+    }
     return acc;
   }, [] as Array<StructMode>);
   modes.unshift({ name: "disable" } as StructMode);
 
+  // const hasSomeModes = layers.modes.length > 1;
+  const hasSomeModes = modes.length > 1;
+
   return(
-    <ul>
-      {modes.map((m) => {
-         return (layers.installed_modes[m.name] || m.name === "disable") && <ModeSetting key={m.name} mode={m} layerKey={layerKey} />
-        }
-      )}
-    </ul>
+    <>
+      {
+        hasSomeModes &&
+        <ul>
+          {modes.map((m) => {
+             return <ModeSetting key={m.name} mode={m} layerKey={layerKey} />
+            }
+          )}
+        </ul>
+      }
+      {!hasSomeModes && `選択可能なモードがありません`}
+    </>
   )
 }
