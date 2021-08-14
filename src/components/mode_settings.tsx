@@ -6,22 +6,24 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody, AvailablePlugins, ModeNameMap } from "../types/plugin";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
-import { StructMode } from "../types/buttons_setting_type";
+import { StructMode, ModeTable } from "../types/buttons_setting_type";
+import { applyModeType } from "../reducers/layer_reducer";
 
 type DetailProps = {
   layerKey: LayerKey;
   mode: StructMode;
 };
 export const ModeSetting = ({ layerKey, mode }: DetailProps) => {
-  const { layersDispatch } = useContext(ButtonsSettingContext);
-  const isChecked = () => {
-    return true
+  const { layersDispatch, layers } = useContext(ButtonsSettingContext);
+  const isChecked = (mode: StructMode) => {
+    return ((layers[layerKey].mode || false) && !!layers[layerKey].mode[mode.name]);
   }
-  const handleClick = () => {
+  const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    layersDispatch({ type: applyModeType, payload: { layerKey: layerKey, mode: mode }});
   }
   return(
     <li>
-      <label><input type="radio" onChange={handleClick} checked={isChecked()} />{mode.name}</label>
+      <label><input type="radio" onChange={handleClick} checked={isChecked(mode)} />{mode.name}</label>
     </li>
   )
 }
@@ -31,13 +33,12 @@ type ListProps = {
 };
 export const ModeSettings = ({ layerKey }:ListProps) => {
   const { layers } = useContext(ButtonsSettingContext);
-  const modeTable = layers[layerKey].mode as any || {} as any;
+  const modeTable: ModeTable = layers[layerKey].mode || {};
   const modes = Object.keys(ModeNameMap).reduce((acc, modeName: string) => {
-    const ifp = modeTable[modeName as string] as Array<Button> || [] as Array<Button>;
     acc.push({ name: modeName } as StructMode);
     return acc;
   }, [] as Array<StructMode>);
-  modes.push({ name: "disable" } as StructMode);
+  modes.unshift({ name: "disable" } as StructMode);
 
   return(
     <ul>

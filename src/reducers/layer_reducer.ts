@@ -1,6 +1,6 @@
 import { buttons, Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
-import { Layers, Flip, Remap, Macro, StructMacro } from "../types/buttons_setting_type";
+import { Layers, Flip, Remap, Macro, StructMacro, ModeTable, StructMode } from "../types/buttons_setting_type";
 
 export const disableFlipType = Symbol('disableFlip');
 export const alwaysFlipType = Symbol('alwaysFlip');
@@ -15,6 +15,8 @@ export const registerInstalledMacroType = Symbol('installedMacro');
 export const unregisterInstalledMacroType = Symbol('uninstalledMacro');
 export const registerInstalledModeType = Symbol('uninstalledMacro');
 export const unregisterInstalledModeType = Symbol('a')
+export const applyModeType = Symbol('b')
+
 
 type ACTION_TYPE =
     | { type: typeof disableFlipType, payload: { layerKey: LayerKey, button: Button } }
@@ -25,11 +27,12 @@ type ACTION_TYPE =
     | { type: typeof remapType, payload: { layerKey: LayerKey, button: Button, targetButtons: Array<Button> } }
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
-    | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: Button | undefined, macro: StructMacro } }
+    | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: (Button | undefined), macro: StructMacro } }
     | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof unregisterInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
     | { type: typeof registerInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
     | { type: typeof unregisterInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
+    | { type: typeof applyModeType, payload: { layerKey: LayerKey, button: (Button | undefined), mode: StructMode } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
   const layerKey = action.payload.layerKey as LayerKey;
@@ -106,6 +109,10 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       uml.installed_modes ||= {}
       uml.installed_modes[uninstallMode] = false
       return uml;
+    case applyModeType:
+      const applyMode = action.payload.mode;
+      layers[layerKey].mode = { [applyMode.name]: true};
+      return { ...layers };
     default:
       console.log("一致しないaction typeです")
       return { ...layers };

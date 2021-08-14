@@ -41,7 +41,7 @@ type _ButtonsInLayer = {
 
 export type ButtonsInLayer = _ButtonsInLayer & {
   macro?: Macro; // TODO macroTableという名前にしたい
-  mode: ModeTable;
+  mode?: ModeTable;
 };
 
 export type InstalledPlugin = {
