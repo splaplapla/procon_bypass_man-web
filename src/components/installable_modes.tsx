@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
-import { registerInstalledModeType, unregisterInstalledModeType } from "../reducers/layer_reducer";
+import { installModeType, uninstallModeType } from "../reducers/layer_reducer";
 
 const modeClassNamespaces = AvailablePlugins.map((v) => {
   return Object.entries(v).map((v) => {
@@ -26,9 +26,9 @@ export const InstallableMode = ({ classNamespace }: Props) => {
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(isChecked(classNamespace)) {
-      layersDispatch({ type: unregisterInstalledModeType, payload: { installed_mode: classNamespace }});
+      layersDispatch({ type: uninstallModeType, payload: { installed_mode: classNamespace }});
     } else {
-      layersDispatch({ type: registerInstalledModeType, payload: { installed_mode: classNamespace }});
+      layersDispatch({ type: installModeType, payload: { installed_mode: classNamespace }});
     }
   }
   return(

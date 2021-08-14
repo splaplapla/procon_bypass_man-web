@@ -11,10 +11,10 @@ export const remapType = Symbol('remap');
 export const openMenuType = Symbol('openMenu');
 export const closeMenuType = Symbol('closeMenu');
 export const applyMacroType = Symbol('applyMacro');
-export const registerInstalledMacroType = Symbol('installedMacro');
-export const unregisterInstalledMacroType = Symbol('uninstalledMacro');
-export const registerInstalledModeType = Symbol('uninstalledMacro');
-export const unregisterInstalledModeType = Symbol('a')
+export const installMacroType = Symbol('installedMacro');
+export const uninstallMacroType = Symbol('uninstalledMacro');
+export const installModeType = Symbol('uninstalledMacro');
+export const uninstallModeType = Symbol('a')
 export const applyModeType = Symbol('b')
 
 
@@ -28,10 +28,10 @@ type ACTION_TYPE =
     | { type: typeof openMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof closeMenuType, payload: { layerKey: LayerKey, button: Button } }
     | { type: typeof applyMacroType, payload: { layerKey: LayerKey, button: (Button | undefined), macro: StructMacro } }
-    | { type: typeof registerInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
-    | { type: typeof unregisterInstalledMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
-    | { type: typeof registerInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
-    | { type: typeof unregisterInstalledModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
+    | { type: typeof installMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
+    | { type: typeof uninstallMacroType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_macro: string } }
+    | { type: typeof installModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
+    | { type: typeof uninstallModeType, payload: { layerKey: (LayerKey | undefined), button: (Button | undefined), installed_mode: string } }
     | { type: typeof applyModeType, payload: { layerKey: LayerKey, button: (Button | undefined), mode: StructMode } }
 
 export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
@@ -85,25 +85,25 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       macroTable[structMacro.name] = structMacro.if_pressed.sort()
       layers[layerKey].macro = macroTable
       return { ...layers };
-    case registerInstalledMacroType:
+    case installMacroType:
       const installedMacro = action.payload.installed_macro
       const h = { ...layers }
       h.installed_macros ||= {}
       h.installed_macros[installedMacro] = true
       return h;
-    case unregisterInstalledMacroType:
+    case uninstallMacroType:
       const unregisterInstalledMacro = action.payload.installed_macro
       const hh = { ...layers }
       hh.installed_macros ||= {}
       hh.installed_macros[unregisterInstalledMacro] = false
       return hh;
-    case registerInstalledModeType:
+    case installModeType:
       const installedMode = action.payload.installed_mode
       const l = { ...layers }
       l.installed_modes ||= {}
       l.installed_modes[installedMode] = true
       return l;
-    case unregisterInstalledModeType:
+    case uninstallModeType:
       const uninstallMode = action.payload.installed_mode
       const uml = { ...layers }
       uml.installed_modes ||= {}

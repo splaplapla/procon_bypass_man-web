@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
-import { registerInstalledMacroType, unregisterInstalledMacroType } from "../reducers/layer_reducer";
+import { installMacroType, uninstallMacroType } from "../reducers/layer_reducer";
 
 const macroClassNamespaces = AvailablePlugins.map((v) => {
   return Object.entries(v).map((v) => {
@@ -27,9 +27,9 @@ export const InstallableMacro = ({ classNamespace }: Props) => {
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(isChecked(classNamespace)) {
-      layersDispatch({ type: unregisterInstalledMacroType, payload: { installed_macro: classNamespace }});
+      layersDispatch({ type: uninstallMacroType, payload: { installed_macro: classNamespace }});
     } else {
-      layersDispatch({ type: registerInstalledMacroType, payload: { installed_macro: classNamespace }});
+      layersDispatch({ type: installMacroType, payload: { installed_macro: classNamespace }});
     }
   }
   return(
