@@ -106,8 +106,7 @@ module ProconBypassMan
         end
 
         def to_hash
-          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer,
-          }
+          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer || [] }
           h[:layers] ||= {}
           @layers.each do |key, layer|
             h[:layers][key] = layer&.to_hash
@@ -116,7 +115,7 @@ module ProconBypassMan
         end
 
         def to_hash_group_by_button
-          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer }
+          h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer || [] }
           h[:layers] ||= {}
           @layers.each do |key, layer|
             h[:layers][key] ||= {}
