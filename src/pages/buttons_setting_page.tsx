@@ -5,13 +5,13 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
-import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip, Macro, StructMacro } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip, Macro, StructMacro, ModeTable, StructMode } from "../types/buttons_setting_type";
 import { HttpClient, SettingApiResponse } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
-import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType, registerInstalledModeType } from "../reducers/layer_reducer";
+import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, registerInstalledMacroType, registerInstalledModeType, applyModeType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
 import { InstallableMacros } from "../components/installable_macros";
 import { InstallableModes } from "../components/installable_modes";
@@ -132,6 +132,16 @@ export const ButtonsSettingPage = () => {
               const macro = { name: name, if_pressed: ifPressed } as StructMacro
               layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
             })
+          }
+          const modeTable = layers[layerKey].mode as ModeTable;
+          if(modeTable) {
+            Object.entries(modeTable).forEach((val, i) => {
+              const name = val[0];
+              const mode = { name: name } as StructMode;
+              layersDispatch({ type: applyModeType, payload: { layerKey: layerKey, mode: mode }});
+            })
+          } else {
+            layersDispatch({ type: applyModeType, payload: { layerKey: layerKey, mode: { name: "disable" } }});
           }
 
           buttons.forEach((button) => {

@@ -15,11 +15,12 @@ type DetailProps = {
 };
 export const ModeSetting = ({ layerKey, mode }: DetailProps) => {
   const { layersDispatch, layers } = useContext(ButtonsSettingContext);
-  const isChecked = (mode: StructMode) => {
-    return ((layers[layerKey].mode || false) && !!layers[layerKey].mode[mode.name]);
-  }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     layersDispatch({ type: applyModeType, payload: { layerKey: layerKey, mode: mode }});
+  }
+  const isChecked = (mode: StructMode) => {
+    console.log(layers[layerKey] && layers[layerKey].mode)
+    return ((layers[layerKey].mode || false) && !!layers[layerKey].mode[mode.name]);
   }
   return(
     <li>
