@@ -14,11 +14,15 @@ type DetailProps = {
 };
 export const ModeSetting = ({ layerKey, mode }: DetailProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
-
+  const isChecked = () => {
+    return true
+  }
+  const handleClick = () => {
+  }
   return(
-    <p>
-      {mode.name}
-    </p>
+    <li>
+      <label><input type="radio" onChange={handleClick} checked={isChecked()} />{mode.name}</label>
+    </li>
   )
 }
 
@@ -32,12 +36,13 @@ export const ModeSettings = ({ layerKey }:ListProps) => {
     const ifp = modeTable[modeName as string] as Array<Button> || [] as Array<Button>;
     acc.push({ name: modeName } as StructMode);
     return acc;
-  }, [] as Array<any>)
+  }, [] as Array<StructMode>);
+  modes.push({ name: "disable" } as StructMode);
 
   return(
     <ul>
       {modes.map((m) => {
-         return layers.installed_modes[m.name] && <ModeSetting key={m.name} mode={m} layerKey={layerKey} />
+         return (layers.installed_modes[m.name] || m.name === "disable") && <ModeSetting key={m.name} mode={m} layerKey={layerKey} />
         }
       )}
     </ul>
