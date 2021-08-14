@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ButtonSetting } from "./button_setting";
 import { MacroSettings } from "./macro_settings";
 import { ModeSettings } from "./mode_settings";
@@ -39,22 +39,29 @@ export const ButtonsSetting = ({ layerKey, layerRef }:Props) => {
   `;
   layerRef.setVisibility = setVisibility;
 
+  const { layers } = useContext(ButtonsSettingContext);
+  const isEnableMode = !layers[layerKey].mode.disable;
+
   return(
     <div css={visibilityStyle()}>
       <h4>モード</h4>
       <ModeSettings layerKey={layerKey} />
 
       <h4>マクロ</h4>
-      <MacroSettings layerKey={layerKey} />
+      {isEnableMode && `モードが有効なので選択できません`}
+      {!isEnableMode && <MacroSettings layerKey={layerKey} />}
 
       <h4>各ボタンの設定</h4>
-      <div css={ulStyle}>
-        {buttons.map((b, i) => (
-          <div key={i} css={liStyle}>
-            <ButtonSetting layerKey={layerKey} name={b} />
-          </div>
-        ))}
-      </div>
+      {isEnableMode && `モードが有効なので選択できません`}
+      {!isEnableMode &&
+        <div css={ulStyle}>
+          {buttons.map((b, i) => (
+            <div key={i} css={liStyle}>
+              <ButtonSetting layerKey={layerKey} name={b} />
+            </div>
+          ))}
+        </div>
+      }
     </div>
   )
 }
