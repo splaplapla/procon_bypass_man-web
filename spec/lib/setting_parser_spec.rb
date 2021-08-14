@@ -32,7 +32,7 @@ describe ProconBypassMan::Web::SettingParser do
                   :down=>{:if_pressed=>[:down], :force_neutral=>nil, enable: true}},
           :remap=>{:l=>{:to=>[:zr]}}
         )
-        expect(h[:layers][:left]).to eq(nil)
+        expect(h[:layers][:left]).to eq({})
         expect(h[:layers][:right]).to eq({})
         expect(h[:layers][:down]).to eq(:flip=>{:zl=>nil})
       end
@@ -77,7 +77,7 @@ describe ProconBypassMan::Web::SettingParser do
           remap :l, to: :zr
         end
         layer :right, mode: guruguru
-        layer :left do
+        layer :left, mode: guruguru do
         end
         layer :down do
           flip :zl
@@ -95,7 +95,7 @@ describe ProconBypassMan::Web::SettingParser do
           :remap=>{:l=>{:to=>[:zr]}},
           :macro=>{"ProconBypassMan::Splatoon2::Macro::FastReturn"=>{:if_pressed=>[:y, :b, :down]}},
         )
-        expect(h[:layers][:left]).to eq(nil)
+        expect(h[:layers][:left]).to eq(:mode=>"ProconBypassMan::Splatoon2::Mode::Guruguru")
         expect(h[:layers][:right]).to eq(:mode=>"ProconBypassMan::Splatoon2::Mode::Guruguru")
         expect(h[:layers][:down]).to eq(:flip=>{:zl=>nil})
       end
@@ -118,7 +118,7 @@ describe ProconBypassMan::Web::SettingParser do
 
             :right=>{:mode=> { "ProconBypassMan::Splatoon2::Mode::Guruguru" => true } },
 
-            :left=>{},
+            :left=>{:mode=> { "ProconBypassMan::Splatoon2::Mode::Guruguru" => true } },
 
             :down=>{:zl=>{:flip=>{ enable: true}, open: true }}}}
         )

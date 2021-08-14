@@ -14,8 +14,10 @@ module ProconBypassMan
     class SettingParser
       class Core
         class Layer
-          def initialize
-            @table = {}
+          def initialize(mode: )
+            @table = {
+              mode: mode&.to_s,
+            }.compact
           end
 
           def flip(button, if_pressed: nil, force_neutral: nil)
@@ -92,10 +94,14 @@ module ProconBypassMan
         end
 
         def layer(dir, mode: nil, &block)
+          if(mode == :manual || mode == 'manual')
+            mode = nil
+          end
+
           if block_given?
-            @layers[dir] = Layer.new.instance_eval(&block)
+            @layers[dir] = Layer.new(mode: mode).instance_eval(&block) || Layer.new(mode: mode)
           else
-            @layers[dir] = { mode: mode&.to_s }.compact
+            @layers[dir] = Layer.new(mode: mode)
           end
         end
 
