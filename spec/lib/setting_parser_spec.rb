@@ -116,7 +116,7 @@ describe ProconBypassMan::Web::SettingParser do
              :macro=> { "ProconBypassMan::Splatoon2::Macro::FastReturn" => [:y, :b, :down] },
              :l=>{:remap=>{:to=>[:zr]}, open: true } },
 
-            :right=>{:mode=>"ProconBypassMan::Splatoon2::Mode::Guruguru"},
+            :right=>{:mode=> { "ProconBypassMan::Splatoon2::Mode::Guruguru" => true } },
 
             :left=>{},
 

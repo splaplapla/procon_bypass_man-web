@@ -142,7 +142,7 @@ module ProconBypassMan
             end
 
             if layer.to_hash.dig(:mode)
-              h[:layers][key][:mode] = layer.to_hash.dig(:mode)
+              h[:layers][key][:mode] = { layer.to_hash.dig(:mode) => true }
             end
 
             layer.to_hash.dig(:remap)&.each do |button, value|
