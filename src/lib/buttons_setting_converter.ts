@@ -43,6 +43,8 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   }
   const layerBlockIndent = "    ";
   const topLevelIndent = "  ";
+  if(!layers.installed_macros) {  layers.installed_macros = {} };
+  if(!layers.installed_modes) {  layers.installed_modes = {} };
   if(!layers.up.macro) { layers.up.macro = {} };
   if(!layers.down.macro) { layers.down.macro = {} };
   if(!layers.right.macro) { layers.right.macro = {} };
