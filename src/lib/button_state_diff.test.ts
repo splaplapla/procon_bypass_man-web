@@ -16,6 +16,7 @@ const makeLayer = () => {
       left: Object.assign({}, leftLayer),
       right: Object.assign({}, rightLayer),
       installed_macros: {},
+      installed_modes: {},
     }
   };
 };
@@ -90,3 +91,18 @@ describe('layer.x.macroで差分がある時', () => {
     ])
   })
 })
+
+describe('installed_modesで差分がある時', () => {
+  it('値を返す', () => {
+    const before = Object.assign({}, makeLayer());
+    const after = Object.assign({}, makeLayer());
+
+    before.layers.installed_modes = { b: true }
+
+    const actual = ButtonStateDiff({ before: before, after: after })
+    expect(actual).toStrictEqual([
+      "インストール可能なモードを変更しました"
+    ])
+  })
+})
+

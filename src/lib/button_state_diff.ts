@@ -20,6 +20,13 @@ export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
     }
   }
 
+  if(before.layers.installed_modes && after.layers.installed_modes) {
+    const installedModesDiffResult = diff(before.layers.installed_modes, after.layers.installed_modes);
+    if(Object.keys(installedModesDiffResult || []).length > 0) {
+      changes.push("インストール可能なモードを変更しました")
+    }
+  }
+
   if(before.prefix_keys_for_changing_layer && after.prefix_keys_for_changing_layer) {
     if(before.prefix_keys_for_changing_layer.toString() === after.prefix_keys_for_changing_layer.toString()) {
       // no-op
