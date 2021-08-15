@@ -34,6 +34,7 @@ describe('値があるとき', () => {
     const expected = `version: 1.0
 setting: |-
 
+
   prefix_keys_for_changing_layer %i(y l)
 
   layer :up do
@@ -81,10 +82,53 @@ describe('macroがあるとき', () => {
 setting: |-
   install_macro_plugin ProconBypassMan::Splatoon2::Macro::FastReturn
   install_macro_plugin ProconBypassMan::Sumabura::Macro::Foo
+
   prefix_keys_for_changing_layer %i(y l)
 
   layer :up do
     macro ProconBypassMan::Splatoon2::Macro::FastReturn, if_pressed: %i(y l)
+  end
+  layer :right do
+
+  end
+  layer :down do
+
+  end
+  layer :left do
+
+  end`;
+    expect(actual).toBe(expected);
+  })
+})
+
+describe('modeがあるとき', () => {
+  const prefixKeys = ["y", "l"] as Array<Button>;
+  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
+  const upLayer =  _.cloneDeep(defaultLayer);
+  upLayer.mode = { "ProconBypassMan::Splatoon2::Mode::Guruguru": true }
+  const downLayer = _.cloneDeep(defaultLayer);
+  const leftLayer = _.cloneDeep(defaultLayer);
+  const rightLayer = _.cloneDeep(defaultLayer);
+  const layers = {
+    up: upLayer,
+    down: downLayer,
+    left: leftLayer,
+    right: rightLayer,
+    installed_modes: {
+      "ProconBypassMan::Splatoon2::Mode::Guruguru": true,
+    }
+  };
+
+  it('installed_macroを出力すること', () => {
+    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+    const expected = `version: 1.0
+setting: |-
+
+  install_mode_plugin ProconBypassMan::Splatoon2::Mode::Guruguru
+  prefix_keys_for_changing_layer %i(y l)
+
+  layer :up, mode: ProconBypassMan::Splatoon2::Mode::Guruguru do
+
   end
   layer :right do
 
@@ -118,6 +162,7 @@ describe('全部からのとき', () => {
     const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     const expected = `version: 1.0
 setting: |-
+
 
   prefix_keys_for_changing_layer %i(y l)
 

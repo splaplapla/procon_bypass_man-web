@@ -8,7 +8,14 @@ type Props = {
 };
 export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   const layerBlock = (layerKey: LayerKey) => {
-    return `layer :${layerKey} do`;
+    const modeTable = layers[layerKey].mode || {}
+    const currentMode = Object.keys(modeTable).toString();
+    if(currentMode === "disable" || currentMode === '') {
+      return `layer :${layerKey} do`;
+    } else {
+      const modeOption = `, mode: ${currentMode}`
+      return `layer :${layerKey}${modeOption} do`;
+    }
   }
   type defineButtonMethodProps = {
     layer: ButtonsInLayer;
@@ -37,6 +44,7 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   const layerBlockIndent = "    ";
   const topLevelIndent = "  ";
   if(!layers.installed_macros) {  layers.installed_macros = {} };
+  if(!layers.installed_modes) {  layers.installed_modes = {} };
   if(!layers.up.macro) { layers.up.macro = {} };
   if(!layers.down.macro) { layers.down.macro = {} };
   if(!layers.right.macro) { layers.right.macro = {} };
@@ -54,6 +62,7 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
 `version: 1.0
 setting: |-
 ${(layers.installed_macros) && Object.keys(layers.installed_macros).map((name) => `${topLevelIndent}install_macro_plugin ${name}`).join("\n")}
+${(layers.installed_modes) && Object.keys(layers.installed_modes).map((name) => `${topLevelIndent}install_mode_plugin ${name}`).join("\n")}
   prefix_keys_for_changing_layer %i(${prefixKeys.join(" ")})
 
   ${
