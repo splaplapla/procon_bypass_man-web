@@ -61,18 +61,25 @@ export const MacroSettings = ({ layerKey }:MacroSettingsProps) => {
   const macroTable = layers[layerKey].macro as any || {} as any;
   const macros = Object.keys(MacroNameMap).reduce((acc, macroName: string) => {
     const ifp = macroTable[macroName as string] as Array<Button> || [] as Array<Button>;
-    acc.push({ name: macroName, if_pressed: ifp } as StructMacro);
+    if(layers.installed_macros[macroName]) {
+      acc.push({ name: macroName, if_pressed: ifp } as StructMacro);
+    }
     return acc;
   }, [] as Array<any>)
+  const hasSomeMacros = macros.length > 0;
 
   return(
     <>
-      <ul>
-        {macros.map((m) => {
-           return layers.installed_macros[m.name] && <MacroSetting key={m.name} macro={m} layerKey={layerKey} />
-          }
-        )}
-      </ul>
+      {
+        hasSomeMacros &&
+        <ul>
+          {macros.map((m) => {
+             return <MacroSetting key={m.name} macro={m} layerKey={layerKey} />
+            }
+          )}
+        </ul>
+      }
+      {!hasSomeMacros && `選択可能なマクロがありません`}
     </>
   )
 }
