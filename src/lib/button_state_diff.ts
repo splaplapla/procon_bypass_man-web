@@ -1,5 +1,5 @@
 import { Button, buttons } from "../types/button";
-import { ButtonInLayer, ButtonsInLayer, Layers, ButtonsSettingType, Macro } from "../types/buttons_setting_type";
+import { ButtonInLayer, ButtonsInLayer, Layers, ButtonsSettingType, Macro, ModeTable } from "../types/buttons_setting_type";
 import { LayerKey, layerKeys } from "../types/layer_key";
 import { diff } from 'deep-object-diff';
 
@@ -40,7 +40,14 @@ export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
     const afterMacro = after.layers[layerKey].macro || {} as Macro
     const macroDiffResult = diff(beforeMacro, afterMacro);
     if(Object.keys(macroDiffResult || []).length > 0) {
-      changes.push(`layer ${layerKey} の macro を変更しました`)
+      changes.push(`layer ${layerKey} の マクロ を変更しました`)
+    }
+
+    const beforeMode = before.layers[layerKey].mode || {} as ModeTable
+    const afterMode = after.layers[layerKey].mode || {} as ModeTable
+    const modeDiffResult = diff(beforeMode, afterMode);
+    if(Object.keys(modeDiffResult || []).length > 0) {
+      changes.push(`layer ${layerKey} の モード を変更しました`)
     }
 
     buttons.forEach((b) => {

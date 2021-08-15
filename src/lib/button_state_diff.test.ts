@@ -87,7 +87,7 @@ describe('layer.x.macroで差分がある時', () => {
 
     const actual = ButtonStateDiff({ before: before, after: after })
     expect(actual).toStrictEqual([
-      "layer up の macro を変更しました"
+      "layer up の マクロ を変更しました"
     ])
   })
 })
@@ -102,6 +102,21 @@ describe('installed_modesで差分がある時', () => {
     const actual = ButtonStateDiff({ before: before, after: after })
     expect(actual).toStrictEqual([
       "インストール可能なモードを変更しました"
+    ])
+  })
+})
+
+describe('layer.x.modeで差分がある時', () => {
+  it('値を返す', () => {
+    const before = Object.assign({}, makeLayer());
+    const after = Object.assign({}, makeLayer());
+
+    before.layers.up.mode = {}
+    after.layers.up.mode = { a: true }
+
+    const actual = ButtonStateDiff({ before: before, after: after })
+    expect(actual).toStrictEqual([
+      "layer up の モード を変更しました"
     ])
   })
 })
