@@ -124,10 +124,10 @@ describe ProconBypassMan::Web::App do
 
   describe '/api/pbm_setting_digest' do
     context 'digestファイルが存在するとき' do
-      let(:path) { "#{ProconBypassMan::Web.root}/tmp/.digest" }
+      let(:path) { "#{ProconBypassMan::Web.root}/tmp/" }
       before do
         ProconBypassMan::Web::Storage.instance.root_path = path
-        File.write(path, nil)
+        File.write("#{path}/.setting_yaml_digest", nil)
       end
       it do
         response = get "/api/pbm_setting_digest"

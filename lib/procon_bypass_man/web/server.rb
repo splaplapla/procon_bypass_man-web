@@ -103,7 +103,7 @@ module ProconBypassMan
       get '/api/pbm_setting_digest' do
         require 'digest/md5'
         begin
-          digest = File.read(ProconBypassMan::Web::Storage.instance.root_path)
+          digest = File.read(File.join(ProconBypassMan::Web::Storage.instance.root_path, ".setting_yaml_digest"))
           { result: :ok, digest: digest }.to_json
         rescue Errno::ENOENT
           not_found
@@ -111,7 +111,8 @@ module ProconBypassMan
       end
 
       get '/api/reload_pbm_setting' do
-        if system "yes | sudo kill -USR2 `cat #{ProconBypassMan.pid_path}`"
+        ProconBypassMan::Web::Storage.instance.root_path or raise("not found") # TODO return 404
+        if system "yes | sudo kill -USR2 `cat #{File.join(ProconBypassMan::Web::Storage.instance.root_path, "pbm_pid")}`"
           { result: :ok }.to_json
         else
           { result: :bad }.to_json
