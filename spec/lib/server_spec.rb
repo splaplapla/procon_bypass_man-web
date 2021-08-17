@@ -53,10 +53,7 @@ describe ProconBypassMan::Web::App do
       end
       it do
         response = get "/api/pbm_setting"
-        expect(response).to be_ok
-        json = JSON.parse(response.body)
-        expect(json["result"]).to eq("bad")
-        expect(json["message"]).to eq("not found setting")
+        expect(response).to be_not_found
       end
     end
     context 'settingにyamlが存在するとき' do

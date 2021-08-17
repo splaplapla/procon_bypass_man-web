@@ -82,7 +82,7 @@ module ProconBypassMan
         rescue Psych::SyntaxError
           { result: :bad, message: "bad format yaml" }.to_json
         rescue Errno::ENOENT
-          { result: :bad, message: "not found setting" }.to_json
+          not_found
         end
       end
 

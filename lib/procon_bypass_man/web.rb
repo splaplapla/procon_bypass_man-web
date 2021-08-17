@@ -13,7 +13,7 @@ module ProconBypassMan
     end
 
     def self.config
-      { db_path: ENV["DB_PATH"] ||= File.join(ProconBypassMan.root, "pbm_web.db"),
+      { db_path: ENV["DB_PATH"] ||= File.join(root, "pbm_web.db"),
       }
     end
   end

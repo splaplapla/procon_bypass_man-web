@@ -174,6 +174,12 @@ export const ButtonsSettingPage = () => {
         });
 
         setLoaded(true);
+      }).catch(function (error) {
+        if (error.response.status === 404) {
+          setInfoMessage("設定ファイルのパスが未設定です")
+        } else {
+          console.log("想定外のエラーです");
+        }
       })
 
   }, [loaded]);
