@@ -129,7 +129,7 @@ describe ProconBypassMan::Web::App do
     context 'digestファイルが存在するとき' do
       let(:path) { "#{ProconBypassMan::Web.root}/tmp/.digest" }
       before do
-        expect(ProconBypassMan).to receive(:digest_path) { path }
+        ProconBypassMan::Web::Storage.instance.root_path = path
         File.write(path, nil)
       end
       it do
@@ -140,7 +140,7 @@ describe ProconBypassMan::Web::App do
     context 'digestファイルが存在しないとき' do
       let(:path) { "#{ProconBypassMan::Web.root}/tmp/nothing.yml" }
       before do
-        expect(ProconBypassMan).to receive(:digest_path) { path }
+        ProconBypassMan::Web::Storage.instance.root_path = path
         FileUtils.rm_rf(path)
       end
       it do

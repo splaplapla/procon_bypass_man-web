@@ -15,5 +15,4 @@ gem "rspec"
 gem "pry"
 gem "foreman"
 gem "sqlite3"
-gem "procon_bypass_man", github: "splaspla-hacker/procon_bypass_man", branch: "edge"
 gem "rubocop", require: false

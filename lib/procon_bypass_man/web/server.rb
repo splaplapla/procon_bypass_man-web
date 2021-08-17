@@ -5,10 +5,9 @@ begin
   require 'sinatra/reloader'
   require "pry"
 rescue LoadError
-  ProconBypassMan.logger.debug("sinatra/reloaderのrequireに失敗しました")
+  puts("sinatra/reloaderのrequireに失敗しました")
 end
 
-require "procon_bypass_man"
 require "procon_bypass_man/web/storage"
 
 module ProconBypassMan
@@ -104,7 +103,7 @@ module ProconBypassMan
       get '/api/pbm_setting_digest' do
         require 'digest/md5'
         begin
-          digest = File.read(ProconBypassMan.digest_path)
+          digest = File.read(ProconBypassMan::Web::Storage.instance.root_path)
           { result: :ok, digest: digest }.to_json
         rescue Errno::ENOENT
           not_found
