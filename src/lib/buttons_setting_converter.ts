@@ -41,6 +41,7 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
     }
     return null;
   }
+
   const layerBlockIndent = "    ";
   const topLevelIndent = "  ";
   if(!layers.installed_macros) {  layers.installed_macros = {} };
@@ -49,6 +50,8 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   if(!layers.down.macro) { layers.down.macro = {} };
   if(!layers.right.macro) { layers.right.macro = {} };
   if(!layers.left.macro) { layers.left.macro = {} };
+  const installedMacroNames = Object.entries(layers.installed_macros).filter((k, i) => k[1]).map(v => v[0]);
+  const installedModeNames = Object.entries(layers.installed_modes).filter((k, i) => k[1]).map(v => v[0]);
 
   const expandMacroInLayer = (macro: Macro) => {
     return Object.entries(macro).map((m) => {
@@ -61,8 +64,8 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
   return(
 `version: 1.0
 setting: |-
-${(layers.installed_macros) && Object.keys(layers.installed_macros).map((name) => `${topLevelIndent}install_macro_plugin ${name}`).join("\n")}
-${(layers.installed_modes) && Object.keys(layers.installed_modes).map((name) => `${topLevelIndent}install_mode_plugin ${name}`).join("\n")}
+${installedMacroNames.map((name) => `${topLevelIndent}install_macro_plugin ${name}`).join("\n")}
+${installedModeNames.map((name) => `${topLevelIndent}install_mode_plugin ${name}`).join("\n")}
   prefix_keys_for_changing_layer %i(${prefixKeys.join(" ")})
 
   ${

@@ -73,6 +73,7 @@ describe('macroがあるとき', () => {
     installed_macros: {
       "ProconBypassMan::Splatoon2::Macro::FastReturn": true,
       "ProconBypassMan::Sumabura::Macro::Foo": true,
+      "HOGE": false,
     }
   };
 
@@ -116,10 +117,11 @@ describe('modeがあるとき', () => {
     right: rightLayer,
     installed_modes: {
       "ProconBypassMan::Splatoon2::Mode::Guruguru": true,
+      "unknown": false,
     }
   };
 
-  it('installed_macroを出力すること', () => {
+  it('installed_modeを出力すること', () => {
     const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     const expected = `version: 1.0
 setting: |-
