@@ -7,8 +7,8 @@ export const Home = () => {
   return (
     <>
       <div css={css`margin-top: 30px`}>
-        ソースコード: <a href="https://github.com/splaspla-hacker/procon_bypass_man-web">
-          https://github.com/splaspla-hacker/procon_bypass_man-web
+        ソースコード: <a href="https://github.com/splaplapla/procon_bypass_man-web">
+          https://github.com/splaplapla/procon_bypass_man-web
         </a>
       </div>
     </>

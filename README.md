@@ -1,5 +1,5 @@
 # ProconBypassMan::Web
-*  https://github.com/splaspla-hacker/procon_bypass_man のWEBインターフェイスです
+*  https://github.com/splaplapla/procon_bypass_man のWEBインターフェイスです
     * 設定ファイルの変更・反映
     * procon_bypass_manの起動・停止
 * Raspberry Pi4内で起動します
@@ -8,7 +8,7 @@
 例: https://github.com/jiikko/procon_bypass_man_sample/tree/with-web
 
 ```ruby
-gem 'procon_bypass_man-web', github: 'splaspla-hacker/procon_bypass_man-web'
+gem 'procon_bypass_man-web', github: 'splaplapla/procon_bypass_man-web'
 ```
 
 And then execute:
