@@ -5,10 +5,10 @@
 * Raspberry Pi4内で起動します
 
 ## Installation
-例: https://github.com/jiikko/procon_bypass_man_sample/tree/with-web
+例: https://github.com/jiikko/procon_bypass_man_sample
 
 ```ruby
-gem 'procon_bypass_man-web', github: 'splaplapla/procon_bypass_man-web'
+gem 'procon_bypass_man-web'
 ```
 
 And then execute:
