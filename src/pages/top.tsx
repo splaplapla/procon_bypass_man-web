@@ -79,12 +79,6 @@ export const Top: React.FC = () => {
                 <Link to="/setting">設定</Link>
               </li>
               <li>
-                <Link to="/pbm">PBMのステータス</Link>
-              </li>
-              <li>
-                <Link to="/recoding_mode">入力の録画</Link>
-              </li>
-              <li>
                 <Link to="/buttons_setting">ボタン設定</Link>
               </li>
             </ul>
