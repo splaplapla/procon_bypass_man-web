@@ -5,7 +5,7 @@
 * Raspberry Pi4内で起動します
 
 ## Installation
-使用例: https://github.com/jiikko/procon_bypass_man_sample/tree/with-web
+例: https://github.com/jiikko/procon_bypass_man_sample/tree/with-web
 
 ```ruby
 gem 'procon_bypass_man-web', github: 'splaspla-hacker/procon_bypass_man-web'
@@ -38,9 +38,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 * frontend
     * エクスポートした設定の妥当性をテストで確認したい
     * モーダルのデザインを整える
-    * plugin, modeを選択して、ボタンに適用できるようにする(粗い)
     * prettierでフォーマットする
     * HttpClientのエラーレスポンスにも型をつける
-    * HttpClientを使うときはエラーレスポンスで分岐する
     * インストール可能なマクロ、になっている部分をプラグインでグルーピングする
 * github pageでホスティングする(generator)
