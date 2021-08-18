@@ -1,7 +1,6 @@
 # ProconBypassMan::Web
 *  https://github.com/splaplapla/procon_bypass_man のWEBインターフェイスです
     * 設定ファイルの変更・反映
-    * procon_bypass_manの起動・停止
 * Raspberry Pi4内で起動します
 
 ## Installation
