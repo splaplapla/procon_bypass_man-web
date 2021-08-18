@@ -17,7 +17,7 @@ And then execute:
 
 ## Usage
 実行ファイルの中で `ProconBypassMan::Web::Server.start` を呼んでください  
-例: https://github.com/jiikko/procon_bypass_man_sample/blob/with-web/web.rb  
+例: https://github.com/jiikko/procon_bypass_man_sample/blob/master/web.rb  
 
 Open http://pi.local:9090
 
