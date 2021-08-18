@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
+import { Home } from "./home";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
@@ -89,7 +90,9 @@ export const Top: React.FC = () => {
             </ul>
           </nav>
           <Switch>
-            <Route exact path="/" ></Route>
+            <Route exact path="/" >
+              <Home />
+            </Route>
             <Route path="/setting">
               <GlobalSetting />
             </Route>
