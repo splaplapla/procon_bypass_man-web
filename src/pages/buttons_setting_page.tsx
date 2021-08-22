@@ -117,7 +117,7 @@ export const ButtonsSettingPage = () => {
           })
         }
 
-        setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer);
+        setPrefixKeys(response.data.setting.prefix_keys_for_changing_layer.sort());
         const layers = layerKeys.reduce((a, key) => {
           a[key] = response.data.setting_group_by_button.layers[key];
           return a;
