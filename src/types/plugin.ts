@@ -19,6 +19,9 @@ export const AvailablePlugins = [
       ],
       macros: [
         { display_name: "splatoon2.fast_return", class_namespace: "ProconBypassMan::Splatoon2::Macro::FastReturn" },
+        { display_name: "splatoon2.jump_right", class_namespace: "ProconBypassMan::Splatoon2::Macro::JumpToRightKey" },
+        { display_name: "splatoon2.jump_up", class_namespace: "ProconBypassMan::Splatoon2::Macro::JumpToUpKey" },
+        { display_name: "splatoon2.jump_left", class_namespace: "ProconBypassMan::Splatoon2::Macro::JumpToLeftKey" },
       ],
     }
   } as Plugin,
