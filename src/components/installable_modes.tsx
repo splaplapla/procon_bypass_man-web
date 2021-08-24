@@ -3,7 +3,7 @@
 import { jsx, css } from '@emotion/react'
 import React, { useState, useEffect, useContext } from "react";
 import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
-import { Plugin, PluginBody, AvailablePlugins } from "../types/plugin";
+import { Plugin, PluginBody, AvailablePlugins, ModeNameMap } from "../types/plugin";
 import { installModeType, uninstallModeType } from "../reducers/layer_reducer";
 
 const modeClassNamespaces = AvailablePlugins.map((v) => {
@@ -46,7 +46,7 @@ export const InstallableModes = () => {
           return(
             <div key={i}>
               <label>
-                <InstallableMode classNamespace={classNamespace} />
+                <InstallableMode classNamespace={ModeNameMap[classNamespace]} />
               </label>
             </div>
           );
