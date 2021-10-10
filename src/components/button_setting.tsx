@@ -18,7 +18,6 @@ type ButtonMenuProp = {
 };
 
 const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
-  const flipRadioName = `${layerKey}_button_menu_${name}`;
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.remap);
 
   // for modal
