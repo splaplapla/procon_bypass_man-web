@@ -18,7 +18,7 @@ import { ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_set
 import { buttons, Button } from "../types/button";
 import { LayerReducer } from "../reducers/layer_reducer";
 
-const ButtonsSettingProfile: React.FC = ({children}) => {
+const ButtonsSettingProvider: React.FC = ({children}) => {
   const initLayers: Layers = {
     up: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
     right: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
@@ -94,7 +94,7 @@ export const Top: React.FC = () => {
               <BpmPage />
             </Route>
             <Route path="/buttons_setting">
-              <ButtonsSettingProfile><ButtonsSettingPage /></ButtonsSettingProfile>
+              <ButtonsSettingProvider><ButtonsSettingPage /></ButtonsSettingProvider>
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />
