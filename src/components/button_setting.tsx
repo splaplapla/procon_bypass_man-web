@@ -119,24 +119,24 @@ type Prop = {
 };
 
 export const ButtonSetting: React.FC<Prop> = ({ name, layerKey }) => {
-  const settingContext = useContext(ButtonsSettingContext);
+  const { layersDispatch, layers } = useContext(ButtonsSettingContext);
   const handleToggle = () => {
     if(isOpenMenu()) { // 閉じる
-      settingContext.layersDispatch({ type: closeMenuType, payload: { layerKey: layerKey, button: name }});
+      layersDispatch({ type: closeMenuType, payload: { layerKey: layerKey, button: name }});
     } else { // 開く
-      settingContext.layersDispatch({ type: openMenuType, payload: { layerKey: layerKey, button: name }});
+      layersDispatch({ type: openMenuType, payload: { layerKey: layerKey, button: name }});
     }
   }
 
   const isOpenMenu = () => {
-    return settingContext.layers[layerKey][name].open;
+    return layers[layerKey][name].open;
   }
-  const buttonValue = settingContext.layers[layerKey][name] || {} as ButtonInLayer;
+  const buttonValue = layers[layerKey][name] || {} as ButtonInLayer;
 
   return (
     <>
       <label><input type="checkbox" checked={isOpenMenu()} onChange={handleToggle}/>{name}</label>
-      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} layersDispatch={settingContext.layersDispatch} />}
+      {isOpenMenu() && <ButtonMenu name={name} layerKey={layerKey} buttonValue={buttonValue} layersDispatch={layersDispatch} />}
     </>
   );
 };
