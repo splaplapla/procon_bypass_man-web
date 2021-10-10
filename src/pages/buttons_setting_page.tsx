@@ -242,11 +242,11 @@ export const ButtonsSettingPage = () => {
             <a href="#" onClick={exportSetting}>エクスポートする</a>
           </div>
 
-          <h3>インストール可能なマクロ</h3>
-          {loaded && <InstallableMacros />}
-
           <h3>インストール可能なモード</h3>
           {loaded && <InstallableModes />}
+
+          <h3>インストール可能なマクロ</h3>
+          {loaded && <InstallableMacros />}
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>

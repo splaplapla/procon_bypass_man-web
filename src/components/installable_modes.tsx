@@ -17,27 +17,29 @@ const modeClassNamespaces = AvailablePlugins.map((v) => {
 }).flat().flat();
 
 type Props = {
-  classNamespace: string;
+  modeKey: string;
 };
-export const InstallableMode = ({ classNamespace }: Props) => {
+export const InstallableMode = ({ modeKey }: Props) => {
+  const modeName = ModeNameMap[modeKey];
   const { layers, layersDispatch } = useContext(ButtonsSettingContext);
   const isChecked = (name: string) => {
     return layers.installed_modes[name] || false;
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(isChecked(classNamespace)) {
-      layersDispatch({ type: uninstallModeType, payload: { installed_mode: classNamespace }});
+    if(isChecked(modeKey)) {
+      layersDispatch({ type: uninstallModeType, payload: { installed_mode: modeKey }});
     } else {
-      layersDispatch({ type: installModeType, payload: { installed_mode: classNamespace }});
+      layersDispatch({ type: installModeType, payload: { installed_mode: modeKey }});
     }
   }
   return(
     <div>
-      <input type="checkbox" onChange={handleClick} checked={isChecked(classNamespace)} />{classNamespace}
+      <input type="checkbox" onChange={handleClick} checked={isChecked(modeKey)} />{modeName}
     </div>
   )
 }
 
+console.log("modeClassNamespaces: ", modeClassNamespaces)
 export const InstallableModes = () => {
   return(
     <>
@@ -46,7 +48,7 @@ export const InstallableModes = () => {
           return(
             <div key={i}>
               <label>
-                <InstallableMode classNamespace={ModeNameMap[classNamespace]} />
+                <InstallableMode modeKey={classNamespace} />
               </label>
             </div>
           );

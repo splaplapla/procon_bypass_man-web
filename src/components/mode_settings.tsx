@@ -42,7 +42,6 @@ export const ModeSettings = ({ layerKey }:ListProps) => {
   }, [] as Array<StructMode>);
   modes.unshift({ name: "disable" } as StructMode);
 
-  // const hasSomeModes = layers.modes.length > 1;
   const hasSomeModes = modes.length > 1;
 
   return(
