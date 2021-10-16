@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useContext } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonsModal } from "./buttons_modal";
@@ -18,11 +18,11 @@ type ButtonMenuProp = {
 };
 
 const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
-  const flipRadioName = `${layerKey}_button_menu_${name}`;
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.remap);
 
   // for modal
-  const [openModal, setOpenModal] = useState(false)
+  const [isOpenModal, toggleModal] = useReducer((m) => { return !m; }, false);
+
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
@@ -49,11 +49,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: flipIfPressedSomeButtonsType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("特定のキーを押したときだけ")
     setModalPrefillButtons(flipIfPressedSomeButtons);
     setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtonsWithPersistence);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   }
 
   // 無視
@@ -62,11 +62,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: ignoreButtonsInFlipingType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("連打中は特定のボタンの入力を無視する")
     setModalPrefillButtons(buttonValue.flip?.force_neutral || [] as Array<Button>);
     setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   };
 
   // リマップ
@@ -74,11 +74,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: remapType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("リマップ")
     setModalPrefillButtons(buttonValue.remap?.to || []);
     setModalCallbackOnSubmit(() => setRemapButtonsWithPersistence);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   };
 
   return(
@@ -91,13 +91,13 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
           <input type="radio" onChange={openIfPressedSomeButtonsModal} onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
           特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
         </label>
-      </fieldset>
 
-      <fieldset><legend><strong>連打オプション</strong></legend>
-        <label>
-          <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={buttonState.isDisabledFlip()} />
-          連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
-        </label>
+        <fieldset><legend><strong>連打オプション</strong></legend>
+          <label>
+            <input type="checkbox" onChange={handleIgnoreButton} checked={forceNeutralButtons.length > 0} disabled={buttonState.isDisabledFlip()} />
+            連打中は特定のボタンの入力を無視する{forceNeutralButtons.length > 0 && `(${forceNeutralButtons.join(", ")})`}
+          </label>
+        </fieldset>
       </fieldset>
 
       <fieldset><legend><strong>リマップ設定</strong></legend>
@@ -107,7 +107,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
         </label>
       </fieldset>
       <div css={css`position: relative;`}>
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
+        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
       </div>
     </>
   )
