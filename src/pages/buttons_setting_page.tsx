@@ -25,7 +25,7 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
+  const { loaded, DidLoad, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
@@ -173,7 +173,7 @@ export const ButtonsSettingPage = () => {
           });
         });
 
-        setLoaded(true);
+        DidLoad();
       }).catch(function (error) {
         if (error.response.status === 404) {
           setInfoMessage("設定ファイルのパスが未設定です")
