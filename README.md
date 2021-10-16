@@ -28,8 +28,11 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ### 開発用のサーバを起動する
 `bundle exec foreman s`
 
-### frontend側のビルド方法
+## How to Release
 * `yarn run release-build` を実行してgit commit
+* `lib/procon_bypass_man/web/version.rb` をインクリメント
+* `CHANGELOG.md` に追記
+* `bundle exec rake release`
 
 ## TODO
 * server
