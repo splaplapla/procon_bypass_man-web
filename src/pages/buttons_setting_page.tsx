@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useReducer, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
@@ -219,15 +219,15 @@ export const ButtonsSettingPage = () => {
     };
   }
   const handlePrefixKeysField = () => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("キープレフィックスの変更")
     setModalPrefillButtons(prefixKeys);
     setModalCallbackOnSubmit(() => setPrefixKeys);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   }
 
   // for modal
-  const [openModal, setOpenModal] = useState(false)
+  const [isOpenModal, toggleModal] = useReducer(((m) => { return !m; }), false);
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
@@ -251,7 +251,7 @@ export const ButtonsSettingPage = () => {
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
             <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
-            {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
+            {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
           </div>
         </div>
         <div css={css`display: table-cell`}>
