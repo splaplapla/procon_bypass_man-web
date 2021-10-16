@@ -182,7 +182,6 @@ export const ButtonsSettingPage = () => {
           console.log("想定外のエラーです");
         }
       })
-
   }, [loaded]);
 
   const layersTabStyle = () => {
