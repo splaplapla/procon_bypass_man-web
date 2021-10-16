@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useContext } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { LayerKey } from "../types/layer_key";
 import { Button } from "../types/button";
@@ -17,7 +17,7 @@ type MacroSettingProps = {
 const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
   // for modal
-  const [openModal, setOpenModal] = useState(false)
+  const [isOpenModal, toggleModal] = useReducer((m) => { return !m; }, false);
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
@@ -28,11 +28,11 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
     layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("発動キーの設定")
     setModalPrefillButtons(macro.if_pressed);
     setModalCallbackOnSubmit(() => setButtonsForModal);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   }
   const isEnable = macro.if_pressed.length > 0;
 
@@ -47,7 +47,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
         {isEnable && `${macro.if_pressed.join(", ")}で発動`}
       </li>
       <div css={css`position: relative;`}>
-        {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} positionOnShown={"relative"} />}
+        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} positionOnShown={"relative"} />}
       </div>
     </>
   )

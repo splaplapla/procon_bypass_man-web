@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useReducer, useContext, useRef } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
 import { Button, buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
@@ -25,7 +25,8 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, setLoaded, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
+  const [loaded, DidLoad] = useReducer(() => { return true; }, false);
+  const { layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
@@ -173,7 +174,7 @@ export const ButtonsSettingPage = () => {
           });
         });
 
-        setLoaded(true);
+        DidLoad();
       }).catch(function (error) {
         if (error.response.status === 404) {
           setInfoMessage("設定ファイルのパスが未設定です")
@@ -181,7 +182,6 @@ export const ButtonsSettingPage = () => {
           console.log("想定外のエラーです");
         }
       })
-
   }, [loaded]);
 
   const layersTabStyle = () => {
@@ -219,19 +219,21 @@ export const ButtonsSettingPage = () => {
     };
   }
   const handlePrefixKeysField = () => {
-    setOpenModal(true)
+    toggleModal();
     setModalTitle("キープレフィックスの変更")
     setModalPrefillButtons(prefixKeys);
     setModalCallbackOnSubmit(() => setPrefixKeys);
-    setModalCloseCallback(() => setOpenModal);
+    setModalCloseCallback(() => toggleModal);
   }
 
   // for modal
-  const [openModal, setOpenModal] = useState(false)
+  const [isOpenModal, toggleModal] = useReducer(((m) => { return !m; }), false);
   const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
   const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
+
+  if(!loaded) { return null; };
 
   return(
     <>
@@ -242,8 +244,11 @@ export const ButtonsSettingPage = () => {
             <a href="#" onClick={exportSetting}>エクスポートする</a>
           </div>
 
+          <h3>インストール可能なマクロ</h3>
+          {<InstallableMacros />}
+
           <h3>インストール可能なモード</h3>
-          {loaded && <InstallableModes />}
+          {<InstallableModes />}
 
           <h3>インストール可能なマクロ</h3>
           {loaded && <InstallableMacros />}
@@ -251,7 +256,7 @@ export const ButtonsSettingPage = () => {
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
             <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
-            {openModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
+            {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"stay"} />}
           </div>
         </div>
         <div css={css`display: table-cell`}>
@@ -260,7 +265,7 @@ export const ButtonsSettingPage = () => {
             <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
             <div>{infoMessage}</div>
             <ul>
-              {loaded && changes().map((c, i) => <li key={i}>{c}</li>)}
+              {changes().map((c, i) => <li key={i}>{c}</li>)}
             </ul>
           </div>
         </div>
@@ -274,8 +279,7 @@ export const ButtonsSettingPage = () => {
         ))}
       </ul>
 
-      {loaded && layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
-      {!loaded && "loading..."}
+      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
     </>
   )
 }

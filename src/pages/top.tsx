@@ -17,6 +17,7 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_setting_type";
 import { buttons, Button } from "../types/button";
 import { LayerReducer } from "../reducers/layer_reducer";
+import ErrorBoundary from "../lib/error_boundary";
 
 const ButtonsSettingProvider: React.FC = ({children}) => {
   const initLayers: Layers = {
@@ -28,11 +29,8 @@ const ButtonsSettingProvider: React.FC = ({children}) => {
     installed_modes: {},
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
-  const [loaded, setLoaded] = useState(false);
   const [layers, layersDispatch] = useReducer(LayerReducer, initLayers as Layers);
   const value = {
-    loaded,
-    setLoaded,
     layers,
     prefixKeys,
     setPrefixKeys,
@@ -83,18 +81,27 @@ export const Top: React.FC = () => {
               </li>
             </ul>
           </nav>
+
           <Switch>
             <Route exact path="/" >
               <Home />
             </Route>
             <Route path="/setting">
-              <GlobalSetting />
+              <ErrorBoundary>
+                <GlobalSetting />
+              </ErrorBoundary>
             </Route>
             <Route path="/pbm">
-              <BpmPage />
+              <ErrorBoundary>
+                <BpmPage />
+              </ErrorBoundary>
             </Route>
             <Route path="/buttons_setting">
-              <ButtonsSettingProvider><ButtonsSettingPage /></ButtonsSettingProvider>
+              <ErrorBoundary>
+                <ButtonsSettingProvider>
+                  <ButtonsSettingPage />
+                </ButtonsSettingProvider>
+              </ErrorBoundary>
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />
