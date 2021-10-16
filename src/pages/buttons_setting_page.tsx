@@ -25,7 +25,8 @@ interface LayerRef {
 };
 
 export const ButtonsSettingPage = () => {
-  const { loaded, DidLoad, layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
+  const [loaded, DidLoad] = useReducer(() => { return true; }, false);
+  const { layers, layersDispatch, prefixKeys, setPrefixKeys } = useContext(ButtonsSettingContext);
   const [selectedLayer, setSelectedLayer] = useState<LayerKey>("up");
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
@@ -233,6 +234,8 @@ export const ButtonsSettingPage = () => {
   const [modalTitle, setModalTitle] = useState("")
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
+  if(!loaded) { return null; };
+
   return(
     <>
       <div css={css`display: table`}>
@@ -243,10 +246,10 @@ export const ButtonsSettingPage = () => {
           </div>
 
           <h3>インストール可能なマクロ</h3>
-          {loaded && <InstallableMacros />}
+          {<InstallableMacros />}
 
           <h3>インストール可能なモード</h3>
-          {loaded && <InstallableModes />}
+          {<InstallableModes />}
 
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
@@ -260,7 +263,7 @@ export const ButtonsSettingPage = () => {
             <a href="#" onClick={applySetting}>変更した設定でsetting.ymlへ上書きする</a>
             <div>{infoMessage}</div>
             <ul>
-              {loaded && changes().map((c, i) => <li key={i}>{c}</li>)}
+              {changes().map((c, i) => <li key={i}>{c}</li>)}
             </ul>
           </div>
         </div>
@@ -274,8 +277,7 @@ export const ButtonsSettingPage = () => {
         ))}
       </ul>
 
-      {loaded && layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
-      {!loaded && "loading..."}
+      {layerKeys.map((l, index) => (<ButtonsSetting key={index} layerKey={l} layerRef={layerRefs[index]} />))}
     </>
   )
 }

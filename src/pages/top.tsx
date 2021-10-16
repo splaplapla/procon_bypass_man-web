@@ -28,14 +28,8 @@ const ButtonsSettingProfile: React.FC = ({children}) => {
     installed_modes: {},
   }
   const [prefixKeys, setPrefixKeys] = useState([]);
-  const [loaded, DidLoad] = useReducer(
-    () => { return true; },
-    false,
-  );
   const [layers, layersDispatch] = useReducer(LayerReducer, initLayers as Layers);
   const value = {
-    loaded,
-    DidLoad,
     layers,
     prefixKeys,
     setPrefixKeys,
