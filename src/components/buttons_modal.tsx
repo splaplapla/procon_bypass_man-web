@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react'
 import React, { useState } from "react";
 import { Button, buttons } from "../types/button";
 
-type Props = {
+export type ModalProps = {
   callbackOnSubmit: any;
   callbackOnClose: any;
   prefill: Array<Button>;
@@ -16,7 +16,7 @@ type CheckedButtons = {
   [key in Button] : boolean
 }
 
-export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, visible }: Props) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, visible }: ModalProps) => {
   if(!visible) { return null };
 
   const [checkedButtonMap, setCheckedButtonMap] = useState(

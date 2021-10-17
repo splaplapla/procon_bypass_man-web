@@ -9,6 +9,8 @@ import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, openMenuType, closeMenuType } from "../reducers/layer_reducer";
+import { useModal, ModalSetting } from "../hooks/useModal";
+import { ModalProps } from "../components/buttons_modal";
 
 type ButtonMenuProp = {
   name: Button;
@@ -19,14 +21,8 @@ type ButtonMenuProp = {
 
 const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.remap);
-
-  // for modal
-  const [isOpenModal, toggleModal] = useReducer((m) => { return !m; }, false);
-
-  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
-  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
-  const [modalTitle, setModalTitle] = useState("")
-  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
+  const [modalProps, modalSetting] = useModal();
+  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
 
   // 無効
   const handleNullFlipValue = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -84,7 +80,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
   return(
     <>
       <div css={css`position: relative;`}>
-        {<ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} visible={isOpenModal} />}
+        {<ButtonsModal {...modalProps as ModalProps} />}
       </div>
       <fieldset><legend><strong>連打設定</strong></legend>
         <label><input type="radio" onClick={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />

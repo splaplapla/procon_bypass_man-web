@@ -10,18 +10,18 @@ import { Plugin, PluginBody, AvailablePlugins, MacroNameMap } from "../types/plu
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
 
+import { useModal, ModalSetting } from "../hooks/useModal";
+import { ModalProps } from "../components/buttons_modal";
+
 type MacroSettingProps = {
   layerKey: LayerKey;
   macro: StructMacro;
 };
 const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
-  // for modal
-  const [isOpenModal, toggleModal] = useReducer((m) => { return !m; }, false);
-  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
-  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
-  const [modalTitle, setModalTitle] = useState("")
-  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
+
+  const [modalProps, modalSetting] = useModal();
+  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
 
   const setButtonsForModal = (bs: Array<Button>) => {
     macro.if_pressed = bs;
@@ -47,7 +47,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
         {isEnable && `${macro.if_pressed.join(", ")}で発動`}
       </li>
       <div css={css`position: relative;`}>
-        {<ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} visible={isOpenModal} />}
+        {<ButtonsModal {...modalProps as ModalProps} />}
       </div>
     </>
   )

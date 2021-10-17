@@ -13,6 +13,8 @@ import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, installMacroType, installModeType, applyModeType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
+import { useModal, ModalSetting } from "../hooks/useModal";
+import { ModalProps } from "../components/buttons_modal";
 import { InstallableMacros } from "../components/installable_macros";
 import { InstallableModes } from "../components/installable_modes";
 import _ from 'lodash';
@@ -31,6 +33,8 @@ export const ButtonsSettingPage = () => {
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
   const [infoMessage, setInfoMessage] = useState(undefined as undefined | string)
+  const [modalProps, modalSetting] = useModal();
+  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
 
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
@@ -226,13 +230,6 @@ export const ButtonsSettingPage = () => {
     setModalCloseCallback(() => toggleModal);
   }
 
-  // for modal
-  const [isOpenModal, toggleModal] = useReducer(((m) => { return !m; }), false);
-  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
-  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
-  const [modalTitle, setModalTitle] = useState("")
-  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
-
   if(!loaded) { return null; };
 
   return(
@@ -253,7 +250,7 @@ export const ButtonsSettingPage = () => {
           <h3>設定中のプレフィックスキー</h3>
           <div css={css`position: relative; margin-bottom: 20px;`}>
             <input type="text" value={prefixKeys.join(", ")} readOnly={true} onClick={handlePrefixKeysField} />
-            {<ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} visible={isOpenModal} />}
+            {<ButtonsModal {...modalProps as ModalProps} />}
           </div>
         </div>
         <div css={css`display: table-cell`}>
