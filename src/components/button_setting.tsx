@@ -29,17 +29,17 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
   const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
 
   // 無効
-  const handleNullFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNullFlipValue = (e: React.MouseEvent<HTMLInputElement>) => {
     layersDispatch({ type: disableFlipType, payload: { layerKey: layerKey, button: name }});
   };
 
   // 常に連打
-  const handleFlipValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFlipValue = (e: React.MouseEvent<HTMLInputElement>) => {
     layersDispatch({ type: alwaysFlipType, payload: { layerKey: layerKey, button: name }});
   };
 
   // 自分自身への条件付き連打
-  const openIfPressedRadioboxModal = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const openIfPressedRadioboxModal = (e: React.MouseEvent<HTMLInputElement>) => {
     layersDispatch({ type: flipIfPressedSelfType, payload: { layerKey: layerKey, button: name }});
   };
 
@@ -48,7 +48,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
   const setFlipIfPressedSomeButtonsWithPersistence = (bs: Array<Button>) => {
     layersDispatch({ type: flipIfPressedSomeButtonsType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
-  const openIfPressedSomeButtonsModal = (e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLInputElement>) => {
+  const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLInputElement>) => {
     toggleModal();
     setModalTitle("特定のキーを押したときだけ")
     setModalPrefillButtons(flipIfPressedSomeButtons);
@@ -87,11 +87,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
         {<ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} visible={isOpenModal} />}
       </div>
       <fieldset><legend><strong>連打設定</strong></legend>
-        <label><input type="radio" onChange={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
-        <label><input type="radio" onChange={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
-        <label><input type="radio" onChange={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
+        <label><input type="radio" onClick={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
+        <label><input type="radio" onClick={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
+        <label><input type="radio" onClick={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
         <label>
-          <input type="radio" onChange={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
+          <input type="radio" onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
           特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
         </label>
 
