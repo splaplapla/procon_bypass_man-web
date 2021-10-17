@@ -9,14 +9,13 @@ type Props = {
   callbackOnClose: any;
   prefill: Array<Button>;
   title: string;
-  positionOnShown: string;
 };
 
 type CheckedButtons = {
   [key in Button] : boolean
 }
 
-export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, positionOnShown }: Props) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill }: Props) => {
   const [checkedButtonMap, setCheckedButtonMap] = useState(
     prefill.reduce((a, b) => { a[b] = true; return a },
       buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons)

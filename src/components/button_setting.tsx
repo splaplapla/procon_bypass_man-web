@@ -84,7 +84,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
   return(
     <>
       <div css={css`position: relative;`}>
-        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} positionOnShown={"relative"} />}
+        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={modalPrefillButtons} />}
       </div>
       <fieldset><legend><strong>連打設定</strong></legend>
         <label><input type="radio" onChange={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
