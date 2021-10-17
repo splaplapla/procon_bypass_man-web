@@ -70,11 +70,11 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
         {<ButtonsModal {...modalProps as ModalProps} />}
       </div>
       <fieldset><legend><strong>連打設定</strong></legend>
-        <label><input type="radio" onClick={handleNullFlipValue} checked={buttonState.isDisabledFlip()}/>無効</label><br />
-        <label><input type="radio" onClick={handleFlipValue} checked={buttonState.isAlwaysFlip()}/>常に連打する</label><br />
-        <label><input type="radio" onClick={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()}/>このボタンを押している時だけ連打する({name})</label><br />
+        <label><input type="radio" onClick={handleNullFlipValue} checked={buttonState.isDisabledFlip()} readOnly={true} />無効</label><br />
+        <label><input type="radio" onClick={handleFlipValue} checked={buttonState.isAlwaysFlip()} readOnly={true} />常に連打する</label><br />
+        <label><input type="radio" onClick={openIfPressedRadioboxModal} checked={buttonState.isFlipIfPressedSelf()} readOnly={true} />このボタンを押している時だけ連打する({name})</label><br />
         <label>
-          <input type="radio" onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()}/>
+          <input type="radio" onClick={openIfPressedSomeButtonsModal} checked={buttonState.isFlipIfPressedSomeButtons()} readOnly={true} />
           特定のキーを押したときだけ連打する{flipIfPressedSomeButtons.length > 0 && `(${flipIfPressedSomeButtons.join(", ")})`}
         </label>
 
