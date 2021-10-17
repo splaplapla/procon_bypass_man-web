@@ -33,8 +33,7 @@ export const ButtonsSettingPage = () => {
   const layerRefs = layerKeys.map((l) => ({} as LayerRef));
   const [initializedSetting, setInitializedSetting] = useState({} as ButtonsSettingType)
   const [infoMessage, setInfoMessage] = useState(undefined as undefined | string)
-  const [modalProps, modalSetting] = useModal();
-  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
+  const [modalProps, openModal] = useModal();
 
   const switchLayer = (event:  React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if (event.target instanceof HTMLElement) {
@@ -222,12 +221,9 @@ export const ButtonsSettingPage = () => {
       return "inactive"
     };
   }
+
   const handlePrefixKeysField = () => {
-    toggleModal();
-    setModalTitle("キープレフィックスの変更")
-    setModalPrefillButtons(prefixKeys);
-    setModalCallbackOnSubmit(() => setPrefixKeys);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "キープレフィックスの変更", prefill: prefixKeys, callbackOnSubmit: setPrefixKeys });
   }
 
   if(!loaded) { return null; };

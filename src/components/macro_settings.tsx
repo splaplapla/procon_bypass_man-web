@@ -19,20 +19,14 @@ type MacroSettingProps = {
 };
 const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
-
-  const [modalProps, modalSetting] = useModal();
-  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
+  const [modalProps, openModal] = useModal();
 
   const setButtonsForModal = (bs: Array<Button>) => {
     macro.if_pressed = bs;
     layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleModal();
-    setModalTitle("発動キーの設定")
-    setModalPrefillButtons(macro.if_pressed);
-    setModalCallbackOnSubmit(() => setButtonsForModal);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "キープレフィックスの変更", prefill: macro.if_pressed, callbackOnSubmit: setButtonsForModal });
   }
   const isEnable = macro.if_pressed.length > 0;
 

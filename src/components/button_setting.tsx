@@ -21,8 +21,7 @@ type ButtonMenuProp = {
 
 const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuProp) => {
   const buttonState = new ButtonState(name, buttonValue.flip, buttonValue.remap);
-  const [modalProps, modalSetting] = useModal();
-  const { toggleModal, setModalCallbackOnSubmit, setModalCloseCallback, setModalTitle, setModalPrefillButtons } = modalSetting as ModalSetting;
+  const [modalProps, openModal] = useModal();
 
   // 無効
   const handleNullFlipValue = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -45,11 +44,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: flipIfPressedSomeButtonsType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const openIfPressedSomeButtonsModal = (e: React.MouseEvent<HTMLInputElement>) => {
-    toggleModal();
-    setModalTitle("特定のキーを押したときだけ")
-    setModalPrefillButtons(flipIfPressedSomeButtons);
-    setModalCallbackOnSubmit(() => setFlipIfPressedSomeButtonsWithPersistence);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "特定のキーを押したときだけ", prefill: flipIfPressedSomeButtons, callbackOnSubmit: setFlipIfPressedSomeButtonsWithPersistence });
   }
 
   // 無視
@@ -58,11 +53,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: ignoreButtonsInFlipingType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleIgnoreButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleModal();
-    setModalTitle("連打中は特定のボタンの入力を無視する")
-    setModalPrefillButtons(buttonValue.flip?.force_neutral || [] as Array<Button>);
-    setModalCallbackOnSubmit(() => setIgnoreButtonsOnFlipingWithPersistence);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "連打中は特定のボタンの入力を無視する", prefill: buttonValue.flip?.force_neutral || [] as Array<Button>, callbackOnSubmit: setIgnoreButtonsOnFlipingWithPersistence });
   };
 
   // リマップ
@@ -70,11 +61,7 @@ const ButtonMenu = ({ name, layerKey, buttonValue, layersDispatch }: ButtonMenuP
     layersDispatch({ type: remapType, payload: { layerKey: layerKey, button: name, targetButtons: bs }});
   }
   const handleRemapButton = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleModal();
-    setModalTitle("リマップ")
-    setModalPrefillButtons(buttonValue.remap?.to || []);
-    setModalCallbackOnSubmit(() => setRemapButtonsWithPersistence);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "リマップ", prefill: buttonValue.remap?.to || [], callbackOnSubmit: setRemapButtonsWithPersistence });
   };
 
   return(
