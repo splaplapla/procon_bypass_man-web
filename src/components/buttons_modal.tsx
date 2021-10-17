@@ -45,28 +45,16 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     font-weight: bold;
   `)
   const style = () => {
-    if(positionOnShown === "relative") {
-      return css(`
-        position: absolute;
-        align: left;
-        top: -400px;
-        width: 400px;
-        height: 400px;
-        border: solid;
-        background-color: white;
-      `);
-    } else {
-      return css(`
-        position: absolute;
-        align: left;
-        top: 0px;
-        left: 20px;
-        width: 400px;
-        height: 400px;
-        border: solid;
-        background-color: white;
-      `);
-    }
+    return css(`
+      position: absolute;
+      align: left;
+      top: 0px;
+      left: 20px;
+      width: 400px;
+      height: 400px;
+      border: solid;
+      background-color: white;
+    `);
   }
   const aStyle = css`
     background-color: #4669ff;
