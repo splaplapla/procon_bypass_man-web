@@ -47,7 +47,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
         {isEnable && `${macro.if_pressed.join(", ")}で発動`}
       </li>
       <div css={css`position: relative;`}>
-        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} />}
+        {<ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} visible={isOpenModal} />}
       </div>
     </>
   )
