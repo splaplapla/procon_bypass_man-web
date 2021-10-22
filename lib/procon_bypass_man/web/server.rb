@@ -120,12 +120,12 @@ module ProconBypassMan
       end
 
       get '/' do
-        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
+        send_file File.join(ProconBypassMan::Web.gem_root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
 
       # サーバでパスとして解釈されないように、全部 `/`として受け付けるため
       get '/:none' do
-        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
+        send_file File.join(ProconBypassMan::Web.gem_root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
     end
 

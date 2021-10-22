@@ -1,5 +1,6 @@
 require_relative "web/version"
 require "logger"
+require "procon_bypass_man/web/configuration"
 require "procon_bypass_man/web/server"
 require "procon_bypass_man/web/db"
 require "procon_bypass_man/web/models/setting"
@@ -10,16 +11,34 @@ module ProconBypassMan
     class Error < StandardError; end
 
     def self.root
-      File.expand_path('../..', File.dirname(__FILE__))
+      if defined?(@@root)
+        @@root
+      else
+        File.expand_path('..', __dir__).freeze
+      end
+    end
+
+    def self.configure(&block)
+      c = ProconBypassMan::Web::Configuration.new
+      c.instance_eval(&block)
+      @@configuration = c
     end
 
     def self.config
-      { db_path: ENV["DB_PATH"] ||= File.join(root, "pbm_web.db"),
-      }
+      @@configuration ||= ProconBypassMan::Web::Configuration.new
     end
 
+    # @return [Logger]
     def self.logger
-      @@logger ||= ::Logger.new($stdout)
+      config.logger
+    end
+
+    def self.root
+      config.root
+    end
+
+    def self.gem_root
+      File.expand_path('../..', __dir__).freeze
     end
   end
 end

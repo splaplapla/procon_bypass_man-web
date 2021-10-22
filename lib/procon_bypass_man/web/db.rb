@@ -3,15 +3,15 @@ module ProconBypassMan
     class Db
       def self.db
         # TODO connection cache
-        SQLite3::Database.new(ProconBypassMan::Web.config[:db_path])
+        SQLite3::Database.new(ProconBypassMan::Web.config.db_path)
       end
 
       def self.recreate!
-        FileUtils.rm_rf(ProconBypassMan::Web.config[:db_path])
-        SQLite3::Database.new(ProconBypassMan::Web.config[:db_path])
+        FileUtils.rm_rf(ProconBypassMan::Web.config.db_path)
+        SQLite3::Database.new(ProconBypassMan::Web.config.db_path)
       end
 
-      def self.migrate_if_pending_migration(migrations_path: File.join(ProconBypassMan::Web.root, 'lib', 'procon_bypass_man/web', 'migration', "/*.sql"))
+      def self.migrate_if_pending_migration(migrations_path: File.join(ProconBypassMan::Web.gem_root, 'lib', 'procon_bypass_man/web', 'migration', "/*.sql"))
         db.execute <<~SQL
           create table if not exists "schema_migrations" ("version" varchar not null primary key)
         SQL
