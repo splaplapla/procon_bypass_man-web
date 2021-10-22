@@ -71,7 +71,7 @@ module ProconBypassMan
             @table
           end
 
-          def method_missing(name, *args)
+          def method_missing(name, *_args)
             ProconBypassMan::Web.logger.info("unknown layer DSL #{name}")
             self
           end
@@ -110,7 +110,7 @@ module ProconBypassMan
           end
         end
 
-        def method_missing(name, *args)
+        def method_missing(name, *_args)
           ProconBypassMan::Web.logger.info("unknown toplevel DSL #{name}")
           self
         end
