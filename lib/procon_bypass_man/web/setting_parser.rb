@@ -70,6 +70,11 @@ module ProconBypassMan
           def to_hash
             @table
           end
+
+          def method_missing(name, *args)
+            ProconBypassMan::Web.logger.info("unknown layer DSL #{name}")
+            self
+          end
         end
 
         def install_macro_plugin(name)
@@ -103,6 +108,11 @@ module ProconBypassMan
           else
             @layers[dir] = Layer.new(mode: mode)
           end
+        end
+
+        def method_missing(name, *args)
+          ProconBypassMan::Web.logger.info("unknown toplevel DSL #{name}")
+          self
         end
 
         def to_hash

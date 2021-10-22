@@ -1,4 +1,5 @@
 require_relative "web/version"
+require "logger"
 require "procon_bypass_man/web/server"
 require "procon_bypass_man/web/db"
 require "procon_bypass_man/web/models/setting"
@@ -15,6 +16,10 @@ module ProconBypassMan
     def self.config
       { db_path: ENV["DB_PATH"] ||= File.join(root, "pbm_web.db"),
       }
+    end
+
+    def self.logger
+      @@logger ||= ::Logger.new($stdout)
     end
   end
 end
