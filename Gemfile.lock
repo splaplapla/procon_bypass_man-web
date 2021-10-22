@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    procon_bypass_man-web (0.1.1)
+    procon_bypass_man-web (0.1.2)
       sinatra
       sqlite3
       webrick
