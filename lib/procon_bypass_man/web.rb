@@ -10,14 +10,6 @@ module ProconBypassMan
   module Web
     class Error < StandardError; end
 
-    def self.root
-      if defined?(@@root)
-        @@root
-      else
-        File.expand_path('..', __dir__).freeze
-      end
-    end
-
     def self.configure(&block)
       c = ProconBypassMan::Web::Configuration.new
       c.instance_eval(&block)
