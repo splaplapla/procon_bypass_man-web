@@ -10,6 +10,8 @@ module ProconBypassMan
   module Web
     class Error < StandardError; end
 
+    extend ProconBypassMan::Web::Configuration::ClassAttributes
+
     def self.configure(&block)
       @@configuration = ProconBypassMan::Web::Configuration.new
       @@configuration.instance_eval(&block)
@@ -18,16 +20,6 @@ module ProconBypassMan
 
     def self.config
       @@configuration ||= ProconBypassMan::Web::Configuration.new
-    end
-
-    # @return [Logger]
-    def self.logger
-      config.logger
-    end
-
-    # @return [String]
-    def self.root
-      config.root
     end
 
     # @return [String]

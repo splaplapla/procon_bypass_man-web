@@ -1,6 +1,18 @@
 module ProconBypassMan
   module Web
     class Configuration
+      module ClassAttributes
+        # @return [Logger]
+        def logger
+          config.logger
+        end
+
+        # @return [String]
+        def root
+          config.root
+        end
+      end
+
       # @return [Logger]
       def logger
         @logger || Logger.new(nil)
