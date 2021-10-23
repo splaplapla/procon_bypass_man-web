@@ -46,7 +46,7 @@ describe ProconBypassMan::Web::App do
       end
     end
     context 'settingのyamlが存在しないとき' do
-      let(:setting_path) { "#{ProconBypassMan::Web.gem_root}/tmp/nothing.yml" }
+      let(:setting_path) { "#{ProconBypassMan::Web.root}/tmp/nothing.yml" }
       before do
         FileUtils.rm_rf(setting_path)
         ProconBypassMan::Web::Storage.instance.setting_path = setting_path
@@ -57,7 +57,7 @@ describe ProconBypassMan::Web::App do
       end
     end
     context 'settingにyamlが存在するとき' do
-      let(:setting_path) { "#{ProconBypassMan::Web.gem_root}/tmp/tmp_setting.yml" }
+      let(:setting_path) { "#{ProconBypassMan::Web.root}/tmp/tmp_setting.yml" }
       let(:yaml) do
         yaml = <<~EOH
         setting: |-
@@ -81,7 +81,7 @@ describe ProconBypassMan::Web::App do
     context 'request settingのyamlがシンタックスエラーのとき' do
     end
     context 'settingのyamlが存在しないとき' do
-      let(:setting_path) { "#{ProconBypassMan::Web.gem_root}/tmp/nothing.yml" }
+      let(:setting_path) { "#{ProconBypassMan::Web.root}/tmp/nothing.yml" }
       before do
         FileUtils.rm_rf(setting_path)
         ProconBypassMan::Web::Storage.instance.setting_path = setting_path
@@ -97,7 +97,7 @@ describe ProconBypassMan::Web::App do
       end
     end
     context 'settingにyamlが存在するとき' do
-      let(:setting_path) { "#{ProconBypassMan::Web.gem_root}/tmp/tmp_setting.yml" }
+      let(:setting_path) { "#{ProconBypassMan::Web.root}/tmp/tmp_setting.yml" }
       let(:yaml) do
         yaml = <<~EOH
         setting: |-
@@ -124,7 +124,7 @@ describe ProconBypassMan::Web::App do
 
   describe '/api/pbm_setting_digest' do
     context 'digestファイルが存在するとき' do
-      let(:path) { "#{ProconBypassMan::Web.gem_root}/tmp/" }
+      let(:path) { "#{ProconBypassMan::Web.root}/tmp/" }
       before do
         ProconBypassMan::Web::Storage.instance.root_path = path
         File.write("#{path}/.setting_yaml_digest", nil)
@@ -135,7 +135,7 @@ describe ProconBypassMan::Web::App do
       end
     end
     context 'digestファイルが存在しないとき' do
-      let(:path) { "#{ProconBypassMan::Web.gem_root}/tmp/nothing.yml" }
+      let(:path) { "#{ProconBypassMan::Web.root}/tmp/nothing.yml" }
       before do
         ProconBypassMan::Web::Storage.instance.root_path = path
         FileUtils.rm_rf(path)
