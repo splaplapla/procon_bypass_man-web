@@ -15,6 +15,10 @@ module ProconBypassMan
     class App < Sinatra::Base
       require "yaml"
 
+      before do
+        env["rack.logger"] = ProconBypassMan::Web.logger
+      end
+
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
       set :bind, '0.0.0.0'
 

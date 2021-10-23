@@ -11,9 +11,9 @@ module ProconBypassMan
     class Error < StandardError; end
 
     def self.configure(&block)
-      c = ProconBypassMan::Web::Configuration.new
-      c.instance_eval(&block)
-      @@configuration = c
+      @@configuration = ProconBypassMan::Web::Configuration.new
+      @@configuration.instance_eval(&block)
+      @@configuration
     end
 
     def self.config
