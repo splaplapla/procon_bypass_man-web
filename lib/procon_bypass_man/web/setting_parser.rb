@@ -12,8 +12,8 @@ end
 module ProconBypassMan
   module Web
     class SettingParser
-      class Core
-        class Layer
+      class Layer
+        module Syntax
           def initialize(mode: )
             @table = {
               mode: mode&.to_s,
@@ -67,53 +67,59 @@ module ProconBypassMan
             self
           end
 
-          def to_hash
-            @table
-          end
-
           def method_missing(name, *_args)
             ProconBypassMan::Web.logger.info("unknown layer DSL #{name}")
             self
           end
         end
+        include Syntax
 
-        def install_macro_plugin(name)
-          @installed_plugin[:macros] << name.to_s
+        def to_hash
+          @table
         end
+      end
 
-        def install_mode_plugin(name)
-          @installed_plugin[:modes] << name.to_s
-        end
-
-        def initialize
-          @installed_plugin = { macros: [], modes: [] }
-          @layers = {}
-        end
-
-        def prefix_keys_for_changing_layer(value=nil)
-          if value
-            @prefix_keys_for_changing_layer = value
-          else
-            @prefix_keys_for_changing_layer
-          end
-        end
-
-        def layer(dir, mode: nil, &block)
-          if(mode == :manual || mode == 'manual')
-            mode = nil
+      class TopLevelLayer
+        module Syntax
+          def initialize
+            @installed_plugin = { macros: [], modes: [] }
+            @layers = {}
           end
 
-          if block_given?
-            @layers[dir] = Layer.new(mode: mode).instance_eval(&block) || Layer.new(mode: mode)
-          else
-            @layers[dir] = Layer.new(mode: mode)
+          def install_macro_plugin(name)
+            @installed_plugin[:macros] << name.to_s
+          end
+
+          def install_mode_plugin(name)
+            @installed_plugin[:modes] << name.to_s
+          end
+
+          def prefix_keys_for_changing_layer(value=nil)
+            if value
+              @prefix_keys_for_changing_layer = value
+            else
+              @prefix_keys_for_changing_layer
+            end
+          end
+
+          def layer(dir, mode: nil, &block)
+            if(mode == :manual || mode == 'manual')
+              mode = nil
+            end
+
+            if block_given?
+              @layers[dir] = Layer.new(mode: mode).instance_eval(&block) || Layer.new(mode: mode)
+            else
+              @layers[dir] = Layer.new(mode: mode)
+            end
+          end
+
+          def method_missing(name, *_args)
+            ProconBypassMan::Web.logger.info("unknown toplevel DSL #{name}")
+            self
           end
         end
-
-        def method_missing(name, *_args)
-          ProconBypassMan::Web.logger.info("unknown toplevel DSL #{name}")
-          self
-        end
+        include Syntax
 
         def to_hash
           h = { prefix_keys_for_changing_layer: prefix_keys_for_changing_layer || [] }
@@ -192,7 +198,7 @@ module ProconBypassMan
       end
 
       def initialize(text)
-        @parser = Core.new
+        @parser = TopLevelLayer.new
         @parser.instance_eval(text)
       end
     end
