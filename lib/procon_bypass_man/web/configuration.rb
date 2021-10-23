@@ -3,31 +3,25 @@ module ProconBypassMan
     class Configuration
       # @return [Logger]
       def logger
-        if defined?(@logger) && @logger.is_a?(Logger)
-          @logger
-        else
-          Logger.new(nil)
-        end
+        @logger || Logger.new(nil)
       end
 
       def logger=(logger)
         @logger = logger
       end
 
+      # @return [String]
       def root
-        if defined?(@root)
-          @root
-        else
-          File.expand_path('../..', __dir__).freeze
-        end
+        @root || File.expand_path('../..', __dir__).freeze
       end
 
       def root=(path)
         @root = path
       end
 
+      # @return [String]
       def db_path
-        ENV["DB_PATH"] ||= File.join(root, "pbm_web.db")
+        @db_path ||= ENV["DB_PATH"] || File.join(root, "pbm_web.db")
       end
     end
   end

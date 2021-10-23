@@ -25,10 +25,12 @@ module ProconBypassMan
       config.logger
     end
 
+    # @return [String]
     def self.root
       config.root
     end
 
+    # @return [String]
     def self.gem_root
       File.expand_path('../..', __dir__).freeze
     end
