@@ -11,6 +11,7 @@ class Module
   end
 end
 
+# PBM 0.1.8バージョンの構文に対応
 module ProconBypassMan
   module Web
     class SettingParser
