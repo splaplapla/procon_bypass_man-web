@@ -226,7 +226,7 @@ export const ButtonsSettingPage = () => {
     openModal({ title: "キープレフィックスの変更", prefill: prefixKeys, callbackOnSubmit: setPrefixKeys });
   }
 
-  if(!loaded) { return null; };
+  if(!loaded) { return <div>{infoMessage}</div> };
 
   return(
     <>
