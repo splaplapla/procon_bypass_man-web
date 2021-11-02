@@ -10,29 +10,23 @@ import { Plugin, PluginBody, AvailablePlugins, MacroNameMap } from "../types/plu
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
 
+import { useModal, ModalSetting } from "../hooks/useModal";
+import { ModalProps } from "../components/buttons_modal";
+
 type MacroSettingProps = {
   layerKey: LayerKey;
   macro: StructMacro;
 };
 const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   const { layersDispatch } = useContext(ButtonsSettingContext);
-  // for modal
-  const [isOpenModal, toggleModal] = useReducer((m) => { return !m; }, false);
-  const [modalCallbackOnSubmit, setModalCallbackOnSubmit] = useState(undefined as any)
-  const [modalCloseCallback, setModalCloseCallback] = useState(undefined as any)
-  const [modalTitle, setModalTitle] = useState("")
-  const [modalPrefillButtons, setModalPrefillButtons] = useState<Array<Button>>([])
+  const [modalProps, openModal] = useModal();
 
   const setButtonsForModal = (bs: Array<Button>) => {
     macro.if_pressed = bs;
     layersDispatch({ type: applyMacroType, payload: { layerKey: layerKey, macro: macro }});
   }
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    toggleModal();
-    setModalTitle("発動キーの設定")
-    setModalPrefillButtons(macro.if_pressed);
-    setModalCallbackOnSubmit(() => setButtonsForModal);
-    setModalCloseCallback(() => toggleModal);
+    openModal({ title: "キープレフィックスの変更", prefill: macro.if_pressed, callbackOnSubmit: setButtonsForModal });
   }
   const isEnable = macro.if_pressed.length > 0;
 
@@ -47,7 +41,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
         {isEnable && `${macro.if_pressed.join(", ")}で発動`}
       </li>
       <div css={css`position: relative;`}>
-        {isOpenModal && <ButtonsModal callbackOnSubmit={modalCallbackOnSubmit} callbackOnClose={modalCloseCallback} title={modalTitle} prefill={macro.if_pressed} positionOnShown={"relative"} />}
+        {<ButtonsModal {...modalProps as ModalProps} />}
       </div>
     </>
   )

@@ -1,6 +1,27 @@
 require "spec_helper"
 
 describe ProconBypassMan::Web::SettingParser do
+  context '未定義のDSLがある時' do
+    let(:text) do
+      <<~YAML
+        hoge_set_neutral_position 1
+        layer :up, mode: :manual do
+          remap :l, to: :zr
+          hoge_disable
+        end
+        layer :right
+        layer :left do
+        end
+        layer :down do
+          flip :zl
+        end
+      YAML
+    end
+    it 'エラーにはしない' do
+      expect { ProconBypassMan::Web::SettingParser.parse(text).to_hash }.not_to raise_error
+    end
+  end
+
   context '定数・プラグインがない' do
     let(:text) do
       <<~YAML

@@ -8,7 +8,7 @@ module ProconBypassMan
 
       attr_accessor(*column_names)
 
-      def self.find_or_create_by(*)
+      def self.find_or_create(*)
         rows = db.execute("select * from #{table_name}")
         if rows.size.zero?
           db.execute("insert into #{table_name} (#{column_names.join(", ")}) values (?, ?)", ['', ''])

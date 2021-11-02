@@ -15,6 +15,10 @@ module ProconBypassMan
     class App < Sinatra::Base
       require "yaml"
 
+      before do
+        env["rack.logger"] = ProconBypassMan::Web.logger
+      end
+
       register Sinatra::Reloader if defined?(Sinatra::Reloader)
       set :bind, '0.0.0.0'
 
@@ -119,13 +123,19 @@ module ProconBypassMan
         end
       end
 
+      # PBMから受け取って、emmitする
+      post '/api/pressed_buttons' do
+        status 200
+        body ''
+      end
+
       get '/' do
-        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
+        send_file File.join(ProconBypassMan::Web.gem_root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
 
       # サーバでパスとして解釈されないように、全部 `/`として受け付けるため
       get '/:none' do
-        send_file File.join(ProconBypassMan::Web.root, 'lib/procon_bypass_man/web', 'public', 'index.html')
+        send_file File.join(ProconBypassMan::Web.gem_root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
     end
 

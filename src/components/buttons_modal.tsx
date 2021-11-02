@@ -4,19 +4,21 @@ import { jsx, css } from '@emotion/react'
 import React, { useState } from "react";
 import { Button, buttons } from "../types/button";
 
-type Props = {
+export type ModalProps = {
   callbackOnSubmit: any;
   callbackOnClose: any;
   prefill: Array<Button>;
   title: string;
-  positionOnShown: string;
+  visible: boolean;
 };
 
 type CheckedButtons = {
   [key in Button] : boolean
 }
 
-export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, positionOnShown }: Props) => {
+export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, visible }: ModalProps) => {
+  if(!visible) { return null };
+
   const [checkedButtonMap, setCheckedButtonMap] = useState(
     prefill.reduce((a, b) => { a[b] = true; return a },
       buttons.reduce((a, b) => { a[b] = false; return a }, {} as CheckedButtons)
@@ -45,28 +47,16 @@ export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill
     font-weight: bold;
   `)
   const style = () => {
-    if(positionOnShown === "relative") {
-      return css(`
-        position: absolute;
-        align: left;
-        top: -400px;
-        width: 400px;
-        height: 400px;
-        border: solid;
-        background-color: white;
-      `);
-    } else {
-      return css(`
-        position: absolute;
-        align: left;
-        top: 0px;
-        left: 20px;
-        width: 400px;
-        height: 400px;
-        border: solid;
-        background-color: white;
-      `);
-    }
+    return css(`
+      position: absolute;
+      align: left;
+      top: 0px;
+      left: 20px;
+      width: 400px;
+      height: 400px;
+      border: solid;
+      background-color: white;
+    `);
   }
   const aStyle = css`
     background-color: #4669ff;
