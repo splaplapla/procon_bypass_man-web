@@ -13,6 +13,7 @@ import { BpmPage } from "./bpm_page";
 import { Home } from "./home";
 import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
+import { PressedButtonsPage } from "./pressed_buttons_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
 import { ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_setting_type";
 import { buttons, Button } from "../types/button";
@@ -79,6 +80,9 @@ export const Top: React.FC = () => {
               <li>
                 <Link to="/buttons_setting">ボタン設定</Link>
               </li>
+              <li>
+                <Link to="/pressed_buttons">入力中のボタン表示テスト</Link>
+              </li>
             </ul>
           </nav>
 
@@ -105,6 +109,9 @@ export const Top: React.FC = () => {
             </Route>
             <Route path="/recoding_mode">
               <RecodingModePage />
+            </Route>
+            <Route path="/pressed_buttons">
+              <PressedButtonsPage />
             </Route>
           </Switch>
         </div>
