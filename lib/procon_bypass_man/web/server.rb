@@ -123,6 +123,12 @@ module ProconBypassMan
         end
       end
 
+      # PBMから受け取って、emmitする
+      post '/api/pressed_buttons' do
+        status 200
+        body ''
+      end
+
       get '/' do
         send_file File.join(ProconBypassMan::Web.gem_root, 'lib/procon_bypass_man/web', 'public', 'index.html')
       end
