@@ -128,17 +128,17 @@ module ProconBypassMan
       # PBMから受け取って、emmitする
       post '/api/pressed_buttons' do
         params = JSON.parse(request.body.read)
-        marshaled = Marshal.dump params
-        File.write PRESSED_BUTTONS_FILE_PATH, marshaled
+        json = params.to_json
+        File.write PRESSED_BUTTONS_FILE_PATH, json
         status 200
         body ''
       end
 
       # PBMから受け取って、emmitする
       get '/api/pressed_buttons' do
-        marshaled = File.read PRESSED_BUTTONS_FILE_PATH
+        json = JSON.parse(File.read(PRESSED_BUTTONS_FILE_PATH))
         status 200
-        body Marshal.load(marshaled).to_json
+        body json.to_json
       rescue Errno::ENOENT
         not_found
       end

@@ -151,9 +151,8 @@ describe ProconBypassMan::Web::App do
     it do
       params = { "left_analog_stick"=>{"x"=>-179, "y"=>34}, "pressed_buttons"=>["y", "b"] }
       response = post "/api/pressed_buttons", params.to_json, { 'CONTENT_TYPE' => 'application/json'}
-      marshaled = File.read(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH)
-      Marshal.load(marshaled)
-      expect(params).to eq(Marshal.load(marshaled))
+      hash = JSON.parse(File.read(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH))
+      expect(params).to eq(hash)
     end
   end
 
