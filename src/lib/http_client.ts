@@ -4,6 +4,11 @@ import { Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
 import { ButtonsSettingType } from "../types/buttons_setting_type";
 
+interface AnalogStickPosition {
+  x: number;
+  y: number;
+}
+
 interface DirPathApiResponse {
   result: string,
   root_path: string,
@@ -26,7 +31,8 @@ interface StatsApiResponse {
 
 interface PressedButtonsResponse {
   buttons: Array<Button>,
-  left_analog_stick: any,
+  left_analog_stick: AnalogStickPosition,
+  left_analog_stick_by_abs: AnalogStickPosition,
 }
 
 export interface SettingApiResponse {

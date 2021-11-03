@@ -10,22 +10,28 @@ const httpClient = new HttpClient();
 
 export const PressedButtonsPage = () => {
   const [timer, setTimer] = useState(true);
-  const [buttons, setButtons] = useState([] as Array<Button>);
+  const [buttons, setButtons] = useState<Array<Button>>([]);
+  const [leftAnalogStickX, setLeftAnalogStickX] = useState<number>(0);
+  const [leftAnalogStickY, setLeftAnalogStickY] = useState<number>(0);
+  const [leftAnalogStickAbsX, setLeftAnalogStickAbsX] = useState<number>(0);
+  const [leftAnalogStickAbsY, setLeftAnalogStickAbsY] = useState<number>(0);
 
-  const updateState = () => {
-    console.log("called");
+  const updateButtons = () => {
+    httpClient.getPressedButtons().then(function (response) {
+      setButtons(response.data.buttons);
+      setLeftAnalogStickX(response.data.left_analog_stick.x);
+      setLeftAnalogStickY(response.data.left_analog_stick.y);
+      setLeftAnalogStickAbsX(response.data.left_analog_stick_by_abs.x);
+      setLeftAnalogStickAbsY(response.data.left_analog_stick_by_abs.y);
+    });
   };
 
   useEffect(() => {
+    updateButtons();
     if (timer) {
-      const timerId = setInterval(updateState, 1500);
+      const timerId = setInterval(updateButtons, 1500);
       return () => clearInterval(timerId);
     }
-
-    httpClient.getPressedButtons()
-      .then(function (response) {
-        setButtons(response.data.buttons);
-      })
   }, [timer]);
 
   return (
@@ -33,6 +39,10 @@ export const PressedButtonsPage = () => {
       <div>
         押されたボタンを表示する<br />
         {buttons}
+        {leftAnalogStickX},
+        {leftAnalogStickY},
+        {leftAnalogStickAbsX},
+        {leftAnalogStickAbsY},
       </div>
     </>
   )
