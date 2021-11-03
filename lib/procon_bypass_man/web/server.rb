@@ -156,6 +156,7 @@ module ProconBypassMan
     class Server
       def self.start
         ProconBypassMan::Web::Db.migrate_if_pending_migration
+        App.set :server_settings, { Logger: ProconBypassMan::Web.logger, AccessLog: [] }
         App.run! port: 9090
       end
     end
