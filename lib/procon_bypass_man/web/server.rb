@@ -125,7 +125,8 @@ module ProconBypassMan
         end
       end
 
-      # PBMから受け取って、emmitする
+      # PBMからのリクエストを受け取るためのapi
+      # websocketを使ってwebに表示したかったけどめんどくさかったのでpolling方式になっている
       post '/api/pressed_buttons' do
         params = JSON.parse(request.body.read)
         json = params.to_json
@@ -134,7 +135,6 @@ module ProconBypassMan
         body ''
       end
 
-      # PBMから受け取って、emmitする
       get '/api/pressed_buttons' do
         json = JSON.parse(File.read(PRESSED_BUTTONS_FILE_PATH))
         status 200

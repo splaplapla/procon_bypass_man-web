@@ -170,8 +170,10 @@ describe ProconBypassMan::Web::App do
       expect(JSON.parse(response.body)).to eq(params)
     end
     context 'file not found' do
-      it do
+      before do
         FileUtils.rm_rf(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH)
+      end
+      it do
         response = get "/api/pressed_buttons"
         expect(response).to be_not_found
       end
