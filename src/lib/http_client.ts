@@ -24,6 +24,11 @@ interface StatsApiResponse {
   pid: number | null,
 }
 
+interface PressedButtonsResponse {
+  buttons: Array<Button>,
+  left_analog_stick: any,
+}
+
 export interface SettingApiResponse {
   result: string,
   setting: ButtonsSettingType,
@@ -90,4 +95,9 @@ export class HttpClient {
   getSettingDigest() {
     return axios.get<SettingDigestApiResponse>("/api/pbm_setting_digest");
   }
+
+  getPressedButtons() {
+    return axios.get<PressedButtonsResponse>("/api/pressed_buttons");
+  }
+
 }
