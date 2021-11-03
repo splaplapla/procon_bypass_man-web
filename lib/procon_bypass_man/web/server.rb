@@ -156,7 +156,9 @@ module ProconBypassMan
     class Server
       def self.start
         ProconBypassMan::Web::Db.migrate_if_pending_migration
-        App.set :server_settings, { Logger: ProconBypassMan::Web.logger, AccessLog: [] }
+        unless ENV["RACK_ENV"] == 'development'
+          App.set :server_settings, { Logger: ProconBypassMan::Web.logger, AccessLog: [] }
+        end
         App.run! port: 9090
       end
     end

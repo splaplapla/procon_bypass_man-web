@@ -4,6 +4,8 @@
 require "bundler/setup"
 require "procon_bypass_man/web"
 
+ENV["RACK_ENV"] ||= "development"
+
 ProconBypassMan::Web.configure do |config|
   config.root = File.expand_path('..', __dir__).freeze
   config.logger = Logger.new($stdout)
