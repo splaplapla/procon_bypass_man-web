@@ -60,6 +60,9 @@ export const Top: React.FC = () => {
           padding:10px;
           background-color: #333;
           color: white;
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
     }
@@ -81,7 +84,7 @@ export const Top: React.FC = () => {
                 <Link to="/buttons_setting">ボタン設定</Link>
               </li>
               <li>
-                <Link to="/pressed_buttons">入力中のボタン表示テスト</Link>
+                <Link to="/pressed_buttons">入力中のボタン表示する画面</Link>
               </li>
             </ul>
           </nav>
