@@ -34,15 +34,17 @@ export const PressedButtonsPage = () => {
     }
   }, [timer]);
 
+  // TODO デザイン
+  // https://phantom-hand.web.app/projects/metroid_dread
+  // https://github.com/noov-smash/PhantomHand-React/blob/ddbc035ab10bb29bc0a32f3bc448b07706e3b994/src/screens/Project/components/NintendoSwitchProCon.tsx#L15 みたいな実装で押しているボタンを可視したい
   return (
     <>
       <div>
-        押されたボタンを表示する<br />
-        {buttons}
-        {leftAnalogStickX},
-        {leftAnalogStickY},
-        {leftAnalogStickAbsX},
-        {leftAnalogStickAbsY},
+        押されたボタン: {buttons.join(",")}<br />
+        X: {leftAnalogStickX}<br />
+        Y: {leftAnalogStickY}<br />
+        abs X: {leftAnalogStickAbsX}<br />
+        abs Y: {leftAnalogStickAbsY}<br />
       </div>
     </>
   )
