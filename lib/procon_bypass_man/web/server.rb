@@ -158,11 +158,10 @@ module ProconBypassMan
         ProconBypassMan::Web::Db.migrate_if_pending_migration
         App.set :server_settings, {
           AccessLog: [
-            [ ProconBypassMan::Web.config.logger, WEBrick::AccessLog::COMMON_LOG_FORMAT ],
-            [ ProconBypassMan::Web.config.logger, WEBrick::AccessLog::REFERER_LOG_FORMAT ],
+            [ProconBypassMan::Web.config.logger, WEBrick::AccessLog::COMMON_LOG_FORMAT],
+            [ProconBypassMan::Web.config.logger, WEBrick::AccessLog::REFERER_LOG_FORMAT],
           ]
         }
-        AccessLog::REFERER_LOG_FORMAT
         App.run! port: 9090
       end
     end
