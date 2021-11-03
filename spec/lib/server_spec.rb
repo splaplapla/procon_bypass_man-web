@@ -146,4 +146,36 @@ describe ProconBypassMan::Web::App do
       end
     end
   end
+
+  describe 'POST /api/pressed_buttons' do
+    it do
+      params = { "left_analog_stick"=>{"x"=>-179, "y"=>34}, "pressed_buttons"=>["y", "b"] }
+      response = post "/api/pressed_buttons", params.to_json, { 'CONTENT_TYPE' => 'application/json'}
+      marshaled = File.read(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH)
+      Marshal.load(marshaled)
+      expect(params).to eq(Marshal.load(marshaled))
+    end
+  end
+
+  describe 'GET /api/pressed_buttons' do
+    let(:params) { { "left_analog_stick"=>{"x"=>-179, "y"=>34}, "pressed_buttons"=>["y", "b"] } }
+    before do
+      post "/api/pressed_buttons", params.to_json, { 'CONTENT_TYPE' => 'application/json'}
+    end
+    it do
+      response = get "/api/pressed_buttons"
+      expect(response).to be_ok
+    end
+    it do
+      response = get "/api/pressed_buttons"
+      expect(JSON.parse(response.body)).to eq(params)
+    end
+    context 'file not found' do
+      it do
+        FileUtils.rm_rf(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH)
+        response = get "/api/pressed_buttons"
+        expect(response).to be_not_found
+      end
+    end
+  end
 end
