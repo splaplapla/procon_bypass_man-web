@@ -29,7 +29,7 @@ export const PressedButtonsPage = () => {
   useEffect(() => {
     updateButtons();
     if (timer) {
-      const timerId = setInterval(updateButtons, 1500);
+      const timerId = setInterval(updateButtons, 500);
       return () => clearInterval(timerId);
     }
   }, [timer]);
