@@ -151,7 +151,7 @@ describe ProconBypassMan::Web::App do
     it do
       params = { "left_analog_stick"=>{"x"=>-179, "y"=>34}, "pressed_buttons"=>["y", "b"] }
       response = post "/api/pressed_buttons", params.to_json, { 'CONTENT_TYPE' => 'application/json'}
-      hash = JSON.parse(File.read(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH))
+      hash = JSON.parse(File.read(ProconBypassMan::Web::PRESSED_BUTTONS_FILE_PATH))
       expect(params).to eq(hash)
     end
   end
@@ -171,7 +171,7 @@ describe ProconBypassMan::Web::App do
     end
     context 'file not found' do
       before do
-        FileUtils.rm_rf(ProconBypassMan::Web::App::PRESSED_BUTTONS_FILE_PATH)
+        FileUtils.rm_rf(ProconBypassMan::Web::PRESSED_BUTTONS_FILE_PATH)
       end
       it do
         response = get "/api/pressed_buttons"

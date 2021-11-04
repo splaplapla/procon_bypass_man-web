@@ -12,9 +12,9 @@ require "procon_bypass_man/web/storage"
 
 module ProconBypassMan
   module Web
-    class App < Sinatra::Base
-      PRESSED_BUTTONS_FILE_PATH = "/tmp/pbm_pressed_buttons"
+    PRESSED_BUTTONS_FILE_PATH = "/tmp/pbm_pressed_buttons"
 
+    class App < Sinatra::Base
       require "yaml"
 
       before do
@@ -130,13 +130,13 @@ module ProconBypassMan
       post '/api/pressed_buttons' do
         params = JSON.parse(request.body.read)
         json = params.to_json
-        File.write PRESSED_BUTTONS_FILE_PATH, json
+        File.write ProconBypassMan::Web::PRESSED_BUTTONS_FILE_PATH, json
         status 200
         body ''
       end
 
       get '/api/pressed_buttons' do
-        json = JSON.parse(File.read(PRESSED_BUTTONS_FILE_PATH))
+        json = JSON.parse(File.read(ProconBypassMan::Web::PRESSED_BUTTONS_FILE_PATH))
         status 200
         body json.to_json
       rescue Errno::ENOENT
