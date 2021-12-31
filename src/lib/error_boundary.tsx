@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, css } from '@emotion/react'
+import { jsx, css } from "@emotion/react";
 import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
@@ -14,7 +14,7 @@ interface State {
 // https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/error_boundaries/
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(_: Error): State {

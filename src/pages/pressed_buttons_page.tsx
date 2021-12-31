@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, css } from '@emotion/react'
+import { jsx, css } from "@emotion/react";
 import React, { useState, useEffect } from "react";
 
 import { Button } from "../types/button";
@@ -40,13 +40,17 @@ export const PressedButtonsPage = () => {
   return (
     <>
       <div>
-        押されたボタン: {buttons.join(",")}<br />
-        X: {leftAnalogStickX}<br />
-        Y: {leftAnalogStickY}<br />
-        abs X: {leftAnalogStickAbsX}<br />
-        abs Y: {leftAnalogStickAbsY}<br />
+        押されたボタン: {buttons.join(",")}
+        <br />
+        X: {leftAnalogStickX}
+        <br />
+        Y: {leftAnalogStickY}
+        <br />
+        abs X: {leftAnalogStickAbsX}
+        <br />
+        abs Y: {leftAnalogStickAbsY}
+        <br />
       </div>
     </>
-  )
-}
-
+  );
+};

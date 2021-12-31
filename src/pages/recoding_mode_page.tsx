@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, css } from '@emotion/react'
+import { jsx, css } from "@emotion/react";
 import React, { useState, useEffect } from "react";
 import { HttpClient } from "../lib/http_client";
 
@@ -11,5 +11,5 @@ export const RecodingModePage = () => {
     <>
       <div></div>
     </>
-  )
-}
+  );
+};
