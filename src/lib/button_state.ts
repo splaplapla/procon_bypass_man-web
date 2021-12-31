@@ -13,7 +13,7 @@ export class ButtonState {
     this.button = button;
     this.flip = flip;
     this.remap = remap;
-  };
+  }
 
   isDisabledFlip(): boolean {
     if(!this.flip && !this.remap) { return true }
@@ -24,7 +24,7 @@ export class ButtonState {
 
   isAlwaysFlip(): boolean {
     if(!this.flip && !this.remap) { return false }
-    if(this.isDisabledFlip()) { return false };
+    if(this.isDisabledFlip()) { return false }
     return !!this.flip && !!this.flip.enable && (this.flip?.if_pressed || []) ?.length === 0;
   }
 

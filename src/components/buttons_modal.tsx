@@ -17,7 +17,7 @@ type CheckedButtons = {
 }
 
 export const ButtonsModal = ({ callbackOnSubmit, callbackOnClose, title, prefill, visible }: ModalProps) => {
-  if(!visible) { return null };
+  if(!visible) { return null }
 
   const [checkedButtonMap, setCheckedButtonMap] = useState(
     prefill.reduce((a, b) => { a[b] = true; return a },

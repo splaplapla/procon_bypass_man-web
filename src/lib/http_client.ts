@@ -50,7 +50,7 @@ interface SettingDigestApiResponse {
 
 export class HttpClient {
   constructor() {
-  };
+  }
 
   getDirPath() {
     const path = "/api/pbm_root__path";

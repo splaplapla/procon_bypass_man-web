@@ -24,7 +24,7 @@ const httpClient = new HttpClient();
 
 interface LayerRef {
   setVisibility(status: string): string;
-};
+}
 
 export const ButtonsSettingPage = () => {
   const [loaded, DidLoad] = useReducer(() => { return true; }, false);
@@ -46,8 +46,8 @@ export const ButtonsSettingPage = () => {
   }
   const exportSetting = () => {
     const body = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
-    var data = new Blob([body], { type: 'text/yaml' })
-    var csvURL = window.URL.createObjectURL(data);
+    const data = new Blob([body], { type: 'text/yaml' })
+    const csvURL = window.URL.createObjectURL(data);
     const tempLink = document.createElement('a');
     tempLink.href = csvURL;
     tempLink.setAttribute('download', 'setting.yml');
@@ -219,14 +219,14 @@ export const ButtonsSettingPage = () => {
       return "active"
     } else {
       return "inactive"
-    };
+    }
   }
 
   const handlePrefixKeysField = () => {
     openModal({ title: "キープレフィックスの変更", prefill: prefixKeys, callbackOnSubmit: setPrefixKeys });
   }
 
-  if(!loaded) { return <div>{infoMessage}</div> };
+  if(!loaded) { return <div>{infoMessage}</div> }
 
   return(
     <>

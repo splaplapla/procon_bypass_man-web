@@ -44,12 +44,12 @@ export const ButtonsSettingConverter = ({ prefixKeys, layers }: Props) => {
 
   const layerBlockIndent = "    ";
   const topLevelIndent = "  ";
-  if(!layers.installed_macros) {  layers.installed_macros = {} };
-  if(!layers.installed_modes) {  layers.installed_modes = {} };
-  if(!layers.up.macro) { layers.up.macro = {} };
-  if(!layers.down.macro) { layers.down.macro = {} };
-  if(!layers.right.macro) { layers.right.macro = {} };
-  if(!layers.left.macro) { layers.left.macro = {} };
+  if(!layers.installed_macros) {  layers.installed_macros = {} }
+  if(!layers.installed_modes) {  layers.installed_modes = {} }
+  if(!layers.up.macro) { layers.up.macro = {} }
+  if(!layers.down.macro) { layers.down.macro = {} }
+  if(!layers.right.macro) { layers.right.macro = {} }
+  if(!layers.left.macro) { layers.left.macro = {} }
   const installedMacroNames = Object.entries(layers.installed_macros).filter((k, i) => k[1]).map(v => v[0]);
   const installedModeNames = Object.entries(layers.installed_modes).filter((k, i) => k[1]).map(v => v[0]);
 

@@ -11,7 +11,7 @@ type Props = {
 export const ButtonStateDiff = ({ before, after }: Props): Array<string> => {
   const changes = [] as Array<string>;
 
-  if(!before || !after || !before.layers) { return changes; };
+  if(!before || !after || !before.layers) { return changes; }
 
   if(before.layers.installed_macros && after.layers.installed_macros) {
     const installedMacrosDiffResult = diff(before.layers.installed_macros, after.layers.installed_macros);

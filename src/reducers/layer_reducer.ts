@@ -80,7 +80,7 @@ export const LayerReducer = (layers: Layers, action: ACTION_TYPE) => {
       return { ...layers };
     case applyMacroType:
       const structMacro = action.payload.macro
-      if(!structMacro) { return { ...layers } };
+      if(!structMacro) { return { ...layers } }
       const macroTable = layers[layerKey].macro as Macro || {} as Macro
       macroTable[structMacro.name] = structMacro.if_pressed.sort()
       layers[layerKey].macro = macroTable
