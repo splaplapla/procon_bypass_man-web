@@ -1,18 +1,10 @@
-import React, { useState, useReducer } from "react";
-import { Button, buttons } from "../types/button";
+import { useState, useReducer } from "react";
+import { Button } from "../types/button";
 import { ModalProps } from "../components/buttons_modal";
-
-export type ModalSetting = {
-  toggleModal: any;
-  setCallbackOnSubmit: any;
-  setCallbackOnClose: any;
-  setTitle: any;
-  setPrefillButtons: any;
-};
 
 type openModalParams = {
   title: string;
-  prefill: any;
+  prefill: Array<Button>;
   callbackOnSubmit: any;
 };
 
@@ -22,7 +14,7 @@ export const useModal = () => {
   }, false);
   const [callbackOnSubmit, setCallbackOnSubmit] = useState(undefined as any);
   const [callbackOnClose, setCallbackOnClose] = useState(undefined as any);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState<string>("");
   const [prefill, setPrefillButtons] = useState<Array<Button>>([]);
 
   const openModal = ({
@@ -42,13 +34,6 @@ export const useModal = () => {
     callbackOnClose,
     title,
     prefill,
-  };
-  const modalSetting: ModalSetting = {
-    toggleModal,
-    setCallbackOnSubmit,
-    setCallbackOnClose,
-    setTitle,
-    setPrefillButtons,
   };
 
   return [modalProps, openModal] as const;

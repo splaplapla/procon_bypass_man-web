@@ -15,7 +15,7 @@ import {
 import { ButtonsModal } from "./buttons_modal";
 import { applyMacroType } from "../reducers/layer_reducer";
 
-import { useModal, ModalSetting } from "../hooks/useModal";
+import { useModal } from "../hooks/useModal";
 import { ModalProps } from "../components/buttons_modal";
 
 type MacroSettingProps = {
