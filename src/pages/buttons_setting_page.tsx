@@ -1,11 +1,11 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useEffect, useReducer, useContext, useRef } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import { ButtonsSetting } from "../components/buttons_setting";
-import { Button, buttons } from "../types/button";
+import { buttons } from "../types/button";
 import { LayerKey, layerKeys } from "../types/layer_key";
-import { ButtonInLayer, ButtonsInLayer, ButtonsSettingType, Layers, Flip, Macro, StructMacro, ModeTable, StructMode } from "../types/buttons_setting_type";
+import { ButtonsSettingType, Layers, Flip, Macro, StructMacro, ModeTable, StructMode } from "../types/buttons_setting_type";
 import { HttpClient, SettingApiResponse } from "../lib/http_client";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonStateDiff } from "./../lib/button_state_diff";
@@ -13,7 +13,7 @@ import { ButtonsSettingContext, } from "./../contexts/buttons_setting";
 import { ButtonsSettingConverter } from "./../lib/buttons_setting_converter";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, closeMenuType, applyMacroType, installMacroType, installModeType, applyModeType } from "../reducers/layer_reducer";
 import { ButtonsModal } from "../components/buttons_modal";
-import { useModal, ModalSetting } from "../hooks/useModal";
+import { useModal } from "../hooks/useModal";
 import { ModalProps } from "../components/buttons_modal";
 import { InstallableMacros } from "../components/installable_macros";
 import { InstallableModes } from "../components/installable_modes";
@@ -59,7 +59,7 @@ export const ButtonsSettingPage = () => {
       ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
     ).then(
       function (response) {
-        alert("設定ファイルのパスへ書き込みが完了しました");
+        alert(`設定ファイルのパスへ書き込みが完了しました(${response})`);
         reset();
       });
   }
@@ -185,6 +185,7 @@ export const ButtonsSettingPage = () => {
           console.log("想定外のエラーです");
         }
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded]);
 
   const layersTabStyle = () => {
