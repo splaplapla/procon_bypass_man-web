@@ -1,15 +1,15 @@
 /** @jsx jsx */
 
 import { jsx, css } from '@emotion/react'
-import React, { useState, useReducer, useContext } from "react";
+import React, { useContext } from "react";
 import { Button } from "../types/button";
 import { ButtonState } from "./../lib/button_state";
 import { ButtonsModal } from "./buttons_modal";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsSettingType, ButtonsInLayer, ButtonInLayer, Layers, Flip } from "../types/buttons_setting_type";
+import { ButtonInLayer } from "../types/buttons_setting_type";
 import { LayerKey } from "../types/layer_key";
 import { disableFlipType, alwaysFlipType, flipIfPressedSelfType, flipIfPressedSomeButtonsType, ignoreButtonsInFlipingType, remapType, openMenuType, closeMenuType } from "../reducers/layer_reducer";
-import { useModal, ModalSetting } from "../hooks/useModal";
+import { useModal } from "../hooks/useModal";
 import { ModalProps } from "../components/buttons_modal";
 
 type ButtonMenuProp = {
