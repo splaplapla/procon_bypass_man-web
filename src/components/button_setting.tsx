@@ -17,6 +17,7 @@ import {
   remapType,
   openMenuType,
   closeMenuType,
+  ACTION_TYPE,
 } from "../reducers/layer_reducer";
 import { useModal } from "../hooks/useModal";
 import { ModalProps } from "../components/buttons_modal";
@@ -25,7 +26,7 @@ type ButtonMenuProp = {
   name: Button;
   layerKey: LayerKey;
   buttonValue: ButtonInLayer;
-  layersDispatch: any;
+  layersDispatch: (param: ACTION_TYPE) => void;
 };
 
 const ButtonMenu = ({

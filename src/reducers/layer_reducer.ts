@@ -25,7 +25,7 @@ export const installModeType = Symbol("uninstalledMacro");
 export const uninstallModeType = Symbol("a");
 export const applyModeType = Symbol("b");
 
-type ACTION_TYPE =
+export type ACTION_TYPE =
   | {
       type: typeof disableFlipType;
       payload: { layerKey: LayerKey; button: Button };
