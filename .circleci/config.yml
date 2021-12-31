@@ -40,7 +40,7 @@ orbs:
               command: bundle install --jobs 4
 
     jobs:
-      run-format:
+      run-prettier:
         executor: node
         steps:
           - install-yarn
@@ -74,7 +74,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - pbm/run-format
+      - pbm/run-prettier
       - pbm/run-jest
       - pbm/run-rubocop
       - pbm/run-rspec
