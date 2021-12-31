@@ -16,7 +16,9 @@ module ProconBypassMan
           create table if not exists "schema_migrations" ("version" varchar not null primary key)
         SQL
 
-        Dir.glob(migrations_path).each do |path|
+        Dir.glob(migrations_path).sort_by { |path|
+          /^(\d+)_[\w.]+$/ =~ Pathname.new(path).basename.to_s && ($1 || raise('パスがおかしいです')) && $1.to_i
+        }.each do |path|
           if /^(\d+)_[\w.]+$/ =~ Pathname.new(path).basename.to_s
             version = $1
             rows = db.execute("select * from schema_migrations where version = ?", version)
