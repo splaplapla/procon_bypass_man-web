@@ -5,7 +5,7 @@ import { ModalProps } from "../components/buttons_modal";
 type openModalParams = {
   title: string;
   prefill: Array<Button>;
-  callbackOnSubmit: any;
+  callbackOnSubmit: (param: Array<Button>) => void;
 };
 
 export const useModal = () => {
