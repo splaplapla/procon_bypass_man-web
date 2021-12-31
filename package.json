@@ -29,6 +29,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
+    "prettier": "^2.5.1",
     "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.1.0",
@@ -42,7 +43,8 @@
     "server": "webpack serve",
     "release-build": "NODE_ENV=production webpack",
     "test": "jest",
-    "test:lint": "eslint src"
+    "test:lint": "eslint src",
+    "format": "prettier --write src "
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.7",
