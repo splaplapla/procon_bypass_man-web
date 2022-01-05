@@ -1,13 +1,8 @@
 /** @jsx jsx */
 
-import { jsx, css } from '@emotion/react'
+import { jsx, css } from "@emotion/react";
 import React, { useState, useReducer } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { GlobalSetting } from "./global_setting_page";
 import { BpmPage } from "./bpm_page";
 import { Home } from "./home";
@@ -15,40 +10,59 @@ import { ButtonsSettingPage } from "./buttons_setting_page";
 import { RecodingModePage } from "./recoding_mode_page";
 import { PressedButtonsPage } from "./pressed_buttons_page";
 import { ButtonsSettingContext } from "./../contexts/buttons_setting";
-import { ButtonsInLayer, Layers, ButtonsSettingType } from "../types/buttons_setting_type";
+import {
+  ButtonsInLayer,
+  Layers,
+  ButtonsSettingType,
+} from "../types/buttons_setting_type";
 import { buttons, Button } from "../types/button";
 import { LayerReducer } from "../reducers/layer_reducer";
 import ErrorBoundary from "../lib/error_boundary";
 
-const ButtonsSettingProvider: React.FC = ({children}) => {
+const ButtonsSettingProvider: React.FC = ({ children }) => {
   const initLayers: Layers = {
-    up: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
-    right: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
-    down: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
-    left: buttons.reduce((a, i) => { a[i] = { open: false }; return a }, {} as ButtonsInLayer),
+    up: buttons.reduce((a, i) => {
+      a[i] = { open: false };
+      return a;
+    }, {} as ButtonsInLayer),
+    right: buttons.reduce((a, i) => {
+      a[i] = { open: false };
+      return a;
+    }, {} as ButtonsInLayer),
+    down: buttons.reduce((a, i) => {
+      a[i] = { open: false };
+      return a;
+    }, {} as ButtonsInLayer),
+    left: buttons.reduce((a, i) => {
+      a[i] = { open: false };
+      return a;
+    }, {} as ButtonsInLayer),
     installed_macros: {},
     installed_modes: {},
-  }
+  };
   const [prefixKeys, setPrefixKeys] = useState([]);
-  const [layers, layersDispatch] = useReducer(LayerReducer, initLayers as Layers);
+  const [layers, layersDispatch] = useReducer(
+    LayerReducer,
+    initLayers as Layers
+  );
   const value = {
     layers,
     prefixKeys,
     setPrefixKeys,
     layersDispatch,
-  }
+  };
   return (
     <ButtonsSettingContext.Provider value={value}>
       {children}
     </ButtonsSettingContext.Provider>
-  )
-}
+  );
+};
 
 export const Top: React.FC = () => {
   const menuStyle = css`
     ul {
       list-style: none;
-      display:flex;
+      display: flex;
       margin: 0;
       padding: 0;
       li {
@@ -56,8 +70,8 @@ export const Top: React.FC = () => {
         display: block;
         a {
           text-decoration: none;
-          display:block;
-          padding:10px;
+          display: block;
+          padding: 10px;
           background-color: #333;
           color: white;
           &:hover {
@@ -90,7 +104,7 @@ export const Top: React.FC = () => {
           </nav>
 
           <Switch>
-            <Route exact path="/" >
+            <Route exact path="/">
               <Home />
             </Route>
             <Route path="/setting">

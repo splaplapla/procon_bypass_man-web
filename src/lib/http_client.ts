@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import { PbmStats } from "../types/pbm_stats";
 import { Button } from "../types/button";
 import { LayerKey } from "../types/layer_key";
@@ -10,47 +10,46 @@ interface AnalogStickPosition {
 }
 
 interface DirPathApiResponse {
-  result: string,
-  root_path: string,
+  result: string;
+  root_path: string;
 }
 
 interface SettingPathApiResponse {
-  result: string,
-  setting_path: string,
+  result: string;
+  setting_path: string;
 }
 
 interface PostApiResponse {
-  result: string,
+  result: string;
 }
 
 interface StatsApiResponse {
-  stats: PbmStats,
-  result: string,
-  pid: number | null,
+  stats: PbmStats;
+  result: string;
+  pid: number | null;
 }
 
 interface PressedButtonsResponse {
-  buttons: Array<Button>,
-  left_analog_stick: AnalogStickPosition,
-  left_analog_stick_by_abs: AnalogStickPosition,
+  buttons: Array<Button>;
+  left_analog_stick: AnalogStickPosition;
+  left_analog_stick_by_abs: AnalogStickPosition;
 }
 
 export interface SettingApiResponse {
-  result: string,
-  setting: ButtonsSettingType,
-  setting_group_by_button: any,
-  installed_macros: Array<string>,
-  installed_modes: Array<string>,
+  result: string;
+  setting: ButtonsSettingType;
+  setting_group_by_button: any;
+  installed_macros: Array<string>;
+  installed_modes: Array<string>;
 }
 
 interface SettingDigestApiResponse {
-  result: string,
-  digest: string,
+  result: string;
+  digest: string;
 }
 
 export class HttpClient {
-  constructor() {
-  };
+  constructor() {}
 
   getDirPath() {
     const path = "/api/pbm_root__path";
@@ -58,16 +57,20 @@ export class HttpClient {
   }
 
   postDirPath(dirPath: string) {
-    return axios.post<PostApiResponse>(`/api/pbm_root_path`, { root_path: dirPath });
+    return axios.post<PostApiResponse>(`/api/pbm_root_path`, {
+      root_path: dirPath,
+    });
   }
 
   getSettingPath() {
-    return axios.get<SettingPathApiResponse>( "/api/pbm_setting_path");
+    return axios.get<SettingPathApiResponse>("/api/pbm_setting_path");
   }
 
   postSettingPath(settingPath: string) {
-    const path = "/api/pbm_setting_path"
-    return axios.post<PostApiResponse>(`${path}`, { setting_path: settingPath });
+    const path = "/api/pbm_setting_path";
+    return axios.post<PostApiResponse>(`${path}`, {
+      setting_path: settingPath,
+    });
   }
 
   getPbmStats() {
@@ -95,7 +98,9 @@ export class HttpClient {
   }
 
   postSetting(settingYaml: string) {
-    return axios.post<PostApiResponse>("/api/pbm_setting", { setting_yaml: settingYaml });
+    return axios.post<PostApiResponse>("/api/pbm_setting", {
+      setting_yaml: settingYaml,
+    });
   }
 
   getSettingDigest() {
@@ -105,5 +110,4 @@ export class HttpClient {
   getPressedButtons() {
     return axios.get<PressedButtonsResponse>("/api/pressed_buttons");
   }
-
 }

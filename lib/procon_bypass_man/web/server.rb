@@ -79,7 +79,7 @@ module ProconBypassMan
 
       get '/api/pbm_setting' do
         begin
-          setting_path = ProconBypassMan::Web::Storage.instance.setting_path
+          setting_path = ProconBypassMan::Web::Storage.instance.setting_path.strip
           parsed_setting = ProconBypassMan::Web::SettingParser.parse_file(setting_path)
           { result: :ok,
             setting: parsed_setting.to_hash,

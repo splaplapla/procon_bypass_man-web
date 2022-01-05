@@ -2,21 +2,39 @@ import { ButtonsSettingConverter } from "./buttons_setting_converter";
 import { Button, buttons } from "../types/button";
 import { ButtonsInLayer } from "../types/buttons_setting_type";
 import yaml from "js-yaml";
-import _ from 'lodash';
+import _ from "lodash";
 
-describe('値があるとき', () => {
+describe("値があるとき", () => {
   const prefixKeys = ["y", "l"] as Array<Button>;
-  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
-  const upLayer =  _.cloneDeep(defaultLayer);
+  const defaultLayer = buttons.reduce((acc, item) => {
+    acc[item] = { open: false };
+    return acc;
+  }, {} as ButtonsInLayer);
+  const upLayer = _.cloneDeep(defaultLayer);
   const downLayer = _.cloneDeep(defaultLayer);
   const leftLayer = _.cloneDeep(defaultLayer);
   const rightLayer = _.cloneDeep(defaultLayer);
-  upLayer.a = { flip: { if_pressed: [], enable: true, force_neutral: ["y"] }, open: true }
-  upLayer.b = { flip: { if_pressed: ["a"], enable: true, force_neutral: ["y"] }, open: true }
-  upLayer.x = { flip: { if_pressed: ["a"], enable: false, force_neutral: ["y"] }, open: true }
-  upLayer.y = { flip: { if_pressed: [], enable: false, force_neutral: [] }, open: true }
-  downLayer.a = { flip: { if_pressed: ["a", "b"], enable: true, force_neutral: ["y", "x"] }, open: true }
-  leftLayer.a = { remap: { to: ["b", "y"] }, open: true }
+  upLayer.a = {
+    flip: { if_pressed: [], enable: true, force_neutral: ["y"] },
+    open: true,
+  };
+  upLayer.b = {
+    flip: { if_pressed: ["a"], enable: true, force_neutral: ["y"] },
+    open: true,
+  };
+  upLayer.x = {
+    flip: { if_pressed: ["a"], enable: false, force_neutral: ["y"] },
+    open: true,
+  };
+  upLayer.y = {
+    flip: { if_pressed: [], enable: false, force_neutral: [] },
+    open: true,
+  };
+  downLayer.a = {
+    flip: { if_pressed: ["a", "b"], enable: true, force_neutral: ["y", "x"] },
+    open: true,
+  };
+  leftLayer.a = { remap: { to: ["b", "y"] }, open: true };
   const layers = {
     up: upLayer,
     down: downLayer,
@@ -24,13 +42,19 @@ describe('値があるとき', () => {
     right: rightLayer,
   };
 
-  it('validなyamlであること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
-    yaml.load(actual)
-  })
+  it("validなyamlであること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
+    yaml.load(actual);
+  });
 
-  it('定義が出力されること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+  it("定義が出力されること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
     const expected = `version: 1.0
 setting: |-
 
@@ -54,14 +78,19 @@ setting: |-
 
   end`;
     expect(actual).toBe(expected);
-  })
-})
+  });
+});
 
-describe('macroがあるとき', () => {
+describe("macroがあるとき", () => {
   const prefixKeys = ["y", "l"] as Array<Button>;
-  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
-  const upLayer =  _.cloneDeep(defaultLayer);
-  upLayer.macro = { "ProconBypassMan::Splatoon2::Macro::FastReturn": ["y", "l"] }
+  const defaultLayer = buttons.reduce((acc, item) => {
+    acc[item] = { open: false };
+    return acc;
+  }, {} as ButtonsInLayer);
+  const upLayer = _.cloneDeep(defaultLayer);
+  upLayer.macro = {
+    "ProconBypassMan::Splatoon2::Macro::FastReturn": ["y", "l"],
+  };
   const downLayer = _.cloneDeep(defaultLayer);
   const leftLayer = _.cloneDeep(defaultLayer);
   const rightLayer = _.cloneDeep(defaultLayer);
@@ -73,12 +102,15 @@ describe('macroがあるとき', () => {
     installed_macros: {
       "ProconBypassMan::Splatoon2::Macro::FastReturn": true,
       "ProconBypassMan::Sumabura::Macro::Foo": true,
-      "HOGE": false,
-    }
+      HOGE: false,
+    },
   };
 
-  it('installed_macroを出力すること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+  it("installed_macroを出力すること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
     const expected = `version: 1.0
 setting: |-
   install_macro_plugin ProconBypassMan::Splatoon2::Macro::FastReturn
@@ -99,14 +131,17 @@ setting: |-
 
   end`;
     expect(actual).toBe(expected);
-  })
-})
+  });
+});
 
-describe('modeがあるとき', () => {
+describe("modeがあるとき", () => {
   const prefixKeys = ["y", "l"] as Array<Button>;
-  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
-  const upLayer =  _.cloneDeep(defaultLayer);
-  upLayer.mode = { "ProconBypassMan::Splatoon2::Mode::Guruguru": true }
+  const defaultLayer = buttons.reduce((acc, item) => {
+    acc[item] = { open: false };
+    return acc;
+  }, {} as ButtonsInLayer);
+  const upLayer = _.cloneDeep(defaultLayer);
+  upLayer.mode = { "ProconBypassMan::Splatoon2::Mode::Guruguru": true };
   const downLayer = _.cloneDeep(defaultLayer);
   const leftLayer = _.cloneDeep(defaultLayer);
   const rightLayer = _.cloneDeep(defaultLayer);
@@ -117,12 +152,15 @@ describe('modeがあるとき', () => {
     right: rightLayer,
     installed_modes: {
       "ProconBypassMan::Splatoon2::Mode::Guruguru": true,
-      "unknown": false,
-    }
+      unknown: false,
+    },
   };
 
-  it('installed_modeを出力すること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+  it("installed_modeを出力すること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
     const expected = `version: 1.0
 setting: |-
 
@@ -142,12 +180,15 @@ setting: |-
 
   end`;
     expect(actual).toBe(expected);
-  })
-})
+  });
+});
 
-describe('全部からのとき', () => {
+describe("全部からのとき", () => {
   const prefixKeys = ["y", "l"] as Array<Button>;
-  const defaultLayer = buttons.reduce((acc, item) => { acc[item] = { open: false }; return acc; }, {} as ButtonsInLayer);
+  const defaultLayer = buttons.reduce((acc, item) => {
+    acc[item] = { open: false };
+    return acc;
+  }, {} as ButtonsInLayer);
   const layers = {
     up: defaultLayer,
     down: defaultLayer,
@@ -155,13 +196,19 @@ describe('全部からのとき', () => {
     right: defaultLayer,
   };
 
-  it('validなyamlであること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
-    yaml.load(actual)
-  })
+  it("validなyamlであること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
+    yaml.load(actual);
+  });
 
-  it('全部空になること', () => {
-    const actual = ButtonsSettingConverter({ prefixKeys: prefixKeys, layers: layers })
+  it("全部空になること", () => {
+    const actual = ButtonsSettingConverter({
+      prefixKeys: prefixKeys,
+      layers: layers,
+    });
     const expected = `version: 1.0
 setting: |-
 
@@ -181,5 +228,5 @@ setting: |-
 
   end`;
     expect(actual).toBe(expected);
-  })
-})
+  });
+});

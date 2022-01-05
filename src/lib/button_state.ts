@@ -13,30 +13,64 @@ export class ButtonState {
     this.button = button;
     this.flip = flip;
     this.remap = remap;
-  };
+  }
 
   isDisabledFlip(): boolean {
-    if(!this.flip && !this.remap) { return true }
-    if(this.remap) { return true }
-    if(!this.flip) { return false }
+    if (!this.flip && !this.remap) {
+      return true;
+    }
+    if (this.remap) {
+      return true;
+    }
+    if (!this.flip) {
+      return false;
+    }
     return this.flip && !this.flip?.enable;
   }
 
   isAlwaysFlip(): boolean {
-    if(!this.flip && !this.remap) { return false }
-    if(this.isDisabledFlip()) { return false };
-    return !!this.flip && !!this.flip.enable && (this.flip?.if_pressed || []) ?.length === 0;
+    if (!this.flip && !this.remap) {
+      return false;
+    }
+    if (this.isDisabledFlip()) {
+      return false;
+    }
+    return (
+      !!this.flip &&
+      !!this.flip.enable &&
+      (this.flip?.if_pressed || [])?.length === 0
+    );
   }
 
   isFlipIfPressedSelf(): boolean {
-    if(!this.flip && !this.remap) { return false }
-    if(this.isDisabledFlip() || this.isAlwaysFlip() || !this.flip || !this.flip.if_pressed) { return false }
-    return this.flip.if_pressed.length === 1 && this.flip.if_pressed[0] === this.button;
+    if (!this.flip && !this.remap) {
+      return false;
+    }
+    if (
+      this.isDisabledFlip() ||
+      this.isAlwaysFlip() ||
+      !this.flip ||
+      !this.flip.if_pressed
+    ) {
+      return false;
+    }
+    return (
+      this.flip.if_pressed.length === 1 &&
+      this.flip.if_pressed[0] === this.button
+    );
   }
 
   isFlipIfPressedSomeButtons(): boolean {
-    if(!this.flip) { return false }
-    if(this.isDisabledFlip() || this.isAlwaysFlip() || this.isFlipIfPressedSelf()) { return false }
+    if (!this.flip) {
+      return false;
+    }
+    if (
+      this.isDisabledFlip() ||
+      this.isAlwaysFlip() ||
+      this.isFlipIfPressedSelf()
+    ) {
+      return false;
+    }
     return true;
   }
 
@@ -45,8 +79,12 @@ export class ButtonState {
   }
 
   isRemap(): boolean {
-    if(this.hasFlipSetting()) { return false }
-    if(this.remap && this.remap.to?.length > 0) { return true }
+    if (this.hasFlipSetting()) {
+      return false;
+    }
+    if (this.remap && this.remap.to?.length > 0) {
+      return true;
+    }
     return false;
   }
 }
