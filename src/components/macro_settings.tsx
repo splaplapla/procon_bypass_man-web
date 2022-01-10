@@ -35,7 +35,7 @@ const MacroSetting = ({ macro, layerKey }: MacroSettingProps) => {
   };
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     openModal({
-      title: "キープレフィックスの変更",
+      title: "マクロを発動するキーの変更",
       prefill: macro.if_pressed,
       callbackOnSubmit: setButtonsForModal,
     });
