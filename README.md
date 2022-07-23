@@ -1,3 +1,5 @@
+本ツールに提供している機能は、 https://pbm-cloud.herokuapp.com/ に移植しました。
+
 # ProconBypassMan::Web
 *  https://github.com/splaplapla/procon_bypass_man のWEBインターフェイスです
     * 設定ファイルの変更・反映
